@@ -9,14 +9,17 @@ function App() {
     function getTexts() {
         let newLine = addLine();
 
-        fetch('http://localhost:5000/texts').then((x) => {
+        fetch('http://localhost:8080/word/').then((x) => {
             x.json().then((data) => {
                 newLine.remove();
-                for (let i of data) {
-                    addLine(i);
+                for (let word of data) {
+                    addLine(word.word);
                 }
             })
-        })
+        }).catch((reason => {
+            console.log(reason);
+            newLine.remove();
+        }))
     }
 
     function addLine(str, timeout = 0) {
@@ -37,11 +40,19 @@ function App() {
 
     const submitText = function () {
         let newLine = addLine();
-        fetch('http://localhost:5000/texts/' + text).then((e) => {
-            if (e.status === 200) {
+
+        fetch('http://localhost:8080/word/', {
+            method: 'POST',
+            body: JSON.stringify({'word': text}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((e) => {
+            if (e.status === 201) {
                 newLine.innerText = text;
             } else {
                 newLine.innerText = "ERROR";
+                console.log(e);
                 setTimeout(() => newLine.remove(), 1000);
             }
             newLine.classList.remove('spin');
