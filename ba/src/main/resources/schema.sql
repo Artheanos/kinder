@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS words;
+
+CREATE TABLE words (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    word varchar(50) NOT NULL
+);
