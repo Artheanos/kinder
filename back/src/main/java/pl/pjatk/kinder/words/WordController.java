@@ -1,4 +1,4 @@
-package pl.pjatk.kinder;
+package pl.pjatk.kinder.words;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package pl.pjatk.kinder;
+package pl.pjatk.kinder.words;
 
 import org.springframework.data.repository.CrudRepository;
 
