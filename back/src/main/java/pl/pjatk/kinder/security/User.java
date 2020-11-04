@@ -1,4 +1,4 @@
-package pl.pjatk.kinder.entity;
+package pl.pjatk.kinder.security;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
