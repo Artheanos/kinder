@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: user
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: db.tables/user.sql
