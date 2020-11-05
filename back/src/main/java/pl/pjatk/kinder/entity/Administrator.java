@@ -1,5 +1,7 @@
 package pl.pjatk.kinder.entity;
 
-public class Administrator extends User{
+import pl.pjatk.kinder.security.User;
+
+public class Administrator extends User {
     //TODO: uzupełnić Admina
 }

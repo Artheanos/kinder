@@ -1,12 +1,11 @@
 package pl.pjatk.kinder.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.sql.Timestamp;
+
 
 @Entity
+@Table(name = "notification")
 public class Notification {
 
     @Id
@@ -15,11 +14,11 @@ public class Notification {
 
     private String title;
     private String description;
-    private LocalDate date;
+    private Timestamp date;
 
     public Notification(){}
 
-    public Notification(Long id, String title, String description, LocalDate date) {
+    public Notification(Long id, String title, String description, Timestamp date) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -50,11 +49,11 @@ public class Notification {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 }
