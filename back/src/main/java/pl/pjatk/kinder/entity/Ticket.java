@@ -1,27 +1,27 @@
 package pl.pjatk.kinder.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.sql.Timestamp;
+
 
 @Entity
+@Table(name = "ticket")
 public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long ticket_id;
 
     private String title;
     private Double price;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
+
 
     public Ticket(){}
 
-    public Ticket(Long id, String title, Double price, LocalDateTime startDate, LocalDateTime endDate) {
-        this.id = id;
+    public Ticket(Long id, String title, Double price, Timestamp startDate, Timestamp endDate) {
+        this.ticket_id = id;
         this.title = title;
         this.price = price;
         this.startDate = startDate;
@@ -29,11 +29,11 @@ public class Ticket {
     }
 
     public Long getId() {
-        return id;
+        return ticket_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.ticket_id = id;
     }
 
     public String getTitle() {
@@ -52,19 +52,19 @@ public class Ticket {
         this.price = price;
     }
 
-    public LocalDateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 }

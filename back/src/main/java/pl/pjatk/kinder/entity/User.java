@@ -1,11 +1,10 @@
 package pl.pjatk.kinder.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 
 @Entity
+@Table(name = "user")
 public class User {
 
     @Id
@@ -18,7 +17,9 @@ public class User {
     private String email;
     private String password;
 
+
     public User(){}
+
 
     public User(String username, String name, String surname, String email, String password) {
         this.username = username;
@@ -75,4 +76,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

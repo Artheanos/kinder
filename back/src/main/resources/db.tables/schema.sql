@@ -1,7 +1,6 @@
-CREATE SEQUENCE hibernate_sequence;
-
+DROP TABLE IF EXISTS dbo.words;
 
 CREATE TABLE words (
     id BIGSERIAL PRIMARY KEY NOT NULL,
-    word varchar(50) NOT NULL
+    word VARCHAR(50) NOT NULL
 )
