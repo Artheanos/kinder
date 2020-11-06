@@ -1,17 +1,18 @@
 databaseChangeLog:
   - changeSet:
-      id: user
+      id: 20200611_user
       author: Rafał Kreft
       sqlFile:
         relativeToChangelogFile: true
         stripComments: true
         splitStatements: false
-        path: db.tables/user.sql
+        path: 20200611_add_user.sql
+
   - changeSet:
-      id: schema
+      id: 20200611_words
       author: Rafał Kreft
       sqlFile:
         relativeToChangelogFile: true
         stripComments: true
         splitStatements: false
-        path: db.tables/schema.sql
+        path: 20200611_add_words.sql
