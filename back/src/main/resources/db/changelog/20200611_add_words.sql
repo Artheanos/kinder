@@ -1,3 +1,4 @@
+--liquibase formatted sql
 DROP TABLE IF EXISTS dbo.words;
 
 CREATE TABLE words (
