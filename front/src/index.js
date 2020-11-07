@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import NewApp from './NewApp';
 import reportWebVitals from './reportWebVitals';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
+        <div>
+            <h1 className="jumbotron">Kinder</h1>
+        </div>
+        <NewApp/>
     </React.StrictMode>,
     document.getElementById('root')
 );
