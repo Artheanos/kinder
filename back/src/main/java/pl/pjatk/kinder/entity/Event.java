@@ -2,11 +2,12 @@ package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Table(name = "event")
+@Table(name = "event", schema = "public")
 public class Event {
 
     enum State{
@@ -30,7 +31,8 @@ public class Event {
     private State state;
     private Integer user_id;
 
-
+    @ManyToMany(mappedBy = "event")
+    private List<User> users = new ArrayList<>();
 
     public Event(){}
 

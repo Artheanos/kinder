@@ -25,3 +25,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20200811_add_event.sql
+
+  - changeSet:
+      id: 20200811_user_event_relation
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20200811_add_user_event_relation.sql

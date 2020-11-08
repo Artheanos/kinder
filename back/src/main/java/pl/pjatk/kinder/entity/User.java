@@ -1,10 +1,12 @@
 package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 public class User {
 
     @Id
@@ -17,6 +19,13 @@ public class User {
     private String email;
     private String password;
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "user_event",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "event_id") }
+    )
+    private List<Event> events = new ArrayList<>();
 
     public User(){}
 
