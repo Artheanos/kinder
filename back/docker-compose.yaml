@@ -8,3 +8,9 @@ services:
       POSTGRES_DB: kinder
       POSTGRES_USER: kinder
       POSTGRES_PASSWORD: kinder123
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+   postgres-data:
+     driver: local
