@@ -1,25 +1,28 @@
-package pl.pjatk.kinder.security;
+package pl.pjatk.kinder.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import pl.pjatk.kinder.security.service.UserRepositoryUserDetailsService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 
 public class JwtFilter extends BasicAuthenticationFilter {
 
-    private static final String SIGNING_KEY = "test";
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    UserRepositoryUserDetailsService userDetailsService;
+
 
     public JwtFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -30,11 +33,12 @@ public class JwtFilter extends BasicAuthenticationFilter {
 
         String token = parseJwtToken(request);
 
-        if(token != null) {
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(SIGNING_KEY.getBytes()).parseClaimsJws(token);
+        if(token != null && jwtUtils.validateJwtToken(token)) {
 
-            String role = getJwtValue(claimsJws, "role");
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(getJwtValue(claimsJws, "username"), null, Collections.singleton(new SimpleGrantedAuthority(role)));
+            String username = jwtUtils.getUsername(token);
+            UserDetails user = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         chain.doFilter(request, response);
@@ -51,7 +55,4 @@ public class JwtFilter extends BasicAuthenticationFilter {
         return null;
     }
 
-    private String getJwtValue(Jws<Claims> claims, String key) {
-        return claims.getBody().get(key).toString();
-    }
 }
