@@ -1,12 +1,12 @@
 package pl.pjatk.kinder.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.sql.Timestamp;
+
+
 
 @Entity
+@Table(name = "event")
 public class Event {
 
     enum State{
@@ -24,14 +24,15 @@ public class Event {
     private String title;
     private String addres;
     private String description;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
     private int capacity;
     private State state;
 
+
     public Event(){}
 
-    public Event(Long id, String title, String addres, String description, LocalDateTime startDate, LocalDateTime endDate, int capacity, State state) {
+    public Event(Long id, String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {
         this.id = id;
         this.title = title;
         this.addres = addres;
@@ -74,19 +75,19 @@ public class Event {
         this.description = description;
     }
 
-    public LocalDateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 
