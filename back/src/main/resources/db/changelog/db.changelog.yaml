@@ -43,3 +43,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20200811_add_ticket.sql
+
+  - changeSet:
+      id: 20200811_ticket_relations
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20200811_add_ticket_relations.sql

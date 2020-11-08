@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 
 @Entity
-@Table(name = "ticket")
+@Table(name = "ticket", schema = "public")
 public class Ticket {
 
     @Id
@@ -17,6 +17,13 @@ public class Ticket {
     private Timestamp startDate;
     private Timestamp endDate;
 
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
+
+    @OneToOne
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Event event;
 
     public Ticket(){}
 

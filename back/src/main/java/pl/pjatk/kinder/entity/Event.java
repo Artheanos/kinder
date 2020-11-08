@@ -34,6 +34,9 @@ public class Event {
     @ManyToMany(mappedBy = "event")
     private List<User> users = new ArrayList<>();
 
+    @OneToOne(mappedBy = "event")
+    private Ticket ticket;
+
     public Event(){}
 
     public Event(Long id, String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {

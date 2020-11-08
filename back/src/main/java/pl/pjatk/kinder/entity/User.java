@@ -27,6 +27,9 @@ public class User {
     )
     private List<Event> events = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> tickets;
+
     public User(){}
 
 
