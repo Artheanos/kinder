@@ -61,7 +61,7 @@ export class RegisterForm extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="confirmPassword">Confirm Password</label>
-                                <input className="form-control" type="confirmPassword" name="confirmPassword"
+                                <input className="form-control" type="password" name="confirmPassword"
                                        placeholder="********"
                                        value={this.state.confirmPassword}
                                        onChange={this.handleChange}

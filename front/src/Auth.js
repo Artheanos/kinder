@@ -2,8 +2,9 @@ import './App.css';
 import React from "react";
 
 import {LoginForm, RegisterForm} from './components/auth';
+import {Redirect} from "react-router-dom";
 
-class NewApp extends React.Component {
+class Auth extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -15,7 +16,7 @@ class NewApp extends React.Component {
     }
 
     componentDidMount() {
-
+        console.log(this.props);
     }
 
     switchForm() {
@@ -23,12 +24,18 @@ class NewApp extends React.Component {
     }
 
     render() {
+        if (localStorage.getItem('token')) {
+            return (
+                <Redirect to="/home"/>
+            )
+        }
+
         const {isLogInActive} = this.state;
         return (
             <div className="App">
                 {
                     isLogInActive ?
-                        <LoginForm switchForm={this.switchForm}/>
+                        <LoginForm switchForm={this.switchForm} {...this.props}/>
                         :
                         <RegisterForm switchForm={this.switchForm}/>
                 }
@@ -37,4 +44,4 @@ class NewApp extends React.Component {
     }
 }
 
-export default NewApp;
+export default Auth;
