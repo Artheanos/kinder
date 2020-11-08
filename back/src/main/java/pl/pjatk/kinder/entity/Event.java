@@ -28,6 +28,8 @@ public class Event {
     private Timestamp endDate;
     private int capacity;
     private State state;
+    private Integer user_id;
+
 
 
     public Event(){}
