@@ -25,20 +25,12 @@ dependencies {
 
     testCompile group: 'org.testcontainers', name: 'postgresql', version: '1.14.3'
 
-
-
-    implementation 'com.h2database:h2:1.4.200'
     implementation 'org.springframework.data:spring-data-commons'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.3.4.RELEASE'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-
-    implementation 'com.h2database:h2:1.4.200'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.3.4.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.3.5.RELEASE'
-    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
 }
 
