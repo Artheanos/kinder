@@ -8,8 +8,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
     <React.StrictMode>
-        <div>
-            <h1 className="jumbotron">Kinder</h1>
+        <div className="jumbotron">
+            <h1>Kinder</h1>
         </div>
         <NewApp/>
     </React.StrictMode>,
