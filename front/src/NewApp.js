@@ -1,7 +1,7 @@
 import './App.css';
 import React from "react";
 
-import {LoginForm, RegisterForm} from './components/index';
+import {LoginForm, RegisterForm} from './components/auth';
 
 class NewApp extends React.Component {
 

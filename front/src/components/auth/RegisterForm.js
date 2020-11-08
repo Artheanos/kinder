@@ -1,13 +1,15 @@
 import React from "react";
 
-export class LoginForm extends React.Component {
+export class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            username: "",
             email: "",
             password: "",
-            loginErrors: ""
+            confirmPassword: "",
+            registrationErrors: ""
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,9 +17,14 @@ export class LoginForm extends React.Component {
     }
 
     handleSubmit(e) {
-        const {email, password} = this.state;
-        console.log(email, password);
         e.preventDefault();
+        const {password, confirmPassword} = this.state;
+
+        if (password !== confirmPassword) {
+            alert("passwords dont match")
+        }
+
+        console.log('wow!');
     }
 
     handleChange(e) {
@@ -28,20 +35,35 @@ export class LoginForm extends React.Component {
         return (
             <div className="base-container">
                 <form onSubmit={this.handleSubmit}>
-                    <h1 className="header">Login</h1>
+                    <h1 className="header">Register</h1>
                     <div className="content">
                         <div className="form">
                             <div className="form-group">
+                                <label htmlFor="username">Username</label>
+                                <input className="form-control" type="username" name="username" placeholder="Username"
+                                       value={this.state.username}
+                                       onChange={this.handleChange}
+                                />
+                            </div>
+                            <div className="form-group">
                                 <label htmlFor="email">Email</label>
-                                <input className="form-control" type="email" name="email" placeholder="Email"
+                                <input className="form-control" type="email" name="email" placeholder="email@website.com"
                                        value={this.state.email}
                                        onChange={this.handleChange}
                                 />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
-                                <input className="form-control" type="password" name="password" placeholder="password"
+                                <input className="form-control" type="password" name="password" placeholder="********"
                                        value={this.state.password}
+                                       onChange={this.handleChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="confirmPassword">Confirm Password</label>
+                                <input className="form-control" type="confirmPassword" name="confirmPassword"
+                                       placeholder="********"
+                                       value={this.state.confirmPassword}
                                        onChange={this.handleChange}
                                 />
                             </div>
@@ -49,10 +71,10 @@ export class LoginForm extends React.Component {
                     </div>
                     <div className="footer">
                         <button type="submit" className="btn btn-primary">
-                            Login
+                            Register
                         </button>
                         <button type="button" className="btn btn-outline-info float-right" onClick={this.props.switchForm}>
-                            Register instead
+                            Login instead
                         </button>
                     </div>
                 </form>

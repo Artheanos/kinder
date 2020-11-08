@@ -5,12 +5,11 @@ import NewApp from './NewApp';
 import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import TopBar from "./components/TopBar";
 
 ReactDOM.render(
     <React.StrictMode>
-        <div className="jumbotron">
-            <h1>Kinder</h1>
-        </div>
+        <TopBar/>
         <NewApp/>
     </React.StrictMode>,
     document.getElementById('root')

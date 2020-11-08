@@ -6,7 +6,14 @@
     column-gap: 5px;
 }
 
+.my-jumbotron-container {
+    width: 200%;
+    height: 100%;
+    box-shadow: -100px 5px 30px gray;
+}
+
 .jumbotron {
+    width: 100vw;
     background-image: url("top-background.jpg");
     background-position: center;
     color: silver;
@@ -16,6 +23,12 @@
 .jumbotron h1 {
     font-size: 5rem;
     margin: 0 5%;
+}
+
+@media (max-width: 576px) {
+    .jumbotron h1 {
+        font-size: 3rem;
+    }
 }
 
 .my-box {
