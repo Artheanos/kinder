@@ -1,6 +1,7 @@
 package pl.pjatk.kinder.security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class RegisterController {
         User user = new User(registerRequest.getName(), registerRequest.getSurname(), registerRequest.getEmail(), passwordEncoder.encode(registerRequest.getPassword()));
         userRepository.save(user);
 
-        return ResponseEntity.ok(new ResponseMessage("User created"));
+        return new ResponseEntity(new ResponseMessage("User created"), HttpStatus.CREATED);
     }
 
 }
