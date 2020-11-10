@@ -19,15 +19,11 @@ import pl.pjatk.kinder.security.model.User;
 @CrossOrigin("*")
 public class LoginController {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
     private JwtUtils jwtUtils;
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    public LoginController(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public LoginController(JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
     }
@@ -35,10 +31,10 @@ public class LoginController {
     @PostMapping
     public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtils.generateToken(authentication);
         User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(token, user.getUsername(), user.getEmail(), user.getRole().toString()));
+        return ResponseEntity.ok(new JwtResponse(token, user.getEmail(), user.getRole().toString()));
     }
 }
