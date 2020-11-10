@@ -4,7 +4,7 @@
 }
 @media (max-width: 576px) {
   .Auth {
-    margin: auto;
+    margin: 5rem auto;
   }
 }
 
@@ -24,6 +24,9 @@
   align-items: center;
   justify-content: center;
   color: white;
+}
+.Hello-world .my-box p {
+  font-size: 2rem;
 }
 .Hello-world .spin {
   border: 16px solid #f3f3f3;
@@ -45,12 +48,16 @@
   }
 }
 .my-jumbotron-container {
-  width: 200%;
+  position: relative;
+  width: calc(100% + 100px);
+  left: -100px;
   height: 100%;
-  box-shadow: -100px 5px 30px gray;
+  box-shadow: 100px 5px 30px gray;
 }
 .my-jumbotron-container .jumbotron {
   width: 100vw;
+  position: relative;
+  left: 100px;
   background-image: url("top-background.jpg");
   background-position: center;
   color: silver;

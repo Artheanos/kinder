@@ -34,11 +34,11 @@ class HelloWorldApp extends React.Component {
         let newLine;
 
         if (str === undefined) {
-            newLine = document.createElement('a');
+            newLine = document.createElement('p');
             newLine.classList.add('spin');
             parent.insertBefore(newLine, parent.firstElementChild);
         } else {
-            newLine = document.createElement('a');
+            newLine = document.createElement('p');
             newLine.innerText = str;
             parent.insertBefore(newLine, parent.firstElementChild).appendChild(document.createElement('hr'));
         }

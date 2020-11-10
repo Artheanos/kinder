@@ -2,7 +2,7 @@
   margin: 5rem 10rem;
   width: 300px;
   @media (max-width: 576px) {
-    margin: auto;
+    margin: 5rem auto;
   }
 }
 
@@ -22,6 +22,9 @@
     align-items: center;
     justify-content: center;
     color: white;
+    p {
+      font-size: 2rem;
+    }
   }
 
   .spin {
@@ -44,13 +47,18 @@
   }
 }
 
+$offset: 100px;
 .my-jumbotron-container {
-  width: 200%;
+  position: relative;
+  width: calc(100% + #{$offset});
+  left: -$offset;
   height: 100%;
-  box-shadow: -100px 5px 30px gray;
+  box-shadow: 100px 5px 30px gray;
 
   .jumbotron {
     width: 100vw;
+    position: relative;
+    left: 100px;
     background-image: url("top-background.jpg");
     background-position: center;
     color: silver;
