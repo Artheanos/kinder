@@ -16,3 +16,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20200611_add_words.sql
+
+  - changeSet:
+      id: 20201011_remove_username
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201011_remove_username.sql
