@@ -4,7 +4,7 @@ import React from "react";
 class HelloWorldApp extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {text: 'lol'};
+        this.state = {text: 'TEST'};
         this.submitText = this.submitText.bind(this);
     }
 
@@ -15,7 +15,7 @@ class HelloWorldApp extends React.Component {
     getTexts() {
         let newLine = this.addLine();
 
-        fetch('http://localhost:8080/word/').then((x) => {
+        fetch('http://192.168.1.93:3080/word/').then((x) => {
             x.json().then((data) => {
                 newLine.remove();
                 for (let word of data) {
@@ -48,7 +48,7 @@ class HelloWorldApp extends React.Component {
     submitText() {
         let newLine = this.addLine();
 
-        fetch('http://localhost:8080/word/', {
+        fetch('http://192.168.1.93:3080/word/', {
             method: 'POST',
             body: JSON.stringify({'word': this.state.text}),
             headers: {
@@ -73,7 +73,7 @@ class HelloWorldApp extends React.Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="Hello-world">
                 <div className="my-box" style={{height: "300px"}}>
                     <input type="text" value={this.state.text}
                            onChange={

@@ -18,7 +18,7 @@ export class LoginForm extends React.Component {
     handleSubmit(e) {
         const {email, password} = this.state;
 
-        fetch('http://localhost:8080/login', {
+        fetch('http://192.168.1.93:3080/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

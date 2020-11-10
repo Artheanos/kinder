@@ -3,6 +3,7 @@ import React from "react";
 
 import {LoginForm, RegisterForm} from './components/auth';
 import {Redirect} from "react-router-dom";
+import HelloWorldApp from "./HelloWorldApp";
 
 class Home extends React.Component {
     render() {
@@ -18,12 +19,16 @@ class Home extends React.Component {
                     <h1 className="display-4">You have successfully logged in
                         as <b>{localStorage.getItem('username')}</b>
                     </h1>
+                    <div style={{whiteSpace: "nowrap"}}>
+                        {Object.keys(localStorage).map(i => <h3>{i} - {localStorage.getItem(i)}</h3>)}
+                    </div>
                 </div>
-                <button className="btn btn-warning" onClick={() => {
+                <button style={{margin: "0 5%"}} className="btn btn-warning" onClick={() => {
                     localStorage.clear();
                     this.props.history.push('/');
                 }}>Log Out
                 </button>
+                <HelloWorldApp/>
             </div>
         )
     }

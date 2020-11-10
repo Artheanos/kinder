@@ -32,7 +32,7 @@ class Auth extends React.Component {
 
         const {isLogInActive} = this.state;
         return (
-            <div className="App">
+            <div className="Auth">
                 {
                     isLogInActive ?
                         <LoginForm switchForm={this.switchForm} {...this.props}/>
