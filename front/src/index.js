@@ -6,16 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import Auth from './Auth';
-import Home from "./Home";
-import TopBar from "./components/TopBar";
+import Home from "./home/Home";
+import Welcome from "./welcome/Welcome";
 
 
 ReactDOM.render(
     <React.StrictMode>
-        <TopBar/>
         <Router>
-            <Route exact path="/" component={Auth}/>
+            <Route exact path="/" component={Welcome}/>
             <Route path="/home" component={Home}/>
         </Router>
     </React.StrictMode>,

@@ -1,7 +1,6 @@
-import './App.css';
+import '../App.css';
 import React from "react";
 
-import {LoginForm, RegisterForm} from './components/auth';
 import {Redirect} from "react-router-dom";
 import HelloWorldApp from "./HelloWorldApp";
 

@@ -1,7 +1,8 @@
-import './App.css';
+import '../../App.css';
 import React from "react";
 
-import {LoginForm, RegisterForm} from './components/auth';
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 import {Redirect} from "react-router-dom";
 
 class Auth extends React.Component {

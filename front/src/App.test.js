@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import HelloWorldApp from './HelloWorldApp';
+import HelloWorldApp from './home/HelloWorldApp';
 
 test('renders learn react link', () => {
   render(<HelloWorldApp />);
