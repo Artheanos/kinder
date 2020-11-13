@@ -25,13 +25,15 @@ class LoginForm extends React.Component {
         const {email, password} = this.state;
 
         if (!email.length) {
-            this.emailInput.current.classList.add('alert-danger');
+            this.emailInput.current.classList.remove('alert-danger', 'single-shake');
+            this.emailInput.current.classList.add('alert-danger', 'single-shake');
             this.emailInput.current.placeholder = '';
             return;
         }
 
         if (!password.length) {
-            this.passwordInput.current.classList.add('alert-danger');
+            this.passwordInput.current.classList.add('alert-danger', 'single-shake');
+            this.passwordInput.current.classList.add('alert-danger', 'single-shake');
             this.passwordInput.current.placeholder = '';
             return;
         }
@@ -83,7 +85,7 @@ class LoginForm extends React.Component {
                                    placeholder="email@website.com"
                                    value={this.state.email}
                                    onChange={this.handleChange}
-                                   onFocus={(e) => e.target.classList.remove('alert-danger')}
+                                   onFocus={(e) => e.target.classList.remove('alert-danger', 'single-shake')}
                             />
                         </div>
                         <div className="form-group">
@@ -92,7 +94,7 @@ class LoginForm extends React.Component {
                                    ref={this.passwordInput}
                                    value={this.state.password}
                                    onChange={this.handleChange}
-                                   onFocus={(e) => e.target.classList.remove('alert-danger')}
+                                   onFocus={(e) => e.target.classList.remove('alert-danger', 'single-shake')}
                             />
                         </div>
                     </div>
