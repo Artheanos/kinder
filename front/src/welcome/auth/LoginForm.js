@@ -1,13 +1,12 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import LoginInput from "./LoginInput";
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            email: "",
-            password: "",
             loginErrors: ""
         };
 
@@ -16,25 +15,16 @@ class LoginForm extends React.Component {
         this.loginButton = React.createRef();
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
     handleSubmit(e) {
         e.preventDefault();
 
-        const {email, password} = this.state;
-
-        if (!email.length) {
-            this.emailInput.current.classList.remove('alert-danger', 'single-shake');
-            this.emailInput.current.classList.add('alert-danger', 'single-shake');
-            this.emailInput.current.placeholder = '';
+        if (!this.emailInput.current.handleSubmit()) {
             return;
         }
 
-        if (!password.length) {
-            this.passwordInput.current.classList.add('alert-danger', 'single-shake');
-            this.passwordInput.current.classList.add('alert-danger', 'single-shake');
-            this.passwordInput.current.placeholder = '';
+        if (!this.passwordInput.current.handleSubmit()) {
             return;
         }
 
@@ -46,8 +36,8 @@ class LoginForm extends React.Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: email,
-                password: password
+                email: this.emailInput.current.state.value,
+                password: this.passwordInput.current.state.value
             })
         }).then(response => {
                 if (response.status === 200) {
@@ -68,35 +58,14 @@ class LoginForm extends React.Component {
         }).finally(() => this.loginButton.current.classList.remove('loading'));
     }
 
-    handleChange(e) {
-        this.setState({[e.target.name]: e.target.value});
-    }
-
     render() {
         return (
             <div className="login-form">
                 <form onSubmit={this.handleSubmit}>
                     <h1 className="header">Login</h1>
                     <div className="form">
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input className="form-control" type="email" name="email"
-                                   ref={this.emailInput}
-                                   placeholder="email@website.com"
-                                   value={this.state.email}
-                                   onChange={this.handleChange}
-                                   onFocus={(e) => e.target.classList.remove('alert-danger', 'single-shake')}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input className="form-control" type="password" name="password" placeholder="********"
-                                   ref={this.passwordInput}
-                                   value={this.state.password}
-                                   onChange={this.handleChange}
-                                   onFocus={(e) => e.target.classList.remove('alert-danger', 'single-shake')}
-                            />
-                        </div>
+                        <LoginInput type="email" name="email" placeholder="email@website.com" ref={this.emailInput}/>
+                        <LoginInput type="password" name="password" placeholder="*******" ref={this.passwordInput}/>
                     </div>
                     <div className="footer">
                         <button type="submit" className="btn btn-primary" ref={this.loginButton}>
