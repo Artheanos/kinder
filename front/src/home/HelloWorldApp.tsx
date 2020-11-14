@@ -1,8 +1,11 @@
 import '../App.css';
 import React from "react";
 
-class HelloWorldApp extends React.Component {
-    constructor(props) {
+class HelloWorldApp extends React.Component<{}, { text: string }> {
+    private backup_text: string;
+    private textInput: React.RefObject<any>;
+
+    constructor(props: {}) {
         super(props);
         this.state = {
             text: 'TEST',
@@ -32,7 +35,7 @@ class HelloWorldApp extends React.Component {
         }))
     }
 
-    addLine(str, timeout = 0) {
+    addLine(str: string = undefined!, timeout = 0) {
         let parent = document.getElementsByClassName('my-box')[1];
         let newLine;
 
@@ -81,6 +84,7 @@ class HelloWorldApp extends React.Component {
     }
 
     render() {
+
         return (
             <div className="Hello-world">
                 <div className="my-box" style={{height: "300px"}}>

@@ -1,13 +1,13 @@
 import '../../App.css';
 import React from "react";
 
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
+import LoginForm from "./Login/LoginForm";
+import RegisterForm from "./Register/RegisterForm";
 import {Redirect} from "react-router-dom";
 
-class Auth extends React.Component {
+class Auth extends React.Component<{}, { isLogInActive: boolean }> {
 
-    constructor(props, context) {
+    constructor(props: any, context: any) {
         super(props, context);
         this.state = {
             isLogInActive: true,
@@ -38,7 +38,7 @@ class Auth extends React.Component {
                     isLogInActive ?
                         <LoginForm switchForm={this.switchForm} {...this.props}/>
                         :
-                        <RegisterForm switchForm={this.switchForm}/>
+                        <RegisterForm switchForm={this.switchForm} {...this.props}/>
                 }
             </div>
         );

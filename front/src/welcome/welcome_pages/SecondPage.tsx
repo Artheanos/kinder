@@ -1,6 +1,6 @@
 import React from "react";
 
-export function SecondPage() {
+export const SecondPage: React.FC = () => {
     return (
         <div className="Second-page page">
             <h1>Hello Second Page</h1>

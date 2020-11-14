@@ -1,23 +1,23 @@
-import React from "react";
-import {withRouter} from "react-router-dom";
+import React, {FormEvent} from "react"
+import {withRouter} from 'react-router-dom';
+import {RouteComponentProps} from 'react-router';
 import LoginInput from "./LoginInput";
+import FormProps from "../FormProps";
 
-class LoginForm extends React.Component {
-    constructor(props) {
+class LoginForm extends React.Component<FormProps> {
+    emailInput: React.RefObject<any> = React.createRef();
+    passwordInput: React.RefObject<any> = React.createRef();
+    loginButton: React.RefObject<any> = React.createRef();
+
+    constructor(props: any) {
         super(props);
-
         this.state = {
             loginErrors: ""
         };
-
-        this.emailInput = React.createRef();
-        this.passwordInput = React.createRef();
-        this.loginButton = React.createRef();
-
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(e) {
+    handleSubmit(e: FormEvent) {
         e.preventDefault();
 
         if (!this.emailInput.current.handleSubmit()) {
@@ -64,6 +64,7 @@ class LoginForm extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <h1 className="header">Login</h1>
                     <div className="form">
+
                         <LoginInput type="email" name="email" placeholder="email@website.com" ref={this.emailInput}/>
                         <LoginInput type="password" name="password" placeholder="*******" ref={this.passwordInput}/>
                     </div>

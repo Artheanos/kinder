@@ -1,6 +1,6 @@
 import React from "react";
 
-export function FirstPage() {
+export const FirstPage: React.FC = () => {
     return (
         <div className="First-page page">
             <h1>Hello First Page</h1>
