@@ -27,8 +27,7 @@ public class Ticket {
 
     public Ticket(){}
 
-    public Ticket(Long id, String title, Double price, Timestamp startDate, Timestamp endDate) {
-        this.ticket_id = id;
+    public Ticket(String title, Double price, Timestamp startDate, Timestamp endDate) {
         this.title = title;
         this.price = price;
         this.startDate = startDate;

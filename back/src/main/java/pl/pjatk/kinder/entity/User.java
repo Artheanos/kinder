@@ -1,7 +1,6 @@
 package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,7 +24,7 @@ public class User {
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "event_id") }
     )
-    private List<Event> events = new ArrayList<>();
+    private List<Event> events;
 
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets;

@@ -52,3 +52,30 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20200811_add_ticket_relations.sql
+
+  - changeSet:
+      id: 20201511_add_category
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201511_add_category.sql
+
+  - changeSet:
+      id: 20201511_add_subcategory
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201511_add_subcategory.sql
+
+  - changeSet:
+      id: 20201511_add_subcategory_category_relation
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201511_add_subcategory_category_relation.sql

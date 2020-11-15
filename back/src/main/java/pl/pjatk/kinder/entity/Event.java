@@ -2,7 +2,6 @@ package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,15 +31,14 @@ public class Event {
     private Integer user_id;
 
     @ManyToMany(mappedBy = "event")
-    private List<User> users = new ArrayList<>();
+    private List<User> users;
 
     @OneToOne(mappedBy = "event")
     private Ticket ticket;
 
     public Event(){}
 
-    public Event(Long id, String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {
-        this.id = id;
+    public Event(String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {
         this.title = title;
         this.addres = addres;
         this.description = description;
