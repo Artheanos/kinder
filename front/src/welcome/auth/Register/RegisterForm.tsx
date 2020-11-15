@@ -11,6 +11,8 @@ class RegisterForm extends React.Component<FormProps, { registrationErrors: stri
     passwordInput: React.RefObject<RegisterInput> = React.createRef();
     confirmPasswordInput: React.RefObject<RegisterInput> = React.createRef();
 
+    inputs: Array<React.RefObject<RegisterInput>> = [this.nameInput, this.surnameInput, this.emailInput, this.passwordInput, this.confirmPasswordInput];
+
     state = {
         registrationErrors: ''
     }
@@ -21,6 +23,15 @@ class RegisterForm extends React.Component<FormProps, { registrationErrors: stri
     }
 
     handleSubmit(e: FormEvent) {
+        e.preventDefault();
+
+        for (let inputComponent of this.inputs) {
+            if (inputComponent.current)
+                if (!inputComponent.current.isValid()) {
+                    return;
+                }
+        }
+
         // TODO Make this work
         // e.preventDefault();
         //
@@ -73,20 +84,57 @@ class RegisterForm extends React.Component<FormProps, { registrationErrors: stri
                     <div className="content">
                         <div className="form">
 
-                            <RegisterInput ref={this.nameInput} name="name" placeholder="John"/>
+                            <RegisterInput ref={this.nameInput} name="name" placeholder="John"
+                                           getInvalidMessage={(v: string) => {
+                                               if (v.length === 0 || v.match(/\S/) === null) {
+                                                   return "Name is empty";
+                                               }
+                                               if (v.length > 100) {
+                                                   return "Name is too long";
+                                               }
+                                           }}
+                            />
 
-                            <RegisterInput ref={this.surnameInput} name="surname" label="Last Name"
-                                           placeholder="Smith"/>
+                            <RegisterInput ref={this.surnameInput} name="surname" label="Last Name" placeholder="Smith"
+                                           getInvalidMessage={(v: string) => {
+                                               if (v.length === 0 || v.match(/\S/) === null) {
+                                                   return "Last name is empty";
+                                               }
+                                               if (v.length > 100) {
+                                                   return "Last name is too long";
+                                               }
+                                           }}
+                            />
 
                             <RegisterInput ref={this.emailInput} name="email" type="email"
-                                           placeholder="email@website.com"/>
+                                           placeholder="email@website.com"
+                                           getInvalidMessage={(v: string) => null}
+                            />
 
                             <RegisterInput ref={this.passwordInput} name="password" type="password"
-                                           placeholder="********"/>
+                                           placeholder="********"
+                                           getInvalidMessage={(v: string) => {
+                                               let rules: { [key: string]: string } = {
+                                                   "[a-z]": "Password must contain at least one lowercase",
+                                                   "[A-Z]": "Password must contain at least one uppercase",
+                                                   "\\d": "Password must contain at least one digit"
+                                               }
+
+                                               for (let regex in rules) {
+                                                   if (v.match(regex) === null) {
+                                                       return rules[regex];
+                                                   }
+                                               }
+                                           }}
+                            />
 
                             <RegisterInput ref={this.confirmPasswordInput} name="confirmPassword"
-                                           label="Confirm Password"
-                                           type="password" placeholder="*******"/>
+                                           label="Confirm Password" type="password" placeholder="*******"
+                                           getInvalidMessage={(v: string) => {
+                                               if (v !== this.passwordInput.current!.state.value)
+                                                   return "Two passwords must match!"
+                                           }}
+                            />
                         </div>
                     </div>
                     <div className="footer">

@@ -10,13 +10,11 @@ type FormInputProps = {
 
 type FormInputState = FormInputProps & { value: string }
 
-abstract class FormInput extends React.Component<FormInputProps, FormInputState> {
-    readonly input: React.RefObject<any>;
+abstract class FormInput<T = {}> extends React.Component<T & FormInputProps, FormInputState> {
+    readonly input: React.RefObject<HTMLInputElement> = React.createRef();
 
-    protected constructor(props: FormInputProps, context: React.Context<any>) {
+    protected constructor(props: T & FormInputProps, context: React.Context<any>) {
         super(props, context);
-
-        this.input = React.createRef();
 
         this.state = {
             name: props.name,
@@ -29,7 +27,7 @@ abstract class FormInput extends React.Component<FormInputProps, FormInputState>
         this.alert = this.alert.bind(this);
         this.removeAlert = this.removeAlert.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.isValid = this.isValid.bind(this);
     }
 
     abstract alert(): void;
@@ -37,10 +35,10 @@ abstract class FormInput extends React.Component<FormInputProps, FormInputState>
     abstract removeAlert(): void;
 
     handleChange() {
-        this.setState({value: this.input.current.value})
+        this.setState({value: this.input.current!.value})
     }
 
-    handleSubmit() {
+    isValid() {
         if (!this.state.value.length) {
             this.alert();
             return false;
@@ -52,13 +50,15 @@ abstract class FormInput extends React.Component<FormInputProps, FormInputState>
         return (
             <div className="form-group">
                 <label htmlFor={this.state.name}>{this.state.label}</label>
-                <input className="form-control" type={this.state.type} name={this.state.name}
-                       placeholder={this.state.placeholder}
-                       ref={this.input}
-                       value={this.state.value}
-                       onChange={this.handleChange}
-                       onFocus={this.removeAlert}
-                />
+                <div className="input-wrapper">
+                    <input className="form-control" type={this.state.type} name={this.state.name}
+                           placeholder={this.state.placeholder}
+                           ref={this.input}
+                           value={this.state.value}
+                           onChange={this.handleChange}
+                           onFocus={this.removeAlert}
+                    />
+                </div>
             </div>
         );
     }
