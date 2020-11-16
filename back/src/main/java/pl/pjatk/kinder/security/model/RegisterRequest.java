@@ -1,10 +1,16 @@
 package pl.pjatk.kinder.security.model;
 
+import javax.validation.constraints.Pattern;
+
 public class RegisterRequest {
 
+    @Pattern(regexp = "^\\S+@\\S+$", message = "Invalid email format")
     private String email;
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "Invalid password format")
     private String password;
+    @Pattern(regexp = "^(?=.*[\\S]){0,100}$", message = "Invalid name format")
     private String name;
+    @Pattern(regexp = "^(?=.*[\\S]){0,100}$", message = "Invalid surname format")
     private String surname;
 
     public RegisterRequest(String email, String password, String name, String surname) {

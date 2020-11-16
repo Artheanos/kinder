@@ -7,12 +7,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import pl.pjatk.kinder.security.model.ResponseMessage;
 import pl.pjatk.kinder.security.repo.UserRepository;
 import pl.pjatk.kinder.security.jwt.JwtResponse;
 import pl.pjatk.kinder.security.jwt.JwtUtils;
 import pl.pjatk.kinder.security.model.LoginRequest;
 import pl.pjatk.kinder.security.model.User;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/login")
@@ -29,7 +33,11 @@ public class LoginController {
     }
 
     @PostMapping
-    public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity login(@Valid @RequestBody LoginRequest loginRequest, Errors errors) {
+
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(new ResponseMessage(errors.getAllErrors().get(0).getDefaultMessage()));
+        }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
