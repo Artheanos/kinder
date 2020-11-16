@@ -30,7 +30,7 @@ class HelloWorldApp extends React.Component<{}, { text: string }> {
                 }
             })
         }).catch((reason => {
-            console.log(reason);
+            alert(reason);
             newLine.remove();
         }))
     }

@@ -25,6 +25,7 @@ class Home extends React.Component<RouteComponentProps> {
                 </div>
                 <button style={{margin: "0 5%"}} className="btn btn-warning" onClick={() => {
                     localStorage.clear();
+                    localStorage.setItem('skipAnimation', 'true');
                     this.props.history.push('/');
                 }}>Log Out
                 </button>

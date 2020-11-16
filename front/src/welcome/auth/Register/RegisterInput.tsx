@@ -5,17 +5,27 @@ type getInvalidMessageFunction = (value: string) => any;
 
 
 class RegisterInput extends FormInput<{ getInvalidMessage: getInvalidMessageFunction }> {
-    alert(): void {
+    showWarning(str?: string): void {
+        const classList = this.inputWrapper.current!.classList;
+
+        if (classList.contains('expanded')) {
+            classList.remove('single-shake');
+            setTimeout(() => classList.add('single-shake'), 0);
+        }
+        if (str) {
+            classList.add('expanded');
+            this.warning.current!.innerText = str;
+        }
     }
 
-    removeAlert(): void {
+    clearWarning(): void {
+        this.inputWrapper.current!.classList.remove('expanded', 'shake');
     }
 
     isValid(): boolean {
         let invalidMessage = this.props.getInvalidMessage(this.state.value);
         if (invalidMessage) {
-            alert(invalidMessage);
-            // TODO replace alert with some nice warning
+            this.showWarning(invalidMessage);
             return false;
         }
         return true;

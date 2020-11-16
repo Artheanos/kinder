@@ -14,6 +14,7 @@ ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Route exact path="/" component={Welcome}/>
+            <Route exact path="/auth" component={Welcome}/>
             <Route path="/home" component={Home}/>
         </Router>
     </React.StrictMode>,
@@ -21,6 +22,6 @@ ReactDOM.render(
 );
 
 // If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
+// to log results (for example: reportWebVitals(alert))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

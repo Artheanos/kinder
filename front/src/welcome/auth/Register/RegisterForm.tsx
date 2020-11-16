@@ -1,79 +1,77 @@
-import React, {ChangeEvent, FormEvent} from "react";
+import React from "react";
 import {withRouter} from "react-router-dom";
 import FormProps from "../FormProps";
 import RegisterInput from "./RegisterInput";
 
-class RegisterForm extends React.Component<FormProps, { registrationErrors: string }> {
 
-    nameInput: React.RefObject<RegisterInput> = React.createRef();
-    surnameInput: React.RefObject<RegisterInput> = React.createRef();
-    emailInput: React.RefObject<RegisterInput> = React.createRef();
-    passwordInput: React.RefObject<RegisterInput> = React.createRef();
-    confirmPasswordInput: React.RefObject<RegisterInput> = React.createRef();
+type Inputs = {
+    [key: string]: React.RefObject<RegisterInput>
+}
 
-    inputs: Array<React.RefObject<RegisterInput>> = [this.nameInput, this.surnameInput, this.emailInput, this.passwordInput, this.confirmPasswordInput];
-
-    state = {
-        registrationErrors: ''
-    }
+class RegisterForm extends React.Component<FormProps, { inputs: Inputs, registrationErrors: string }> {
 
     constructor(props: FormProps) {
         super(props);
+
+        let inputNames = ['name', 'surname', 'email', 'password', 'confirmPassword'];
+        let inputs: Inputs = {};
+        inputNames.forEach((key) => inputs[key] = React.createRef());
+
+        this.state = {
+            registrationErrors: '',
+            inputs: inputs
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(e: FormEvent) {
+    handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
-        for (let inputComponent of this.inputs) {
-            if (inputComponent.current)
-                if (!inputComponent.current.isValid()) {
-                    return;
-                }
+        for (let inputComponent of Object.values(this.state.inputs)) if (inputComponent.current) {
+            if (!inputComponent.current.isValid())
+                return;
         }
 
-        // TODO Make this work
-        // e.preventDefault();
-        //
-        // if (this.passwordInput.current)
-        // const password = this.passwordInput.current.state.value;
-        //
-        // if (password !== confirmPassword) {
-        //     alert("passwords dont match")
-        // }
-        //
-        // fetch('http://192.168.1.93:3080/register', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         name: name,
-        //         surname: surname,
-        //         email: email,
-        //         password: password
-        //     })
-        // }).then(response => {
-        //         if (response.status === 200 || response.status === 201) {
-        //             response.text().then((resString) => {
-        //                 alert('You have successfully registered\nYou can now log in!');
-        //                 this.props.switchForm();
-        //             }).catch((err) => {
-        //                 console.log('RESPONSE ERROR\n' + err);
-        //             })
-        //         } else if (response.status === 400) {
-        //             response.text().then((resString) => {
-        //                 alert('Error\n' + resString);
-        //             }).catch((err) => {
-        //                 console.log('RESPONSE ERROR\n' + err);
-        //             })
-        //         } else {
-        //             alert("Wrong credentials");
-        //         }
-        //     }
-        // ).catch((err) => {
-        //     alert("ERROR\n" + err);
-        // })
+        let body: { [key: string]: string } = {};
+        for (const [key, value] of Object.entries(this.state.inputs)) {
+            body[key] = value.current!.state.value;
+        }
+
+        fetch('http://192.168.1.93:3080/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        }).then(response => {
+                if (response.status === 200 || response.status === 201) {
+                    response.text().then((resString) => {
+                        alert('You have successfully registered\nYou can now log in!');
+                        this.props.switchForm();
+                    }).catch((err) => {
+                        alert('RESPONSE ERROR\n' + err);
+                    })
+                } else if (response.status === 400) {
+                    response.text().then((resString) => {
+                        let errorMessage = JSON.parse(resString).message;
+                        if (errorMessage === "Email already in use!") {
+                            this.state.inputs.email.current!.input.current!.focus();
+                            this.state.inputs.email.current!.showWarning(errorMessage);
+                        } else {
+                            alert('Error\n' + errorMessage);
+                        }
+                    }).catch((err) => {
+                        alert('RESPONSE ERROR\n' + err);
+                    })
+                } else if (response.status === 401) {
+                    alert("IDK");
+                } else {
+                    alert("Wrong credentials");
+                }
+            }
+        ).catch((err) => {
+            alert("ERROR\n" + err);
+        })
     }
 
     render() {
@@ -84,7 +82,7 @@ class RegisterForm extends React.Component<FormProps, { registrationErrors: stri
                     <div className="content">
                         <div className="form">
 
-                            <RegisterInput ref={this.nameInput} name="name" placeholder="John"
+                            <RegisterInput ref={this.state.inputs.name} name="name"
                                            getInvalidMessage={(v: string) => {
                                                if (v.length === 0 || v.match(/\S/) === null) {
                                                    return "Name is empty";
@@ -95,7 +93,7 @@ class RegisterForm extends React.Component<FormProps, { registrationErrors: stri
                                            }}
                             />
 
-                            <RegisterInput ref={this.surnameInput} name="surname" label="Last Name" placeholder="Smith"
+                            <RegisterInput ref={this.state.inputs.surname} name="surname" label="Last Name"
                                            getInvalidMessage={(v: string) => {
                                                if (v.length === 0 || v.match(/\S/) === null) {
                                                    return "Last name is empty";
@@ -106,18 +104,18 @@ class RegisterForm extends React.Component<FormProps, { registrationErrors: stri
                                            }}
                             />
 
-                            <RegisterInput ref={this.emailInput} name="email" type="email"
-                                           placeholder="email@website.com"
+                            <RegisterInput ref={this.state.inputs.email} name="email" type="email"
                                            getInvalidMessage={(v: string) => null}
                             />
 
-                            <RegisterInput ref={this.passwordInput} name="password" type="password"
-                                           placeholder="********"
+                            <RegisterInput ref={this.state.inputs.password} name="password" type="password"
                                            getInvalidMessage={(v: string) => {
                                                let rules: { [key: string]: string } = {
-                                                   "[a-z]": "Password must contain at least one lowercase",
-                                                   "[A-Z]": "Password must contain at least one uppercase",
-                                                   "\\d": "Password must contain at least one digit"
+                                                   ".{8,}": "This password is shorter than 8 characters",
+                                                   "^.{0,100}$": "This password is longer than 100 characters",
+                                                   "[a-z]": "This password doesn't contain a lowercase",
+                                                   "[A-Z]": "This password doesn't contain a uppercase",
+                                                   "\\d": "This password doesn't contain a digit"
                                                }
 
                                                for (let regex in rules) {
@@ -128,10 +126,10 @@ class RegisterForm extends React.Component<FormProps, { registrationErrors: stri
                                            }}
                             />
 
-                            <RegisterInput ref={this.confirmPasswordInput} name="confirmPassword"
-                                           label="Confirm Password" type="password" placeholder="*******"
+                            <RegisterInput ref={this.state.inputs.confirmPassword} name="confirmPassword"
+                                           label="Confirm Password" type="password"
                                            getInvalidMessage={(v: string) => {
-                                               if (v !== this.passwordInput.current!.state.value)
+                                               if (v !== this.state.inputs.password.current!.state.value)
                                                    return "Two passwords must match!"
                                            }}
                             />

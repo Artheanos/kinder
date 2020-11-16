@@ -1,13 +1,13 @@
 import React, {FormEvent} from "react"
 import {withRouter} from 'react-router-dom';
-import {RouteComponentProps} from 'react-router';
 import LoginInput from "./LoginInput";
 import FormProps from "../FormProps";
 
 class LoginForm extends React.Component<FormProps> {
-    emailInput: React.RefObject<any> = React.createRef();
-    passwordInput: React.RefObject<any> = React.createRef();
+    emailInput: React.RefObject<LoginInput> = React.createRef();
+    passwordInput: React.RefObject<LoginInput> = React.createRef();
     loginButton: React.RefObject<any> = React.createRef();
+    warning: React.RefObject<HTMLDivElement> = React.createRef();
 
     constructor(props: any) {
         super(props);
@@ -15,16 +15,28 @@ class LoginForm extends React.Component<FormProps> {
             loginErrors: ""
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.showWarning = this.showWarning.bind(this);
+        this.clearWarning = this.clearWarning.bind(this);
+    }
+
+    showWarning(message = '') {
+        this.warning.current!.classList.add('expanded');
+        this.warning.current!.innerText = message;
+    }
+
+    clearWarning() {
+        this.warning.current!.classList.remove('expanded');
+        this.warning.current!.innerText = '';
     }
 
     handleSubmit(e: FormEvent) {
         e.preventDefault();
 
-        if (!this.emailInput.current.handleSubmit()) {
+        if (!this.emailInput.current!.isValid()) {
             return;
         }
 
-        if (!this.passwordInput.current.handleSubmit()) {
+        if (!this.passwordInput.current!.isValid()) {
             return;
         }
 
@@ -36,8 +48,8 @@ class LoginForm extends React.Component<FormProps> {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: this.emailInput.current.state.value,
-                password: this.passwordInput.current.state.value
+                email: this.emailInput.current!.state.value,
+                password: this.passwordInput.current!.state.value
             })
         }).then(response => {
                 if (response.status === 200) {
@@ -47,10 +59,10 @@ class LoginForm extends React.Component<FormProps> {
                             localStorage.setItem(key, data[key]);
                         this.props.history.push('/home');
                     }).catch((err) => {
-                        console.log('RESPONSE ERROR\n' + err);
+                        alert('RESPONSE ERROR\n' + err);
                     })
                 } else {
-                    alert("Wrong credentials");
+                    this.showWarning('Incorrect email or password');
                 }
             }
         ).catch((err) => {
@@ -60,14 +72,14 @@ class LoginForm extends React.Component<FormProps> {
 
     render() {
         return (
-            <div className="login-form">
-                <form onSubmit={this.handleSubmit}>
+            <div className="Login-form">
+                <form onSubmit={this.handleSubmit} onClick={this.clearWarning}>
                     <h1 className="header">Login</h1>
                     <div className="form">
-
                         <LoginInput type="email" name="email" placeholder="email@website.com" ref={this.emailInput}/>
                         <LoginInput type="password" name="password" placeholder="*******" ref={this.passwordInput}/>
                     </div>
+                    <div className="login-warning alert-warning" ref={this.warning}/>
                     <div className="footer">
                         <button type="submit" className="btn btn-primary" ref={this.loginButton}>
                             Login

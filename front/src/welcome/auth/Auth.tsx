@@ -16,10 +16,6 @@ class Auth extends React.Component<{}, { isLogInActive: boolean }> {
         this.switchForm = this.switchForm.bind(this);
     }
 
-    componentDidMount() {
-        console.log(this.props);
-    }
-
     switchForm() {
         this.setState({isLogInActive: !this.state.isLogInActive});
     }

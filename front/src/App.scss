@@ -4,24 +4,81 @@
   @media (max-width: 576px) {
     margin: 5rem auto;
   }
+
+  .Login-form {
+    .login-warning {
+      height: 0;
+      vertical-align: center;
+      text-align: center;
+      border-radius: 5px;
+      margin: 1rem 0;
+      transition: height 50ms ease-in-out;
+      &.expanded {
+        height: 100px;
+        line-height: 100px;
+      }
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+    height: 36px;
+    transition: height 50ms ease-in-out;
+
+    &.expanded {
+      height: 100px;
+
+      p {
+        opacity: 1;
+      }
+    }
+  }
+
+  .warning {
+    width: 100%;
+    border-radius: 5px;
+    border-left: none;
+    border-right: none;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    margin: 0;
+    height: 100%;
+
+    p {
+      width: 100%;
+      text-align: center;
+      bottom: 10px;
+      position: absolute;
+      margin: 0;
+      opacity: 0;
+    }
+  }
+}
+
+%page-height {
+  min-height: 900px;
 }
 
 .Welcome {
   height: 100%;
 
   .page {
+    @extend %page-height;
     height: 100vh;
     border: solid 1px black;
     padding: 50px;
   }
 
   .Top-bar {
+    @extend %page-height;
     height: 100vh;
     $collapseTime: 1s;
     $collapsedHeight: 200px;
     $collapsedHeightSmall: 100px;
 
     .jumbotron {
+      z-index: 100;
       width: 100vw;
       min-height: $collapsedHeight;
       @media (max-width: 576px) {
@@ -95,7 +152,8 @@
       }
 
       &.initial {
-        height: 100vh;
+        height: 100%;
+        // TODO why doesn't this cover the whole height
         text-align: center;
         justify-content: normal;
 

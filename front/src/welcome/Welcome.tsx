@@ -3,12 +3,13 @@ import React from "react";
 
 import TopBar from "./TopBar";
 import {FirstPage, SecondPage} from './welcome_pages'
+import {RouteComponentProps} from "react-router";
 
-class Welcome extends React.Component {
+class Welcome extends React.Component<RouteComponentProps> {
     render() {
         return (
             <div className="Welcome">
-                <TopBar/>
+                <TopBar {...this.props}/>
                 <FirstPage/>
                 <SecondPage/>
             </div>
