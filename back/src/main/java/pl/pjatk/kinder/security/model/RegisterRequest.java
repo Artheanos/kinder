@@ -8,9 +8,9 @@ public class RegisterRequest {
     private String email;
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "Invalid password format")
     private String password;
-    @Pattern(regexp = "^(?=.*[\\S]){0,100}$", message = "Invalid name format")
+    @Pattern(regexp = "^(?=.*[\\S]).{0,100}$", message = "Invalid name format")
     private String name;
-    @Pattern(regexp = "^(?=.*[\\S]){0,100}$", message = "Invalid surname format")
+    @Pattern(regexp = "^(?=.*[\\S]).{0,100}$", message = "Invalid surname format")
     private String surname;
 
     public RegisterRequest(String email, String password, String name, String surname) {
