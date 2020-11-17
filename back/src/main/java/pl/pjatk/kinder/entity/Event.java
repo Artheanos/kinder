@@ -9,14 +9,6 @@ import java.util.List;
 @Table(name = "event", schema = "public")
 public class Event {
 
-    enum State{
-        Active,
-        Ended,
-        Suspended,
-        Held,
-        Waiting
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -35,6 +27,9 @@ public class Event {
 
     @OneToOne(mappedBy = "event")
     private Ticket ticket;
+
+    @ManyToMany(mappedBy = "event")
+    private List<Subcategory> subcategories;
 
     public Event(){}
 
@@ -111,4 +106,29 @@ public class Event {
     public void setState(State state) {
         this.state = state;
     }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
 }

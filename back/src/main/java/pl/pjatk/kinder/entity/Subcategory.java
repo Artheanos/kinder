@@ -1,6 +1,7 @@
 package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "subcategory", schema = "public")
@@ -15,6 +16,14 @@ public class Subcategory {
     @ManyToOne
     @JoinColumn(name="category_id", nullable=false)
     private Category category;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "event_subcategory",
+            joinColumns = { @JoinColumn(name = "subcategory_id") },
+            inverseJoinColumns = { @JoinColumn(name = "event_id") }
+    )
+    private List<Event> events;
 
     public Subcategory(){}
 
