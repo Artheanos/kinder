@@ -1,21 +1,16 @@
 package pl.pjatk.kinder.entity;
 
+import pl.pjatk.kinder.security.model.User;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Table(name = "event")
+@Table(name = "event", schema = "public")
 public class Event {
-
-    enum State{
-        Active,
-        Ended,
-        Suspended,
-        Held,
-        Waiting
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,10 +25,18 @@ public class Event {
     private State state;
 
 
+    @ManyToMany(mappedBy = "events")
+    private List<User> users = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event")
+    private List<Ticket> tickets;
+
+    @ManyToMany(mappedBy = "events")
+    private List<Subcategory> subcategories;
+
     public Event(){}
 
-    public Event(Long id, String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {
-        this.id = id;
+    public Event(String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {
         this.title = title;
         this.addres = addres;
         this.description = description;
@@ -105,5 +108,29 @@ public class Event {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<Subcategory> getSubcategories() {
+        return subcategories;
+    }
+
+    public void setSubcategories(List<Subcategory> subcategories) {
+        this.subcategories = subcategories;
     }
 }

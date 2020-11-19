@@ -1,8 +1,8 @@
 --liquibase formatted sql
-CREATE SEQUENCE hibernate_sequence;
+--CREATE SEQUENCE hibernate_sequence;
 DROP TABLE IF EXISTS dbo.user;
 
-CREATE TABLE users (
+CREATE TABLE "user"(
     id          BIGSERIAL NOT NULL,
     username    VARCHAR UNIQUE NOT NULL,
     name        VARCHAR NOT NULL,

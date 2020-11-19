@@ -1,11 +1,13 @@
 package pl.pjatk.kinder.entity;
 
+import pl.pjatk.kinder.security.model.User;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 
 @Entity
-@Table(name = "ticket")
+@Table(name = "ticket", schema = "public")
 public class Ticket {
 
     @Id
@@ -17,11 +19,17 @@ public class Ticket {
     private Timestamp startDate;
     private Timestamp endDate;
 
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Event event;
 
     public Ticket(){}
 
-    public Ticket(Long id, String title, Double price, Timestamp startDate, Timestamp endDate) {
-        this.ticket_id = id;
+    public Ticket(String title, Double price, Timestamp startDate, Timestamp endDate) {
         this.title = title;
         this.price = price;
         this.startDate = startDate;

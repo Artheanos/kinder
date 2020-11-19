@@ -3,14 +3,18 @@ package pl.pjatk.kinder.security.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.pjatk.kinder.entity.Event;
+import pl.pjatk.kinder.entity.Ticket;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @Entity
-@Table(name = "users")
+@Table(name = "user", schema = "public")
 public class User implements UserDetails {
 
     @Id
@@ -23,6 +27,17 @@ public class User implements UserDetails {
     private String password;
     private Role role;
 
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "user_event",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "event_id") }
+    )
+    private List<Event> events;
+
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> tickets;
 
     public User(){}
 
@@ -113,4 +128,6 @@ public class User implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
+
+
 }
