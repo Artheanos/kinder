@@ -1,4 +1,4 @@
-package pl.pjatk.kinder.security.repo;
+package pl.pjatk.kinder.repo;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
