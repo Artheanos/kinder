@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.pjatk.kinder.security.model.RegisterRequest;
 import pl.pjatk.kinder.security.model.ResponseMessage;
-import pl.pjatk.kinder.security.model.User;
+import pl.pjatk.kinder.entity.User;
 import pl.pjatk.kinder.security.repo.UserRepository;
 
 import javax.validation.Valid;

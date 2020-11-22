@@ -1,13 +1,10 @@
-package pl.pjatk.kinder.security.model;
+package pl.pjatk.kinder.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.pjatk.kinder.entity.Event;
-import pl.pjatk.kinder.entity.Ticket;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

@@ -1,7 +1,5 @@
 package pl.pjatk.kinder.entity;
 
-import pl.pjatk.kinder.security.model.User;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
