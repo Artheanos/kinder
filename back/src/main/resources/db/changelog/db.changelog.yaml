@@ -97,3 +97,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20201511_add_event_subcategory_relation.sql
+
+  - changeSet:
+      id: 20202211_add_user_details_and_photo_table
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202211_add_user_details_and_photo_table.sql

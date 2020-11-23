@@ -1,5 +1,5 @@
 --liquibase formatted sql
---CREATE SEQUENCE hibernate_sequence;
+CREATE SEQUENCE hibernate_sequence;
 DROP TABLE IF EXISTS dbo.user;
 
 CREATE TABLE "user"(

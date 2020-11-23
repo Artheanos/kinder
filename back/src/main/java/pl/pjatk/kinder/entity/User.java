@@ -1,13 +1,12 @@
 package pl.pjatk.kinder.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
@@ -21,11 +20,23 @@ public class User implements UserDetails {
     private String name;
     private String surname;
     private String email;
+
+    @JsonIgnore
     private String password;
     private Role role;
+    private String city;
+    private String description;
+
+    @Column(name = "user_id")
+    private String userId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
 
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+
+    /*@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "user_event",
             joinColumns = { @JoinColumn(name = "user_id") },
@@ -35,9 +46,10 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets;
+*/
+
 
     public User(){}
-
 
     public User(String name, String surname, String email, String password) {
         this.name = name;
@@ -45,6 +57,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = Role.ROLE_USER;
+        this.userId = name + "." + surname + new Random().nextInt(1000);
     }
 
     public Long getId() {
@@ -126,5 +139,35 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public String getCity() {
+        return city;
+    }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
 }

@@ -3,14 +3,24 @@ package pl.pjatk.kinder.security.jwt;
 public class JwtResponse {
 
     private String token;
+    private Long id;
     private String type = "Bearer";
     private String email;
     private String role;
 
-    public JwtResponse(String accessToken, String email, String role) {
+    public JwtResponse(String accessToken, Long id, String email, String role) {
+        this.id = id;
         this.token = accessToken;
         this.email = email;
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getToken() {
