@@ -34,7 +34,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-
+    @OneToMany
+    @JoinTable(name = "user_friend", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<User> friends;
 
     /*@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -169,5 +171,10 @@ public class User implements UserDetails {
 
     public void setPhoto(Photo photo) {
         this.photo = photo;
+    }
+
+    public void addFriend(User friend) {
+        if (friends == null) friends = new ArrayList<>();
+        friends.add(friend);
     }
 }
