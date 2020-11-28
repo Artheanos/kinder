@@ -34,9 +34,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    @OneToMany
-    @JoinTable(name = "user_friend", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private List<User> friends;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<Friend> friends = new ArrayList<>();
 
     /*@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -173,8 +172,16 @@ public class User implements UserDetails {
         this.photo = photo;
     }
 
-    public void addFriend(User friend) {
+    public void addFriend(Friend friend) {
         if (friends == null) friends = new ArrayList<>();
         friends.add(friend);
+    }
+
+    public List<Friend> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Friend> friends) {
+        this.friends = friends;
     }
 }

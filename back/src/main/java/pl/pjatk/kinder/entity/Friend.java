@@ -25,6 +25,7 @@ public class Friend {
     }
 
     public Friend(User user, User friend, boolean accepted) {
+        this.id = new FriendId(user.getId(), friend.getId());
         this.userId = user;
         this.friendId = friend;
         this.accepted = accepted;
