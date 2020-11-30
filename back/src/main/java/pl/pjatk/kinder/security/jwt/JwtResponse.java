@@ -7,22 +7,22 @@ public class JwtResponse {
     private String type = "Bearer";
     private String email;
     private String role;
-    private String userId;
+    private String urlId;
 
-    public JwtResponse(String accessToken, Long id, String email, String role, String userId) {
+    public JwtResponse(String accessToken, Long id, String email, String role, String urlId) {
         this.id = id;
         this.token = accessToken;
         this.email = email;
         this.role = role;
-        this.userId = userId;
+        this.urlId = urlId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUrlId() {
+        return urlId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
     }
 
     public Long getId() {
