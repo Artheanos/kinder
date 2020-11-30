@@ -81,29 +81,6 @@ class RegisterForm extends React.Component<FormProps, { inputs: Inputs, registra
                     <h1 className="header">Register</h1>
                     <div className="content">
                         <div className="form">
-
-                            <RegisterInput ref={this.state.inputs.name} name="name"
-                                           getInvalidMessage={(v: string) => {
-                                               if (v.length === 0 || v.match(/\S/) === null) {
-                                                   return "Name is empty";
-                                               }
-                                               if (v.length > 100) {
-                                                   return "Name is too long";
-                                               }
-                                           }}
-                            />
-
-                            <RegisterInput ref={this.state.inputs.surname} name="surname" label="Last Name"
-                                           getInvalidMessage={(v: string) => {
-                                               if (v.length === 0 || v.match(/\S/) === null) {
-                                                   return "Last name is empty";
-                                               }
-                                               if (v.length > 100) {
-                                                   return "Last name is too long";
-                                               }
-                                           }}
-                            />
-
                             <RegisterInput ref={this.state.inputs.email} name="email" type="email"
                                            getInvalidMessage={(v: string) => null}
                             />

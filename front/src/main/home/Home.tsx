@@ -1,18 +1,11 @@
 import '../../App.css';
 import React from "react";
 
-import {Redirect} from "react-router-dom";
 import HelloWorldApp from "./HelloWorldApp";
 import {RouteComponentProps} from "react-router";
 
 class Home extends React.Component<RouteComponentProps> {
     render() {
-        if (!localStorage.getItem('token')) {
-            return (
-                <Redirect to="/"/>
-            )
-        }
-
         return (
             <div className="Home">
                 <button style={{margin: "0 5%"}} className="btn btn-warning" onClick={() => {

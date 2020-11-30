@@ -16,7 +16,7 @@ ReactDOM.render(
         <Router>
             <Switch>
                 <Route exact path="/" component={Welcome}/>
-                <Route path={["/home", "/profile"]} component={Main}/>
+                <Route path={["/home", "/profile", "/profile-private-form"]} component={Main}/>
                 <Route path="*" component={NotFound}/>
             </Switch>
         </Router>

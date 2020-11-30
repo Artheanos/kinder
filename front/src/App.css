@@ -27,8 +27,7 @@
   background: #fbfaf7 !important;
 }
 .Navbar nav a.active {
-  transform: scale(1.1);
-  background: #f8f5f1;
+  background: #ede6dd;
 }
 .Navbar .navbar-brand {
   font-weight: bolder;

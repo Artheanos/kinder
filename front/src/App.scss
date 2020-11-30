@@ -32,8 +32,8 @@
       }
 
       &.active {
-        transform: scale(1.1);
-        background: lighten($navbar-background, 2);
+        //transform: scale(1.1);
+        background: darken($navbar-background, 4);
       }
     }
   }

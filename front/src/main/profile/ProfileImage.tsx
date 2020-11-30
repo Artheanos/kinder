@@ -2,7 +2,7 @@ import React from "react";
 import {ProfileObject} from "./Profile";
 import default_image from './default_image.jpg';
 
-class ProfileImage extends React.Component<{ editable: boolean, profile: ProfileObject }> {
+class ProfileImage extends React.Component<{ editable: boolean, profile: Exclude<ProfileObject, null> }> {
     // constructor(props: { editable: boolean; profile: ProfileObject }, context: any) {
     //     super(props, context);
     // }
@@ -11,13 +11,16 @@ class ProfileImage extends React.Component<{ editable: boolean, profile: Profile
         if (this.props.editable) {
             return (
                 <div>
-                    <img src={this.props.profile.user.image_url || default_image} alt={this.props.profile.user.name}/>
-                    <input type="file" accept="image/x-png,image/gif,image/jpeg" className="form-control-file" id="imageInput"/>
+                    <img src={this.props.profile.image_url || default_image} alt={this.props.profile.name}/>
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg" className="form-control-file"
+                           id="imageInput" style={{'cursor': 'pointer'}}/>
                 </div>
             )
         } else {
             return (
-                <img src={this.props.profile.user.image_url || default_image} alt={this.props.profile.user.name}/>
+                <div>
+                    <img src={this.props.profile.image_url || default_image} alt={this.props.profile.name}/>
+                </div>
             )
         }
     }
