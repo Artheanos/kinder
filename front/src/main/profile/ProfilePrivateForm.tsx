@@ -8,7 +8,7 @@ type Inputs = {
 class ProfilePrivateForm extends React.Component<{}, { inputs: Inputs }> {
     constructor(props: any, context: any) {
         super(props, context);
-        let inputNames = ['name', 'surname', 'email'];
+        let inputNames = ['name', 'surname'];
         let inputs: Inputs = {};
         inputNames.forEach((key) => inputs[key] = React.createRef());
         this.state = {
@@ -21,7 +21,6 @@ class ProfilePrivateForm extends React.Component<{}, { inputs: Inputs }> {
     componentDidMount() {
         fetch(`http://192.168.1.93:3080/users/${localStorage.getItem('userId')}/basic`).then(r => {
             r.text().then(value => {
-                this.state.inputs.email.current!.setState({value: localStorage.getItem('email')!})
                 let data = JSON.parse(value);
                 for (let i in data) if (data.hasOwnProperty(i) && i in this.state.inputs) {
                     this.state.inputs[i].current!.setState({value: data[i]})
@@ -32,6 +31,12 @@ class ProfilePrivateForm extends React.Component<{}, { inputs: Inputs }> {
 
     handleSubmit(e: FormEvent) {
         e.preventDefault();
+
+        for (let inputComponent of Object.values(this.state.inputs)) if (inputComponent.current) {
+            if (!inputComponent.current.isValid())
+                return;
+        }
+
         let body: { [key: string]: string } = {};
         for (let i in this.state.inputs) if (this.state.inputs.hasOwnProperty(i)) {
             body[i] = this.state.inputs[i].current!.state.value;
@@ -64,10 +69,6 @@ class ProfilePrivateForm extends React.Component<{}, { inputs: Inputs }> {
                                            return "Last name is too long";
                                        }
                                    }}
-                    />
-
-                    <RegisterInput ref={this.state.inputs.email} name="email" type="email"
-                                   getInvalidMessage={(v: string) => null}
                     />
 
                     {/*<RegisterInput ref={this.state.inputs.password} name="password" type="password"*/}
