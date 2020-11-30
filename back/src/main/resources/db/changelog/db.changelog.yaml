@@ -124,3 +124,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20202611_add_default_field.sql
+
+  - changeSet:
+      id: 20202911_add_chat_tables
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202911_add_chat_tables.sql
