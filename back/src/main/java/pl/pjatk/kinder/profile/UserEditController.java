@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("user")
 public class UserEditController {
 

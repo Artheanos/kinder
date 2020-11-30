@@ -12,6 +12,7 @@ import pl.pjatk.kinder.repo.UserRepository;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("users/")
 public class UserDetailsController {
 

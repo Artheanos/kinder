@@ -13,6 +13,7 @@ import pl.pjatk.kinder.repo.UserRepository;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("friends")
 public class FriendController {
 
