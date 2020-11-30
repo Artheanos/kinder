@@ -5,12 +5,12 @@ export class TopBar extends React.Component<{}, { pressed: boolean }> {
 
     constructor(props: {}, context: {}) {
         super(props, context);
-        this.state = {pressed: !!localStorage.getItem('skipAnimation')}
+        this.state = {pressed: !!sessionStorage.getItem('skipAnimation')}
         this.collapse = this.collapse.bind(this);
     }
 
     collapse() {
-        localStorage.setItem('skipAnimation', 'true');
+        sessionStorage.setItem('skipAnimation', 'true');
         this.setState({pressed: true});
     }
 

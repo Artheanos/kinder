@@ -1,9 +1,9 @@
-import '../App.css';
+import '../../App.css';
 import React from "react";
 
 class HelloWorldApp extends React.Component<{}, { text: string }> {
-    private backup_text: string;
-    private textInput: React.RefObject<any>;
+    backup_text: string;
+    readonly textInput: React.RefObject<any>;
 
     constructor(props: {}) {
         super(props);
@@ -35,7 +35,7 @@ class HelloWorldApp extends React.Component<{}, { text: string }> {
         }))
     }
 
-    addLine(str: string = undefined!, timeout = 0) {
+    addLine(str: string = undefined!) {
         let parent = document.getElementsByClassName('my-box')[1];
         let newLine;
 
