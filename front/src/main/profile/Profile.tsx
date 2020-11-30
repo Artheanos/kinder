@@ -42,7 +42,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
             profileId: this.props.match.params.profileId,
             profile: null,
             editing: false,
-            isMe: props.match.params.profileId === localStorage.getItem('userId'),
+            isMe: props.match.params.profileId === localStorage.getItem('urlId'),
 
             inputAbout: React.createRef(),
             inputFrom: React.createRef(),
@@ -68,7 +68,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 profileId: this.props.match.params.profileId,
                 profile: null,
                 editing: false,
-                isMe: this.props.match.params.profileId === localStorage.getItem('userId')
+                isMe: this.props.match.params.profileId === localStorage.getItem('urlId')
             });
             this.updateProfile();
         }
@@ -76,7 +76,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
 
     handleSubmit(e: FormEvent) {
         e.preventDefault();
-        fetch(`http://192.168.1.93:3080/user/${localStorage.getItem('userId')}/name`,
+        fetch(`http://192.168.1.93:3080/user/${localStorage.getItem('urlId')}/name`,
             {
                 method: 'POST',
                 headers: {

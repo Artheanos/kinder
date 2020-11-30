@@ -7,7 +7,7 @@ function Navbar() {
             <nav>
                 <a className="nav-item font-weight-bold" href="/home">Kinder</a>
                 <NavbarItem title="Home" to="/home"/>
-                <NavbarItem title="Profile" to={`/profile/${localStorage.getItem('userId')}`}/>
+                <NavbarItem title="Profile" to={`/profile/${localStorage.getItem('urlId')}`}/>
             </nav>
         </div>
     )

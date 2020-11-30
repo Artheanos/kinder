@@ -19,7 +19,7 @@ class ProfilePrivateForm extends React.Component<{}, { inputs: Inputs }> {
     }
 
     componentDidMount() {
-        fetch(`http://192.168.1.93:3080/users/${localStorage.getItem('userId')}/basic`).then(r => {
+        fetch(`http://192.168.1.93:3080/users/${localStorage.getItem('urlId')}/basic`).then(r => {
             r.text().then(value => {
                 let data = JSON.parse(value);
                 for (let i in data) if (data.hasOwnProperty(i) && i in this.state.inputs) {
