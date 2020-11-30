@@ -133,3 +133,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20202911_add_chat_tables.sql
+
+  - changeSet:
+      id: 20203011_change_to_url_id
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20203011_change_to_url_id.sql

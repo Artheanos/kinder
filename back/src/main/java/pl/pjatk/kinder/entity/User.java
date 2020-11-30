@@ -27,8 +27,8 @@ public class User implements UserDetails {
     private String city;
     private String description;
 
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name = "url_id")
+    private String urlId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
@@ -58,7 +58,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = Role.ROLE_USER;
-        this.userId = name + "." + surname + new Random().nextInt(1000);
+        this.urlId = name + "." + surname + new Random().nextInt(1000);
     }
 
     public Long getId() {
@@ -156,12 +156,12 @@ public class User implements UserDetails {
         this.description = description;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUrlId() {
+        return urlId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUrlId(String userId) {
+        this.urlId = userId;
     }
 
     public Photo getPhoto() {

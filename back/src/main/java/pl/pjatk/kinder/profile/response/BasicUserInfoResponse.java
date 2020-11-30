@@ -4,13 +4,13 @@ public class BasicUserInfoResponse {
 
     private String name;
     private String surname;
-    private String userId;
+    private String urlId;
     private String photoUrl;
 
     public BasicUserInfoResponse(String name, String surname, String userId, String photo) {
         this.name = name;
         this.surname = surname;
-        this.userId = userId;
+        this.urlId = userId;
         this.photoUrl = photo;
     }
 
@@ -30,12 +30,12 @@ public class BasicUserInfoResponse {
         this.surname = surname;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUrlId() {
+        return urlId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
     }
 
     public String getPhotoUrl() {

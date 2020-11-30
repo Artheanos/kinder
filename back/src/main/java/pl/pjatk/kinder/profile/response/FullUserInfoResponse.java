@@ -7,16 +7,16 @@ public class FullUserInfoResponse {
     private String email;
     private String city;
     private String description;
-    private String userId;
+    private String urlId;
     private String photoUrl;
 
-    public FullUserInfoResponse(String name, String surname, String email, String city, String description, String userId, String photoUrl) {
+    public FullUserInfoResponse(String name, String surname, String email, String city, String description, String urlId, String photoUrl) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.city = city;
         this.description = description;
-        this.userId = userId;
+        this.urlId = urlId;
         this.photoUrl = photoUrl;
     }
 
@@ -60,12 +60,12 @@ public class FullUserInfoResponse {
         this.description = description;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUrlId() {
+        return urlId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
     }
 
     public String getPhotoUrl() {

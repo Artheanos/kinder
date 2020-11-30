@@ -23,23 +23,23 @@ public class UserDetailsController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("{userId}/full")
-    public FullUserInfoResponse getFullInfo(@PathVariable String userId) {
-        User user = getUserByUserId(userId);
+    @GetMapping("{urlId}/full")
+    public FullUserInfoResponse getFullInfo(@PathVariable String urlId) {
+        User user = getUserByUserId(urlId);
         Photo userPhoto = user.getPhoto();
-        FullUserInfoResponse fullUserInfoResponse = new FullUserInfoResponse(user.getName(), user.getSurname(), user.getEmail(), user.getCity(), user.getDescription(), user.getUserId(), userPhoto != null ? userPhoto.getUrl() : null);
+        FullUserInfoResponse fullUserInfoResponse = new FullUserInfoResponse(user.getName(), user.getSurname(), user.getEmail(), user.getCity(), user.getDescription(), user.getUrlId(), userPhoto != null ? userPhoto.getUrl() : null);
         return fullUserInfoResponse;
     }
 
-    @GetMapping("{userId}/basic")
-    public BasicUserInfoResponse getBasicInfo(@PathVariable String userId) throws IOException {
-        User user = getUserByUserId(userId);
+    @GetMapping("{urlId}/basic")
+    public BasicUserInfoResponse getBasicInfo(@PathVariable String urlId) throws IOException {
+        User user = getUserByUserId(urlId);
         Photo userPhoto = user.getPhoto();
-        BasicUserInfoResponse basicUserInfo = new BasicUserInfoResponse(user.getName(), user.getSurname(), user.getUserId(), userPhoto != null ? userPhoto.getUrl() : null);
+        BasicUserInfoResponse basicUserInfo = new BasicUserInfoResponse(user.getName(), user.getSurname(), user.getUrlId(), userPhoto != null ? userPhoto.getUrl() : null);
         return basicUserInfo;
     }
 
     private User getUserByUserId(String userId) {
-        return userRepository.findByUserId(userId).orElseThrow(() -> new UsernameNotFoundException(userId + " not found"));
+        return userRepository.findByUrlId(userId).orElseThrow(() -> new UsernameNotFoundException(userId + " not found"));
     }
 }

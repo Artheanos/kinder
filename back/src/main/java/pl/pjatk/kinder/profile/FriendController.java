@@ -27,15 +27,15 @@ public class FriendController {
 
     @GetMapping("{userId}")
     public ResponseEntity<FriendListResponse> getFriends(@PathVariable String userId) {
-        User user = userRepository.findByUserId(userId).get();
+        User user = userRepository.findByUrlId(userId).get();
         FriendListResponse response = new FriendListResponse(user.getFriends().stream().map(Friend::getFriendId).map(User::getEmail).collect(Collectors.toList()));
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("{userId}")
     public ResponseEntity addFriend(@PathVariable String userId, @RequestBody AddFriendRequest addFriendRequest) {
-        User user = userRepository.findByUserId(userId).get();
-        User friend = userRepository.findByUserId(addFriendRequest.getUserId()).get();
+        User user = userRepository.findByUrlId(userId).get();
+        User friend = userRepository.findByUrlId(addFriendRequest.getUrlId()).get();
         Friend userFriendRelation = new Friend(user, friend, false);
         Friend friendUserRelation = new Friend(friend, user, false);
 

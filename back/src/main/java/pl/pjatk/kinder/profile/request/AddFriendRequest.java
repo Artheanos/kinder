@@ -2,20 +2,20 @@ package pl.pjatk.kinder.profile.request;
 
 public class AddFriendRequest {
 
-    private String userId;
+    private String urlId;
 
     public AddFriendRequest() {
     }
 
-    public AddFriendRequest(String userId) {
-        this.userId = userId;
+    public AddFriendRequest(String urlId) {
+        this.urlId = urlId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUrlId() {
+        return urlId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
     }
 }
