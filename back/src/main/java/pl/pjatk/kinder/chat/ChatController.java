@@ -14,8 +14,8 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void get(@Payload Message chatMessage) {
-        this.messagingTemplate.convertAndSend("/topic/" + chatMessage.getSenderId(), new Message(chatMessage.getMessage(), chatMessage.getRecipientId(), chatMessage.getSenderId()));
-        this.messagingTemplate.convertAndSend("/topic/" + chatMessage.getRecipientId(), new Message(chatMessage.getMessage(), chatMessage.getRecipientId(), chatMessage.getSenderId()));
+        this.messagingTemplate.convertAndSend("/topic/" + chatMessage.getSenderId(), new Message(chatMessage.getMessage(), chatMessage.getSenderId(), chatMessage.getRecipientId()));
+        this.messagingTemplate.convertAndSend("/topic/" + chatMessage.getRecipientId(), new Message(chatMessage.getMessage(), chatMessage.getSenderId(), chatMessage.getRecipientId()));
     }
 
 }
