@@ -45,10 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().disable().csrf().disable().authorizeRequests()
+        http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/word").authenticated()
                 .antMatchers("/user").authenticated()

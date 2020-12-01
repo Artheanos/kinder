@@ -89,16 +89,19 @@ public class UserEditController {
         return ResponseEntity.ok("Modified");
     }
 
+    @CrossOrigin
     @PatchMapping(path = "data/edit", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> editData(@RequestPart("file") MultipartFile file, @RequestPart("data") EditDataRequest editDataRequest, Principal principal) throws IOException, NoSuchAlgorithmException {
+    public ResponseEntity<?> editData(@RequestPart(value = "file", required = false) MultipartFile file, @RequestPart("data") EditDataRequest editDataRequest, Principal principal) throws IOException, NoSuchAlgorithmException {
 
         if (principal == null) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
         User user = userRepository.findByEmail(principal.getName()).get();
-        Photo photo = photoService.save(file);
-        user.setPhoto(photo);
+        if (file != null) {
+            Photo photo = photoService.save(file);
+            user.setPhoto(photo);
+        }
         user.setCity(editDataRequest.getCity());
         user.setDescription(editDataRequest.getDescription());
         user.setUrlId(editDataRequest.getUrlId());
