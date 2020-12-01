@@ -34,18 +34,6 @@ public class UserEditController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("password/validate")
-    public ResponseEntity<?> validatePassword(@RequestBody PasswordRequest passwordRequest, Principal principal) {
-
-        if (principal != null) {
-            User user = userRepository.findByEmail(principal.getName()).get();
-            if (passwordEncoder.matches(passwordRequest.getPassword(), user.getPassword())) {
-                return ResponseEntity.ok("Password validated");
-            }
-        }
-        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-    }
-
     @PatchMapping("fullname/edit")
     public ResponseEntity<?> editFullname(@RequestBody FullNameEditRequest fullNameEditRequest, Principal principal) {
 
@@ -54,6 +42,11 @@ public class UserEditController {
         }
 
         User user = userRepository.findByEmail(principal.getName()).get();
+
+        if (!passwordEncoder.matches(fullNameEditRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.ok("Invalid password");
+        }
+
         user.setName(fullNameEditRequest.getName());
         user.setSurname(fullNameEditRequest.getSurname());
         userRepository.save(user);
@@ -68,6 +61,11 @@ public class UserEditController {
         }
 
         User user = userRepository.findByEmail(principal.getName()).get();
+
+        if (!passwordEncoder.matches(emailEditRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.ok("Invalid password");
+        }
+
         if (userRepository.existsByEmail(emailEditRequest.getEmail())) {
             return new ResponseEntity<>("Email already exists!", HttpStatus.BAD_REQUEST);
         }
@@ -84,12 +82,16 @@ public class UserEditController {
         }
 
         User user = userRepository.findByEmail(principal.getName()).get();
-        user.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));
+
+        if (!passwordEncoder.matches(passwordRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.ok("Invalid password");
+        }
+
+        user.setPassword(passwordEncoder.encode(passwordRequest.getNewPassword()));
         userRepository.save(user);
         return ResponseEntity.ok("Modified");
     }
 
-    @CrossOrigin
     @PatchMapping(path = "data/edit", consumes = {"multipart/form-data"})
     public ResponseEntity<?> editData(@RequestPart(value = "file", required = false) MultipartFile file, @RequestPart("data") EditDataRequest editDataRequest, Principal principal) throws IOException, NoSuchAlgorithmException {
 
