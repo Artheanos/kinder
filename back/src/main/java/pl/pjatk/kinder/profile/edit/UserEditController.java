@@ -3,14 +3,11 @@ package pl.pjatk.kinder.profile.edit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.pjatk.kinder.entity.Photo;
 import pl.pjatk.kinder.entity.User;
-import pl.pjatk.kinder.profile.response.NameRequest;
 import pl.pjatk.kinder.repo.UserRepository;
 import pl.pjatk.kinder.services.PhotoService;
 
