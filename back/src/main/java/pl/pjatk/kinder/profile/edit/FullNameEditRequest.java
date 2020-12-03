@@ -1,13 +1,12 @@
 package pl.pjatk.kinder.profile.edit;
 
-public class PersonalEditRequest {
+public class FullNameEditRequest {
 
     private String name;
     private String surname;
     private String password;
-    private String email;
 
-    public PersonalEditRequest() {
+    public FullNameEditRequest() {
     }
 
     public String getName() {
@@ -32,13 +31,5 @@ public class PersonalEditRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

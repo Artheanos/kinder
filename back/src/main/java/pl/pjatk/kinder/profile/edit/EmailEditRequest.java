@@ -1,10 +1,19 @@
 package pl.pjatk.kinder.profile.edit;
 
-public class PasswordValidationRequest {
+public class EmailEditRequest {
 
+    private String email;
     private String password;
 
-    public PasswordValidationRequest() {
+    public EmailEditRequest() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

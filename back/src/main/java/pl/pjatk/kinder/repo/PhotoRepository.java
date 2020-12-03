@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface PhotoRepository extends CrudRepository<Photo, Long> {
 
+    Optional<Photo> findByUrl(String url);
 }

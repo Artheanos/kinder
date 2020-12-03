@@ -45,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -53,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/word").authenticated()
                 .antMatchers("/user").authenticated()
                 .antMatchers("/users").authenticated()
+                .antMatchers("/friends").authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
