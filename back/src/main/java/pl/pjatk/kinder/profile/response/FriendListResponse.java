@@ -2,6 +2,7 @@ package pl.pjatk.kinder.profile.response;
 
 import pl.pjatk.kinder.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendListResponse {
@@ -9,6 +10,7 @@ public class FriendListResponse {
     List<BasicUserInfoResponse> friends;
 
     public FriendListResponse() {
+        friends = new ArrayList<>();
     }
 
     public void addFriendEntity(BasicUserInfoResponse response) {
