@@ -60,7 +60,7 @@ public class FriendController {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
-        User user = (User) principal;
+        User user = userRepository.findByEmail(principal.getName()).get();
         User friendToAdd = userRepository.findByUrlId(urlId).get();
         Friend userFriendRelation = new Friend(user, friendToAdd, false);
         Friend friendUserRelation = new Friend(friendToAdd, user, false);
@@ -102,7 +102,7 @@ public class FriendController {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
-        User user = (User) principal;
+        User user = userRepository.findByEmail(principal.getName()).get();
         User friendToAdd = userRepository.findByUrlId(urlId).get();
         Friend userFriendRelation = user.getFriends().stream().filter(e -> e.getFriendId().getId() == friendToAdd.getId()).findFirst().get();
         Friend friendUserRelation = friendToAdd.getFriends().stream().filter(e -> e.getFriendId().getId() == user.getId()).findFirst().get();
