@@ -9,6 +9,7 @@ function Navbar() {
                 <NavbarItem title="Home" to="/home"/>
                 <NavbarItem title="Profile" to={`/profile/${localStorage.getItem('urlId')}`}/>
                 <NavbarItem title="Settings" to={`/settings`}/>
+                <NavbarItem title="Friends" to={`/friends`}/>
             </nav>
         </div>
     )

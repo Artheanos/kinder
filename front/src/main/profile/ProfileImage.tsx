@@ -1,13 +1,20 @@
 import React from "react";
-import {ProfileObject} from "./Profile";
+import {UserFullObject} from "./Profile";
 import default_image from './default_image.jpg';
 
-class ProfileImage extends React.Component<{ editable: boolean, profile: Exclude<ProfileObject, null> },
-    { fileInput: React.RefObject<HTMLInputElement> }> {
+class ProfileImage extends React.Component<{ editable: boolean, profile: Exclude<UserFullObject, null> },
+    { fileInput: React.RefObject<HTMLInputElement>, imageSrc: string }> {
     constructor(props: any, context: any) {
         super(props, context);
+        let imageSrc;
+        if (this.props.profile.photoUrl) {
+            imageSrc = 'http://192.168.1.93:3080/photos/' + this.props.profile.photoUrl
+        } else {
+            imageSrc = default_image;
+        }
         this.state = {
-            fileInput: React.createRef()
+            fileInput: React.createRef(),
+            imageSrc
         }
     }
 
@@ -15,7 +22,7 @@ class ProfileImage extends React.Component<{ editable: boolean, profile: Exclude
         if (this.props.editable) {
             return (
                 <div>
-                    <img src={('http://192.168.1.93:3080/photos/' + this.props.profile.photoUrl) || default_image}
+                    <img src={this.state.imageSrc}
                          alt={this.props.profile.name}/>
                     <input type="file" accept="image/x-png,image/gif,image/jpeg" className="form-control-file"
                            id="imageInput" style={{'cursor': 'pointer'}} ref={this.state.fileInput}/>
@@ -24,7 +31,8 @@ class ProfileImage extends React.Component<{ editable: boolean, profile: Exclude
         } else {
             return (
                 <div>
-                    <img src={('http://192.168.1.93:3080/photos/' + this.props.profile.photoUrl) || default_image} alt={this.props.profile.name}/>
+                    <img src={this.state.imageSrc}
+                         alt={this.props.profile.name}/>
                 </div>
             )
         }

@@ -4,7 +4,7 @@ import {RouteComponentProps} from "react-router";
 import ProfileSection from "./ProfileSection";
 import ProfileImage from "./ProfileImage";
 
-export type ProfileObject = {
+export type UserFullObject = {
     name: string,
     surname: string,
     urlId: string,
@@ -13,14 +13,14 @@ export type ProfileObject = {
     city: string | null,
 } | null;
 
-async function getProfileByUrlId(urlId: string): Promise<ProfileObject> {
+async function getProfileByUrlId(urlId: string): Promise<UserFullObject> {
     let x = await fetch(`http://192.168.1.93:3080/users/${urlId}/full`);
     return JSON.parse(await x.text());
 }
 
 type ProfileState = {
     profileId: string,
-    profile: ProfileObject,
+    profile: UserFullObject,
     editing: boolean,
     isMe: boolean,
 
@@ -52,6 +52,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.invite = this.invite.bind(this);
     }
 
     componentDidMount() {
@@ -147,6 +148,26 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
     //     })
     // }
 
+    invite(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        if (this.state.profile) {
+            fetch(`http://192.168.1.93:3080/friends/${this.state.profile.urlId}/add`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                },
+            }).then(res => {
+                if (res.status === 200) {
+                    alert("User invited");
+                } else {
+                    alert("ERROR\n" + res.status)
+                }
+            })
+        } else {
+            alert("wait a bit")
+        }
+    }
+
     render() {
         if (this.state.profile !== null) {
             return (
@@ -198,6 +219,9 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                                         </button>
                                     : null
                                 }
+                            </div>
+                            <div className="col justify-content-end d-flex">
+                                <button className="btn btn-dark" onClick={this.invite}>Add friend</button>
                             </div>
                         </div>
                     </form>

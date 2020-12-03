@@ -16,8 +16,7 @@ ReactDOM.render(
         <Router>
             <Switch>
                 <Route exact path="/" component={Welcome}/>
-                <Route path={["/home", "/profile", "/settings"]} component={Main}/>
-                <Route path="*" component={NotFound}/>
+                <Route path="*" component={Main}/>
             </Switch>
         </Router>
     </React.StrictMode>
