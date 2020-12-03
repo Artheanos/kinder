@@ -5,19 +5,22 @@ import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {BrowserRouter as Router, Route} from "react-router-dom";
-import Home from "./home/Home";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Welcome from "./welcome/Welcome";
+import Main from "./main/Main";
+import NotFound from "./common/NotFound";
 
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
-            <Route exact path="/" component={Welcome}/>
-            <Route exact path="/auth" component={Welcome}/>
-            <Route path="/home" component={Home}/>
+            <Switch>
+                <Route exact path="/" component={Welcome}/>
+                <Route path="*" component={Main}/>
+            </Switch>
         </Router>
-    </React.StrictMode>,
+    </React.StrictMode>
+    ,
     document.getElementById('root')
 );
 

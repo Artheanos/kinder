@@ -6,6 +6,7 @@ type FormInputProps = {
     label?: string,
     placeholder?: string,
     type?: string,
+    initialValue?: string,
 }
 
 type FormInputState = FormInputProps & { value: string }
@@ -22,8 +23,8 @@ abstract class FormInput<T = {}> extends React.Component<T & FormInputProps, For
             name: props.name,
             label: props.label || capitalize(props.name),
             placeholder: props.placeholder || '',
-            type: props.type || 'text',
-            value: '',
+            value: props.initialValue || '',
+            type: props.type || 'text'
         }
 
         this.showWarning = this.showWarning.bind(this);

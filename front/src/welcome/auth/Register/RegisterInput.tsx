@@ -1,10 +1,12 @@
 import FormInput from "../FormInput";
 
 /** Return a string describing what's wrong with the value or return falsy if it's okay */
-type getInvalidMessageFunction = (value: string) => any;
 
+type RegisterInputProps = {
+    getInvalidMessage: (value: string) => any;
+}
 
-class RegisterInput extends FormInput<{ getInvalidMessage: getInvalidMessageFunction }> {
+class RegisterInput extends FormInput<RegisterInputProps> {
     showWarning(str?: string): void {
         const classList = this.inputWrapper.current!.classList;
 

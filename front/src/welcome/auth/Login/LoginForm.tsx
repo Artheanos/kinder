@@ -6,7 +6,7 @@ import FormProps from "../FormProps";
 class LoginForm extends React.Component<FormProps> {
     emailInput: React.RefObject<LoginInput> = React.createRef();
     passwordInput: React.RefObject<LoginInput> = React.createRef();
-    loginButton: React.RefObject<any> = React.createRef();
+    loginButton: React.RefObject<HTMLButtonElement> = React.createRef();
     warning: React.RefObject<HTMLDivElement> = React.createRef();
 
     constructor(props: any) {
@@ -40,7 +40,7 @@ class LoginForm extends React.Component<FormProps> {
             return;
         }
 
-        this.loginButton.current.classList.add('loading');
+        this.loginButton.current!.classList.add('loading');
 
         fetch('http://192.168.1.93:3080/login', {
             method: 'POST',
@@ -54,9 +54,11 @@ class LoginForm extends React.Component<FormProps> {
         }).then(response => {
                 if (response.status === 200) {
                     response.text().then((resString) => {
-                        const data = JSON.parse(resString);
-                        for (let key in data) if (data.hasOwnProperty(key))
-                            localStorage.setItem(key, data[key]);
+                        const receivedData = JSON.parse(resString);
+                        console.log(receivedData);
+                        for (let key in receivedData) if (receivedData.hasOwnProperty(key)) {
+                            localStorage.setItem(key, receivedData[key]);
+                        }
                         this.props.history.push('/home');
                     }).catch((err) => {
                         alert('RESPONSE ERROR\n' + err);
@@ -67,7 +69,10 @@ class LoginForm extends React.Component<FormProps> {
             }
         ).catch((err) => {
             alert("ERROR\n" + err);
-        }).finally(() => this.loginButton.current.classList.remove('loading'));
+        }).finally(() => {
+            if (this.loginButton.current)
+                this.loginButton.current.classList.remove('loading')
+        });
     }
 
     render() {
