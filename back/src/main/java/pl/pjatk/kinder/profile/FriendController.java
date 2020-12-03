@@ -38,8 +38,10 @@ public class FriendController {
         List<User> friends = user.getFriends().stream().filter(Friend::isAccepted).map(Friend::getFriendId).collect(Collectors.toList());
         FriendListResponse response = new FriendListResponse();
         for (User actualUser : friends) {
-            Photo photo = user.getPhoto();
-            response.addFriendEntity(new BasicUserInfoResponse(actualUser.getName(), actualUser.getSurname(), actualUser.getUrlId(), photo == null ? null : photo.getUrl()));
+            if(actualUser.getFriends().get(actualUser.getFriends().indexOf(user)).isAccepted()) {
+                Photo photo = user.getPhoto();
+                response.addFriendEntity(new BasicUserInfoResponse(actualUser.getName(), actualUser.getSurname(), actualUser.getUrlId(), photo == null ? null : photo.getUrl()));
+            }
         }
         return ResponseEntity.ok(response);
     }
