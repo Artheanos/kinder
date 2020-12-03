@@ -1,3 +1,19 @@
+.Settings {
+  width: 100%;
+}
+.Settings .settings-choice {
+  margin: auto;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+}
+.Settings .settings-choice a {
+  margin: 0 2rem;
+}
+.Settings .settings-choice a.active {
+  background: green;
+}
+
 .Navbar {
   width: 100%;
   background: #f4f0ea;

@@ -8,6 +8,7 @@ function Navbar() {
                 <a className="nav-item font-weight-bold" href="/home">Kinder</a>
                 <NavbarItem title="Home" to="/home"/>
                 <NavbarItem title="Profile" to={`/profile/${localStorage.getItem('urlId')}`}/>
+                <NavbarItem title="Settings" to={`/settings`}/>
             </nav>
         </div>
     )

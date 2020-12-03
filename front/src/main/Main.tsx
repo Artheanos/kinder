@@ -3,7 +3,7 @@ import {Redirect, Route} from "react-router-dom";
 import Navbar from "./Navbar";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
-import ProfilePrivateForm from "./profile/ProfilePrivateForm";
+import Settings from "./settings/Settings";
 
 class Main extends React.Component {
     render() {
@@ -17,7 +17,7 @@ class Main extends React.Component {
                 <Route path="/" component={Navbar}/>
                 <Route path="/home" component={Home}/>
                 <Route path="/profile/:profileId" component={Profile}/>
-                <Route path="/profile-private-form" component={ProfilePrivateForm}/>
+                <Route path="/settings" component={Settings}/>
             </div>
         )
     }

@@ -7,8 +7,8 @@ import ProfileImage from "./ProfileImage";
 export type ProfileObject = {
     name: string,
     surname: string,
-    user_id: string,
-    image_url: string | null,
+    urlId: string,
+    photoUrl: string | null,
     description: string | null,
     city: string | null,
 } | null;
@@ -27,6 +27,7 @@ type ProfileState = {
     inputAbout: React.RefObject<ProfileSection>,
     inputFrom: React.RefObject<ProfileSection>,
     submitButton: React.RefObject<HTMLButtonElement>,
+    profileImage: React.RefObject<ProfileImage>
 };
 
 type ProfileUrlParams = {
@@ -40,6 +41,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
         super(props, context);
         this.state = {
             profileId: this.props.match.params.profileId,
+            profileImage: React.createRef(),
             profile: null,
             editing: false,
             isMe: props.match.params.profileId === localStorage.getItem('urlId'),
@@ -76,20 +78,54 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
 
     handleSubmit(e: FormEvent) {
         e.preventDefault();
-        fetch(`http://192.168.1.93:3080/user/${localStorage.getItem('urlId')}/name`,
+        let formData = new FormData();
+        let files = this.state.profileImage.current!.state.fileInput.current!.files;
+        if (files && files.length) {
+            formData.append('file', files[0])
+            console.log(files[0]);
+        }
+        // formData.append(
+        //     "data",
+        //     JSON.stringify({
+        //         "city": "a",
+        //         "description": "b",
+        //         "urlId": "Jan.Kowalski928"
+        //     })
+        // )
+        formData.append("data",
+            new Blob(
+                [JSON.stringify({
+                    "city": this.state.inputFrom.current!.state.inputValue,
+                    "description": this.state.inputAbout.current!.state.inputValue,
+                    "urlId": localStorage.getItem('urlId')
+                })],
+                {type: "application/json"}
+            )
+        )
+        fetch(`http://192.168.1.93:3080/user/data/edit`,
             {
-                method: 'POST',
+                method: 'PATCH',
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: JSON.stringify({
-                        name: this.state.inputAbout.current!.state.inputValue
-                    }
-                )
+                body: formData
             }
         ).then(i => {
-            console.log(i);
-        });
+            if (i.status === 200) {
+                this.state.profile!.description = this.state.inputAbout.current!.state.inputValue;
+                this.state.profile!.city = this.state.inputFrom.current!.state.inputValue;
+            } else {
+                alert("ERROR " + i.status)
+            }
+        }).finally(() => {
+                if (this.state.submitButton) {
+                    this.state.submitButton.current!.classList.remove('loading');
+                    this.state.submitButton.current!.innerHTML = 'Save';
+                }
+                this.setState({editing: false})
+            }
+        )
+
         // this.state.submitButton.current!.classList.add('loading');
         // this.state.submitButton.current!.innerHTML = 'Saving...';
         // setTimeout(() => {
@@ -120,7 +156,8 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                             <div className="left-pane col-sm-6">
                                 <div className="card">
                                     <div className="card-header">
-                                        <ProfileImage profile={this.state.profile!} editable={this.state.editing}/>
+                                        <ProfileImage profile={this.state.profile!} editable={this.state.editing}
+                                                      ref={this.state.profileImage}/>
                                     </div>
                                     <div className="card-body">
                                         <div className="name">
@@ -161,11 +198,6 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                                         </button>
                                     : null
                                 }
-                                <br/><button className="btn btn-secondary" onClick={() => {
-                                    this.props.history.push('/profile-private-form');
-                                }}>
-                                    Edit info
-                                </button>
                             </div>
                         </div>
                     </form>

@@ -1,3 +1,22 @@
+.Settings {
+  width: 100%;
+
+  .settings-choice {
+    margin: auto;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+
+    a {
+      margin: 0 2rem;
+    }
+
+    a.active {
+      background: green;
+    }
+  }
+}
+
 .Navbar {
   width: 100%;
   $navbar-background: #f4f0ea;

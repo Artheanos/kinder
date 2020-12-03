@@ -69,7 +69,10 @@ class LoginForm extends React.Component<FormProps> {
             }
         ).catch((err) => {
             alert("ERROR\n" + err);
-        }).finally(() => this.loginButton.current!.classList.remove('loading'));
+        }).finally(() => {
+            if (this.loginButton.current)
+                this.loginButton.current.classList.remove('loading')
+        });
     }
 
     render() {
