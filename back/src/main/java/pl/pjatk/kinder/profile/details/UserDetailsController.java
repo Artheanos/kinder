@@ -1,12 +1,10 @@
-package pl.pjatk.kinder.profile;
+package pl.pjatk.kinder.profile.details;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import pl.pjatk.kinder.entity.Photo;
 import pl.pjatk.kinder.entity.User;
-import pl.pjatk.kinder.profile.response.BasicUserInfoResponse;
-import pl.pjatk.kinder.profile.response.FullUserInfoResponse;
 import pl.pjatk.kinder.repo.UserRepository;
 
 import java.io.IOException;

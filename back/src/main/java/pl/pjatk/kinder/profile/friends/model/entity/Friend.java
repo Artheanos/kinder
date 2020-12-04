@@ -1,4 +1,6 @@
-package pl.pjatk.kinder.entity;
+package pl.pjatk.kinder.profile.friends.model.entity;
+
+import pl.pjatk.kinder.entity.User;
 
 import javax.persistence.*;
 

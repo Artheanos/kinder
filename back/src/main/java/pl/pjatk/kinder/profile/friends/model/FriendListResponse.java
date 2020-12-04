@@ -1,6 +1,6 @@
-package pl.pjatk.kinder.profile.response;
+package pl.pjatk.kinder.profile.friends.model;
 
-import pl.pjatk.kinder.entity.User;
+import pl.pjatk.kinder.profile.details.BasicUserInfoResponse;
 
 import java.util.ArrayList;
 import java.util.List;

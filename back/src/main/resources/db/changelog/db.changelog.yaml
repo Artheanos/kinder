@@ -142,3 +142,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20203011_change_to_url_id.sql
+
+  - changeSet:
+      id: 20200412_add_user_friend_request
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20200412_add_user_friend_request.sql

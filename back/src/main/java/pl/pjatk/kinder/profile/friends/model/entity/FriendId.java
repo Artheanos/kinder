@@ -1,4 +1,4 @@
-package pl.pjatk.kinder.entity;
+package pl.pjatk.kinder.profile.friends.model.entity;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;

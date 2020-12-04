@@ -1,4 +1,4 @@
-package pl.pjatk.kinder.profile.response;
+package pl.pjatk.kinder.profile.details;
 
 public class BasicUserInfoResponse {
 

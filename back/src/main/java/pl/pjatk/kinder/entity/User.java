@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.pjatk.kinder.profile.friends.model.entity.Friend;
 
 import javax.persistence.*;
 import java.util.*;
@@ -34,7 +35,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friend> friends = new ArrayList<>();
 
     /*@ManyToMany(cascade = { CascadeType.ALL })

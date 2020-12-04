@@ -1,4 +1,4 @@
-package pl.pjatk.kinder.profile.edit;
+package pl.pjatk.kinder.profile.account_edit;
 
 public class EditDataRequest {
 

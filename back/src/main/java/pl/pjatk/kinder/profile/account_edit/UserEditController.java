@@ -1,4 +1,4 @@
-package pl.pjatk.kinder.profile.edit;
+package pl.pjatk.kinder.profile.account_edit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
