@@ -81,7 +81,6 @@ class RegisterForm extends React.Component<FormProps, { inputs: Inputs, registra
                     <h1 className="header">Register</h1>
                     <div className="content">
                         <div className="form">
-
                             <RegisterInput ref={this.state.inputs.name} name="name"
                                            getInvalidMessage={(v: string) => {
                                                if (v.length === 0 || v.match(/\S/) === null) {
