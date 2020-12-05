@@ -1,7 +1,7 @@
 import React from "react";
-import Friend from "./components/Friend";
 import FriendList from "./components/FriendList";
 import FriendRequest from "./components/FriendRequest";
+import FriendSearch from "./components/FriendSearch";
 
 export type UserBasicObject = {
     name: string,
@@ -11,7 +11,7 @@ export type UserBasicObject = {
 };
 
 type FriendPageState = {
-    friendList: React.RefObject<FriendList>,
+    friendList: UserBasicObject[],
     requestList: JSX.Element[]
 }
 
@@ -20,7 +20,7 @@ class FriendPage extends React.Component<{}, FriendPageState> {
     constructor(props: any, context: any) {
         super(props, context);
         this.state = {
-            friendList: React.createRef(),
+            friendList: [],
             requestList: []
         }
     }
@@ -31,7 +31,9 @@ class FriendPage extends React.Component<{}, FriendPageState> {
                 let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
                 console.log('friends - ', values);
                 if (values) {
-                    this.state.friendList.current?.setState({userBasics: values})
+                    this.setState({
+                        friendList: values
+                    })
                 }
             })
         })
@@ -56,8 +58,9 @@ class FriendPage extends React.Component<{}, FriendPageState> {
 
     render() {
         return (
-            <div className="Friend-page">
-                <FriendList ref={this.state.friendList}/>
+            <div className="Friend-page container">
+                <FriendSearch/>
+                <FriendList friends={this.state.friendList}/>
                 <div className="friend-requests">
                     {this.state.requestList}
                 </div>
