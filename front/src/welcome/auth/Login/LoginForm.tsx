@@ -42,7 +42,7 @@ class LoginForm extends React.Component<FormProps> {
 
         this.loginButton.current!.classList.add('loading');
 
-        fetch('http://192.168.1.93:3080/login', {
+        fetch('http://89.68.129.242:3080/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +55,6 @@ class LoginForm extends React.Component<FormProps> {
                 if (response.status === 200) {
                     response.text().then((resString) => {
                         const receivedData = JSON.parse(resString);
-                        console.log(receivedData);
                         for (let key in receivedData) if (receivedData.hasOwnProperty(key)) {
                             localStorage.setItem(key, receivedData[key]);
                         }

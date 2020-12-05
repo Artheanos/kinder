@@ -14,7 +14,7 @@ class FriendRequest extends React.Component<FriendRequestProps> {
     }
 
     accept() {
-        fetch(`http://192.168.1.93:3080/friends/${this.props.user.urlId}/confirm`, {
+        fetch(`http://89.68.129.242:3080/friends/${this.props.user.urlId}/confirm`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
@@ -29,7 +29,7 @@ class FriendRequest extends React.Component<FriendRequestProps> {
     }
 
     decline() {
-        fetch(`http://192.168.1.93:3080/friends/${this.props.user.urlId}`, {
+        fetch(`http://89.68.129.242:3080/friends/${this.props.user.urlId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,

@@ -1,20 +1,14 @@
 import React from "react";
 import {UserFullObject} from "./Profile";
-import default_image from './default_image.jpg';
+import {photoUrl} from "../../common/util";
 
 class ProfileImage extends React.Component<{ editable: boolean, profile: Exclude<UserFullObject, null> },
     { fileInput: React.RefObject<HTMLInputElement>, imageSrc: string }> {
     constructor(props: any, context: any) {
         super(props, context);
-        let imageSrc;
-        if (this.props.profile.photoUrl) {
-            imageSrc = 'http://192.168.1.93:3080/photos/' + this.props.profile.photoUrl
-        } else {
-            imageSrc = default_image;
-        }
         this.state = {
             fileInput: React.createRef(),
-            imageSrc
+            imageSrc: photoUrl(this.props.profile.photoUrl)
         }
     }
 

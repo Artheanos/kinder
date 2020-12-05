@@ -1,10 +1,9 @@
 import React from "react";
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 import Navbar from "./Navbar";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
 import Settings from "./settings/Settings";
-import NotFound from "../common/NotFound";
 import FriendPage from "./friends/FriendPage";
 
 class Main extends React.Component {

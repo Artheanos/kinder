@@ -14,7 +14,7 @@ export type UserFullObject = {
 } | null;
 
 async function getProfileByUrlId(urlId: string): Promise<UserFullObject> {
-    let x = await fetch(`http://192.168.1.93:3080/users/${urlId}/full`);
+    let x = await fetch(`http://89.68.129.242:3080/users/${urlId}/full`);
     return JSON.parse(await x.text());
 }
 
@@ -33,7 +33,7 @@ type ProfileState = {
 type ProfileUrlParams = {
     profileId: string
 }
-type ProfileProps = RouteComponentProps<ProfileUrlParams>;
+export type ProfileProps = RouteComponentProps<ProfileUrlParams>;
 
 class Profile extends React.Component<ProfileProps, ProfileState> {
 
@@ -83,7 +83,6 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
         let files = this.state.profileImage.current!.state.fileInput.current!.files;
         if (files && files.length) {
             formData.append('file', files[0])
-            console.log(files[0]);
         }
         // formData.append(
         //     "data",
@@ -103,7 +102,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 {type: "application/json"}
             )
         )
-        fetch(`http://192.168.1.93:3080/user/data/edit`,
+        fetch(`http://89.68.129.242:3080/user/data/edit`,
             {
                 method: 'PATCH',
                 headers: {
@@ -151,7 +150,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
     invite(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         if (this.state.profile) {
-            fetch(`http://192.168.1.93:3080/friends/${this.state.profile.urlId}/add`, {
+            fetch(`http://89.68.129.242:3080/friends/${this.state.profile.urlId}/add`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,
