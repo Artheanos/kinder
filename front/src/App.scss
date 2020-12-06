@@ -33,9 +33,21 @@
 }
 
 .Friend {
-  img {
-    max-width: 200px;
+  $img-square-size: 100px;
+
+  .img-wrapper {
+    width: $img-square-size;
+    height: $img-square-size;
+
+    img {
+      max-width: $img-square-size;
+      max-height: $img-square-size;
+      border-radius: 5px;
+    }
   }
+
+  align-items: center;
+  justify-content: space-between;
 }
 
 .Settings {
@@ -119,6 +131,7 @@
   .left-pane {
     img {
       max-width: 200px;
+      max-height: 200px;
       border-radius: 6px;
     }
 

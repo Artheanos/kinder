@@ -1,5 +1,5 @@
 import React from "react";
-import {UserFullObject} from "./Profile";
+import { UserFullObject } from "../../common/UserObjects";
 import {photoUrl} from "../../common/util";
 
 class ProfileImage extends React.Component<{ editable: boolean, profile: Exclude<UserFullObject, null> },

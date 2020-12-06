@@ -3,13 +3,8 @@ import FriendList from "./components/FriendList";
 import FriendRequest from "./components/FriendRequest";
 import FriendSearch from "./components/FriendSearch";
 import {KINDER_BACK_URL} from "../../common/util";
+import {UserBasicObject} from "../../common/UserObjects";
 
-export type UserBasicObject = {
-    name: string,
-    surname: string,
-    urlId: string,
-    photoUrl: string | null,
-};
 
 type FriendPageState = {
     friendList: UserBasicObject[],

@@ -1,6 +1,6 @@
 import React from "react";
-import {UserBasicObject} from "../FriendPage";
 import {KINDER_BACK_URL} from "../../../common/util";
+import {UserBasicObject} from "../../../common/UserObjects";
 
 type FriendRequestProps = {
     user: UserBasicObject

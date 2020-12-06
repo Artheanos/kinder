@@ -1,6 +1,6 @@
 import React from 'react';
-import {UserFullObject} from "./Profile";
 import {KINDER_BACK_URL} from "../../common/util";
+import {UserFullObject} from "../../common/UserObjects";
 
 function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
     function invite(e: React.MouseEvent<HTMLButtonElement>) {

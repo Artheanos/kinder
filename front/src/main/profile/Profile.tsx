@@ -5,15 +5,7 @@ import ProfileSection from "./ProfileSection";
 import ProfileImage from "./ProfileImage";
 import AddFriendButton from "./AddFriendButton";
 import {KINDER_BACK_URL} from "../../common/util";
-
-export type UserFullObject = {
-    name: string,
-    surname: string,
-    urlId: string,
-    photoUrl: string | null,
-    description: string | null,
-    city: string | null,
-};
+import {UserFullObject} from "../../common/UserObjects";
 
 async function getProfileByUrlId(urlId: string): Promise<UserFullObject> {
     let x = await fetch(`${KINDER_BACK_URL}/users/${urlId}/full`);
