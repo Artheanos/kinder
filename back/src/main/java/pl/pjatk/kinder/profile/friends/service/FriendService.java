@@ -35,11 +35,7 @@ public class FriendService {
     public ResponseEntity<FriendListResponse> getFriendList(String urlId) {
         User user = userRepository.findByUrlId(urlId).get();
         List<User> friends = user.getFriends().stream().map(Friend::getFriendId).collect(Collectors.toList());
-        FriendListResponse response = new FriendListResponse();
-        for (User actualUser : friends) {
-            Photo photo = user.getPhoto();
-            response.addFriendEntity(new BasicUserInfoResponse(actualUser.getName(), actualUser.getSurname(), actualUser.getUrlId(), photo == null ? null : photo.getUrl()));
-        }
+        FriendListResponse response = buildFriendListResponse(friends);
         return ResponseEntity.ok(response);
     }
 
@@ -48,12 +44,17 @@ public class FriendService {
         User user = userRepository.findByEmail(principal).get();
         List<FriendRequest> requests = friendRequestRepository.findAllByFriendId(user.getId());
         List<User> friends = requests.stream().map(FriendRequest::getUser).collect(Collectors.toList());
+        FriendListResponse response = buildFriendListResponse(friends);
+        return ResponseEntity.ok(response);
+    }
+
+    private FriendListResponse buildFriendListResponse(List<User> friends) {
         FriendListResponse response = new FriendListResponse();
         for (User actualUser : friends) {
-            Photo photo = user.getPhoto();
+            Photo photo = actualUser.getPhoto();
             response.addFriendEntity(new BasicUserInfoResponse(actualUser.getName(), actualUser.getSurname(), actualUser.getUrlId(), photo == null ? null : photo.getUrl()));
         }
-        return ResponseEntity.ok(response);
+        return response;
     }
 
     public ResponseEntity<?> sendFriendRequest(String userEmail, String friendUrlId) {
