@@ -4,6 +4,7 @@ import {RouteComponentProps} from "react-router";
 import ProfileSection from "./ProfileSection";
 import ProfileImage from "./ProfileImage";
 import AddFriendButton from "./AddFriendButton";
+import {KINDER_BACK_URL} from "../../common/util";
 
 export type UserFullObject = {
     name: string,
@@ -15,7 +16,7 @@ export type UserFullObject = {
 };
 
 async function getProfileByUrlId(urlId: string): Promise<UserFullObject> {
-    let x = await fetch(`http://192.168.1.93:3080/users/${urlId}/full`);
+    let x = await fetch(`${KINDER_BACK_URL}/users/${urlId}/full`);
     return JSON.parse(await x.text());
 }
 
@@ -102,7 +103,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 {type: "application/json"}
             )
         )
-        fetch(`http://192.168.1.93:3080/user/data/edit`,
+        fetch(`${KINDER_BACK_URL}/user/data/edit`,
             {
                 method: 'PATCH',
                 headers: {

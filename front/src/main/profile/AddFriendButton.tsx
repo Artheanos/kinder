@@ -1,11 +1,12 @@
 import React from 'react';
 import {UserFullObject} from "./Profile";
+import {KINDER_BACK_URL} from "../../common/util";
 
 function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
     function invite(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         if (props.profile) {
-            fetch(`http://192.168.1.93:3080/friends/${props.profile.urlId}/add`, {
+            fetch(`${KINDER_BACK_URL}/friends/${props.profile.urlId}/add`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,

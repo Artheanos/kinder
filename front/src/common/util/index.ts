@@ -1,5 +1,11 @@
 import default_image from '../../main/profile/default_image.jpg';
 
+// export const KINDER_BACK_IP = '89.68.129.242';
+export const KINDER_BACK_IP = '192.168.1.93';
+export const KINDER_BACK_PORT = 3080
+export const KINDER_BACK_URL = `http://${KINDER_BACK_IP}:${KINDER_BACK_PORT}`;
+export const KINDER_BACK_WS_URL = `ws://${KINDER_BACK_IP}:${KINDER_BACK_PORT}`;
+
 export function randomInt(min: number, max: number) {
     if (max === undefined) {
         [min, max] = [0, min];
@@ -25,7 +31,7 @@ export function profileUrl(urlId: string) {
 
 export function photoUrl(photoId: string | null) {
     if (photoId)
-        return 'http://192.168.1.93:3080/photos/' + photoId;
+        return `${KINDER_BACK_URL}/photos/${photoId}`;
     else
         return default_image;
 }

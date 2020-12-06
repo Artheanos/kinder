@@ -1,7 +1,8 @@
 import React, {FormEvent} from "react";
 import {ProfileProps} from "../main/profile/Profile";
 import ChatMessage from "./ChatMessage";
-import {Client, CompatClient, Stomp} from '@stomp/stompjs';
+import {CompatClient, Stomp} from '@stomp/stompjs';
+import {KINDER_BACK_WS_URL} from "../common/util";
 
 type ChatPageState = {
     messages: JSX.Element[],
@@ -25,7 +26,7 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
     }
 
     connect() {
-        this.client = Stomp.client('ws://192.168.1.93:3080/chat');
+        this.client = Stomp.client(`${KINDER_BACK_WS_URL}/chat`);
 
         this.client.connect({}, (frame: any) => {
                 this.client!.subscribe(
