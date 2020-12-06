@@ -23,8 +23,8 @@ public class Event {
     private State state;
 
 
-    @ManyToMany(mappedBy = "events")
-    private List<User> users = new ArrayList<>();
+   // @ManyToMany(mappedBy = "events")
+   // private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "event")
     private List<Ticket> tickets;
@@ -108,13 +108,13 @@ public class Event {
         this.state = state;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
+   // public List<User> getUsers() {
+    //    return users;
+    //}
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+    //public void setUsers(List<User> users) {
+   //     this.users = users;
+    //}
 
     public List<Ticket> getTickets() {
         return tickets;

@@ -1,13 +1,13 @@
 package pl.pjatk.kinder.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.pjatk.kinder.profile.friends.model.entity.Friend;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
@@ -21,11 +21,24 @@ public class User implements UserDetails {
     private String name;
     private String surname;
     private String email;
+
+    @JsonIgnore
     private String password;
     private Role role;
+    private String city;
+    private String description;
 
+    @Column(name = "url_id")
+    private String urlId;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Friend> friends = new ArrayList<>();
+
+    /*@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "user_event",
             joinColumns = { @JoinColumn(name = "user_id") },
@@ -35,9 +48,10 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets;
+*/
+
 
     public User(){}
-
 
     public User(String name, String surname, String email, String password) {
         this.name = name;
@@ -45,6 +59,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = Role.ROLE_USER;
+        this.urlId = name + "." + surname + new Random().nextInt(1000);
     }
 
     public Long getId() {
@@ -126,5 +141,48 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public String getCity() {
+        return city;
+    }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(String userId) {
+        this.urlId = userId;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
+    public void addFriend(Friend friend) {
+        if (friends == null) friends = new ArrayList<>();
+        friends.add(friend);
+    }
+
+    public List<Friend> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Friend> friends) {
+        this.friends = friends;
+    }
 }

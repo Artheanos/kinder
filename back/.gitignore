@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+photos/*
+src/main/resources/static/

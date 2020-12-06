@@ -97,3 +97,57 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20201511_add_event_subcategory_relation.sql
+
+  - changeSet:
+      id: 20202211_add_user_details_and_photo_table
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202211_add_user_details_and_photo_table.sql
+
+  - changeSet:
+      id: 20202611_add_friends
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202611_add_friends.sql
+
+  - changeSet:
+      id: 20202611_add_default_field
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202611_add_default_field.sql
+
+  - changeSet:
+      id: 20202911_add_chat_tables
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202911_add_chat_tables.sql
+
+  - changeSet:
+      id: 20203011_change_to_url_id
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20203011_change_to_url_id.sql
+
+  - changeSet:
+      id: 20200412_add_user_friend_request
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20200412_add_user_friend_request.sql
