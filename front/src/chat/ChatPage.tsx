@@ -25,26 +25,16 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
     }
 
     connect() {
-        // let socket = new SockJS('/gs-guide-websocket');
-        // stompClient = Stomp.over(socket);
-        // stompClient.connect({}, function (frame) {
-        //     setConnected(true);
-        //     console.log('Connected: ' + frame);
-        //     stompClient.subscribe('/topic/greetings', function (greeting) {
-        //         showGreeting(JSON.parse(greeting.body).content);
-        //     });
-        // });
-
         this.client = Stomp.client('ws://192.168.1.93:3080/chat');
 
         this.client.connect({}, (frame: any) => {
-            this.client!.subscribe(
-                "/topic/" + this.props.match.params.profileId,
-                (stompMessage) => {
-                    console.log(stompMessage);
-                    // let {senderId, recipientId, message} = JSON.parse(stompMessage.body);
-                    // this.addMessage(message, false);
-                })
+                this.client!.subscribe(
+                    "/topic/" + this.props.match.params.profileId,
+                    (stompMessage) => {
+                        console.log('i got msg', stompMessage);
+                        let {senderId, recipientId, message} = JSON.parse(stompMessage.body);
+                        this.addMessage(message, senderId === localStorage.getItem('urlId'));
+                    })
             }
         )
     }
@@ -64,8 +54,6 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
             'senderId': myId,
             'recipientId': recipientId
         }));
-
-        this.addMessage(messageToSend);
     }
 
     addMessage(text: string, imTheOwner: boolean = true) {
