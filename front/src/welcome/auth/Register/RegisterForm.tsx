@@ -37,7 +37,7 @@ class RegisterForm extends React.Component<FormProps, { inputs: Inputs, registra
             body[key] = value.current!.state.value;
         }
 
-        fetch('http://89.68.129.242:3080/register', {
+        fetch('http://192.168.1.93:3080/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

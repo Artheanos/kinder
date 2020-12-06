@@ -25,7 +25,7 @@ export function profileUrl(urlId: string) {
 
 export function photoUrl(photoId: string | null) {
     if (photoId)
-        return 'http://89.68.129.242:3080/photos/' + photoId;
+        return 'http://192.168.1.93:3080/photos/' + photoId;
     else
         return default_image;
 }

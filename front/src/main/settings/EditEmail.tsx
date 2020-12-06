@@ -19,7 +19,7 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
     }
 
     componentDidMount() {
-        fetch(`http://89.68.129.242:3080/users/${localStorage.getItem('urlId')}/basic`).then(r => {
+        fetch(`http://192.168.1.93:3080/users/${localStorage.getItem('urlId')}/basic`).then(r => {
             r.text().then(value => {
                 let data = JSON.parse(value);
                 for (let i in this.state.inputs) if (this.state.inputs.hasOwnProperty(i)) {
@@ -43,7 +43,7 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
             body[i] = this.state.inputs[i].current!.state.value;
         }
 
-        fetch('http://89.68.129.242:3080/user/fullname/edit', {
+        fetch('http://192.168.1.93:3080/user/fullname/edit', {
             method: "PATCH",
             body: JSON.stringify(body),
             headers: {

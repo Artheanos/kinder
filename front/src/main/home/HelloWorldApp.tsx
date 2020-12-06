@@ -22,7 +22,7 @@ class HelloWorldApp extends React.Component<{}, { text: string }> {
     getTexts() {
         let newLine = this.addLine();
 
-        fetch('http://89.68.129.242:3080/word/').then((x) => {
+        fetch('http://192.168.1.93:3080/word/').then((x) => {
             x.json().then((data) => {
                 newLine.remove();
                 for (let word of data) {
@@ -57,7 +57,7 @@ class HelloWorldApp extends React.Component<{}, { text: string }> {
         this.backup_text = this.state.text;
         this.textInput.current.value = '';
 
-        fetch('http://89.68.129.242:3080/word/', {
+        fetch('http://192.168.1.93:3080/word/', {
             method: 'POST',
             body: JSON.stringify({'word': this.state.text}),
             headers: {

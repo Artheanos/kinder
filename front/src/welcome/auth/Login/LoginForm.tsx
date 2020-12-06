@@ -42,7 +42,7 @@ class LoginForm extends React.Component<FormProps> {
 
         this.loginButton.current!.classList.add('loading');
 
-        fetch('http://89.68.129.242:3080/login', {
+        fetch('http://192.168.1.93:3080/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

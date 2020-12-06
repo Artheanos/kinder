@@ -1,6 +1,7 @@
 import React, {FormEvent} from "react";
 import {ProfileProps} from "../main/profile/Profile";
 import ChatMessage from "./ChatMessage";
+import {Client, CompatClient, Stomp} from '@stomp/stompjs';
 
 type ChatPageState = {
     messages: JSX.Element[],
@@ -8,6 +9,9 @@ type ChatPageState = {
 }
 
 class ChatPage extends React.Component<ProfileProps, ChatPageState> {
+
+    private client: CompatClient | null = null;
+
     constructor(props: ProfileProps, context: any) {
         super(props, context);
         this.state = {
@@ -16,16 +20,57 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.connect = this.connect.bind(this);
+        this.connect();
+    }
+
+    connect() {
+        // let socket = new SockJS('/gs-guide-websocket');
+        // stompClient = Stomp.over(socket);
+        // stompClient.connect({}, function (frame) {
+        //     setConnected(true);
+        //     console.log('Connected: ' + frame);
+        //     stompClient.subscribe('/topic/greetings', function (greeting) {
+        //         showGreeting(JSON.parse(greeting.body).content);
+        //     });
+        // });
+
+        this.client = Stomp.client('ws://192.168.1.93:3080/chat');
+
+        this.client.connect({}, (frame: any) => {
+            this.client!.subscribe(
+                "/topic/" + this.props.match.params.profileId,
+                (stompMessage) => {
+                    console.log(stompMessage);
+                    // let {senderId, recipientId, message} = JSON.parse(stompMessage.body);
+                    // this.addMessage(message, false);
+                })
+            }
+        )
     }
 
     handleSubmit(e: FormEvent) {
         e.preventDefault();
-        this.addMessage(this.state.inputValue)
+        if (this.client === null) {
+            alert("Stomp client is null");
+            return;
+        }
+
+        let messageToSend = this.state.inputValue;
+        let myId = localStorage.getItem('urlId');
+        let recipientId = this.props.match.params.profileId;
+        this.client.send("/app/chat", {}, JSON.stringify({
+            'message': messageToSend,
+            'senderId': myId,
+            'recipientId': recipientId
+        }));
+
+        this.addMessage(messageToSend);
     }
 
-    addMessage(text: string) {
+    addMessage(text: string, imTheOwner: boolean = true) {
         this.setState({
-            messages: this.state.messages.concat(<ChatMessage imTheOwner={true} text={text}/>),
+            messages: this.state.messages.concat(<ChatMessage imTheOwner={imTheOwner} text={text}/>),
             inputValue: '',
         });
     }

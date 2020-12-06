@@ -15,7 +15,7 @@ export type UserFullObject = {
 };
 
 async function getProfileByUrlId(urlId: string): Promise<UserFullObject> {
-    let x = await fetch(`http://89.68.129.242:3080/users/${urlId}/full`);
+    let x = await fetch(`http://192.168.1.93:3080/users/${urlId}/full`);
     return JSON.parse(await x.text());
 }
 
@@ -102,7 +102,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 {type: "application/json"}
             )
         )
-        fetch(`http://89.68.129.242:3080/user/data/edit`,
+        fetch(`http://192.168.1.93:3080/user/data/edit`,
             {
                 method: 'PATCH',
                 headers: {

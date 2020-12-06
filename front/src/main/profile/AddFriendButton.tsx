@@ -5,7 +5,7 @@ function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
     function invite(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         if (props.profile) {
-            fetch(`http://89.68.129.242:3080/friends/${props.profile.urlId}/add`, {
+            fetch(`http://192.168.1.93:3080/friends/${props.profile.urlId}/add`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,

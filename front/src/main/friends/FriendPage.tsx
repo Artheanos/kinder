@@ -26,7 +26,7 @@ class FriendPage extends React.Component<{}, FriendPageState> {
     }
 
     componentDidMount() {
-        fetch('http://89.68.129.242:3080/friends/' + localStorage.getItem('urlId')).then(res => {
+        fetch('http://192.168.1.93:3080/friends/' + localStorage.getItem('urlId')).then(res => {
             res.text().then(txt => {
                 let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
                 console.log('friends - ', values);
@@ -42,7 +42,7 @@ class FriendPage extends React.Component<{}, FriendPageState> {
     }
 
     getFriendRequests() {
-        fetch(`http://89.68.129.242:3080/friends/${localStorage.getItem('urlId')}/requests`, {
+        fetch(`http://192.168.1.93:3080/friends/${localStorage.getItem('urlId')}/requests`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             },
