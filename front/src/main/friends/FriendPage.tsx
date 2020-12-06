@@ -43,7 +43,7 @@ class FriendPage extends React.Component<{}, FriendPageState> {
     }
 
     getFriendRequests() {
-        fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}/requests`, {
+        fetch(`${KINDER_BACK_URL}/friends/requests`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             },
