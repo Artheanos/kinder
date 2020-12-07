@@ -2,7 +2,6 @@ package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,14 +16,21 @@ public class Event {
     private String title;
     private String addres;
     private String description;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private Timestamp startdate;
+    private Timestamp enddate;
     private int capacity;
     private State state;
 
 
-   // @ManyToMany(mappedBy = "events")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+
+   //@ManyToMany(mappedBy = "events")
    // private List<User> users = new ArrayList<>();
+
+
 
     @OneToMany(mappedBy = "event")
     private List<Ticket> tickets;
@@ -34,14 +40,15 @@ public class Event {
 
     public Event(){}
 
-    public Event(String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {
+    public Event(String title, String addres, String description, Timestamp startdate, Timestamp enddate, int capacity, State state, User user) {
         this.title = title;
         this.addres = addres;
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startdate = startdate;
+        this.enddate = enddate;
         this.capacity = capacity;
         this.state = state;
+        this.user = user;
     }
 
     public Long getId() {
@@ -76,20 +83,20 @@ public class Event {
         this.description = description;
     }
 
-    public Timestamp getStartDate() {
-        return startDate;
+    public Timestamp getStartdate() {
+        return startdate;
     }
 
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
+    public void setStartdate(Timestamp startDate) {
+        this.startdate = startDate;
     }
 
-    public Timestamp getEndDate() {
-        return endDate;
+    public Timestamp getEnddate() {
+        return enddate;
     }
 
-    public void setEndDate(Timestamp endDate) {
-        this.endDate = endDate;
+    public void setEnddate(Timestamp endDate) {
+        this.enddate = endDate;
     }
 
     public int getCapacity() {
@@ -131,4 +138,6 @@ public class Event {
     public void setSubcategories(List<Subcategory> subcategories) {
         this.subcategories = subcategories;
     }
+
+
 }
