@@ -25,7 +25,7 @@ public class EventService {
         return events;
     }
 
-    public Optional<Event> findByTitle(String title){
+    public Event findByTitle(String title){
         return eventRepository.findEventByTitle(title);
     }
 

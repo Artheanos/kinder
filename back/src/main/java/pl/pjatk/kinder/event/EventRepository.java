@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface EventRepository extends CrudRepository<Event, Long> {
 
-    Optional<Event> findEventByTitle(String title);
+    Event findEventByTitle(String title);
     boolean existsByTitle(String title);
 }
