@@ -1,5 +1,6 @@
 package pl.pjatk.kinder.chat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.pjatk.kinder.entity.User;
 
 import javax.persistence.*;
@@ -12,9 +13,7 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "chat_room_id")
-    private ChatRoom chatRoom;
+    private String chatId;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -29,6 +28,13 @@ public class ChatMessage {
     public ChatMessage() {
     }
 
+    public ChatMessage(String chatId, User sender, User recipient, String content) {
+        this.chatId = chatId;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
     }
@@ -37,12 +43,12 @@ public class ChatMessage {
         this.id = id;
     }
 
-    public ChatRoom getChatRoom() {
-        return chatRoom;
+    public String getChatId() {
+        return chatId;
     }
 
-    public void setChatRoom(ChatRoom chatRoom) {
-        this.chatRoom = chatRoom;
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
     public User getSender() {
@@ -61,15 +67,11 @@ public class ChatMessage {
         this.recipient = recipient;
     }
 
-    public ChatMessage(String content) {
-        this.content = content;
-    }
-
     public String getContent() {
         return content;
     }
 
-    public void setContent(String message) {
-        this.content = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

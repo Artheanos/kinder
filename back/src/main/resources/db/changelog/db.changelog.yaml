@@ -151,3 +151,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20200412_add_user_friend_request.sql
+
+  - changeSet:
+      id: 20200612_change_char_room_primary_key
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20200612_change_char_room_primary_key.sql
