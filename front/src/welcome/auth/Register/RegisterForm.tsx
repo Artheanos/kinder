@@ -2,6 +2,7 @@ import React from "react";
 import {withRouter} from "react-router-dom";
 import FormProps from "../FormProps";
 import RegisterInput from "./RegisterInput";
+import {KINDER_BACK_URL} from "../../../common/util";
 
 
 type Inputs = {
@@ -37,7 +38,7 @@ class RegisterForm extends React.Component<FormProps, { inputs: Inputs, registra
             body[key] = value.current!.state.value;
         }
 
-        fetch('http://192.168.1.93:3080/register', {
+        fetch(`${KINDER_BACK_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

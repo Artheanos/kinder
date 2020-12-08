@@ -1,9 +1,10 @@
 import React, {FormEvent} from "react";
 import FriendList from "./FriendList";
+import {UserBasicObject} from "../FriendPage";
 
 type FriendSearchState = {
     searchQuery: string,
-    friendList: React.RefObject<FriendList>
+    friendsFound: UserBasicObject[]
 }
 
 class FriendSearch extends React.Component<{}, FriendSearchState> {
@@ -12,7 +13,7 @@ class FriendSearch extends React.Component<{}, FriendSearchState> {
         super(props, context);
         this.state = {
             searchQuery: '',
-            friendList: React.createRef()
+            friendsFound: [],
         }
     }
 
@@ -26,12 +27,17 @@ class FriendSearch extends React.Component<{}, FriendSearchState> {
             <div className="Friend-search">
                 <form onSubmit={this.handleSubmit}>
                     <input type="text"/>
-                    <button className="btn btn-primary"/>
+                    <button className="btn btn-primary">
+                        Find a friend
+                    </button>
                 </form>
-                {this.state.friendList}
+                <div className="friends-found">
+                    <FriendList friends={this.state.friendsFound}/>
+                </div>
             </div>
         )
     }
+
 }
 
 export default FriendSearch;

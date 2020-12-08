@@ -1,5 +1,30 @@
+.Chat-page {
+  height: 100vh;
+}
+
+.chat-column {
+  height: auto;
+  bottom: 0;
+  position: relative;
+  width: 100%;
+  border: solid 1px black;
+}
+.chat-column .chat-messages {
+  height: 100%;
+}
+.chat-column .chat-messages .message.me {
+  text-align: right;
+}
+.chat-column .chat-messages .message.someone {
+  text-align: left;
+}
+
 .Friend-page {
   max-width: 500px;
+}
+
+.Friend img {
+  max-width: 200px;
 }
 
 .Settings {
@@ -36,14 +61,12 @@
   color: #414141;
   font-size: 1.2rem;
   display: inline-block;
-  transition: transform 50ms ease-in-out;
   border-radius: 5px;
 }
 .Navbar nav a:first-child {
   font-size: 2rem;
 }
 .Navbar nav a:hover {
-  transform: scale(1.1);
   background: #fbfaf7 !important;
 }
 .Navbar nav a.active {

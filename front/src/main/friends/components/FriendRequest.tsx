@@ -1,5 +1,6 @@
 import React from "react";
 import {UserBasicObject} from "../FriendPage";
+import {KINDER_BACK_URL} from "../../../common/util";
 
 type FriendRequestProps = {
     user: UserBasicObject
@@ -14,7 +15,7 @@ class FriendRequest extends React.Component<FriendRequestProps> {
     }
 
     accept() {
-        fetch(`http://192.168.1.93:3080/friends/${this.props.user.urlId}/confirm`, {
+        fetch(`${KINDER_BACK_URL}/friends/${this.props.user.urlId}/confirm`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
@@ -29,7 +30,7 @@ class FriendRequest extends React.Component<FriendRequestProps> {
     }
 
     decline() {
-        fetch(`http://192.168.1.93:3080/friends/${this.props.user.urlId}`, {
+        fetch(`${KINDER_BACK_URL}/friends/${this.props.user.urlId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,

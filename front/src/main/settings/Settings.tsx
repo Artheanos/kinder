@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import EditEmail from "./EditEmail";
 import EditName from "./EditName";
 import SettingsChoice from "./SettingsChoice";

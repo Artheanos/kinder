@@ -1,5 +1,6 @@
 import '../../App.css';
 import React from "react";
+import {KINDER_BACK_URL} from "../../common/util";
 
 class HelloWorldApp extends React.Component<{}, { text: string }> {
     backup_text: string;
@@ -22,7 +23,7 @@ class HelloWorldApp extends React.Component<{}, { text: string }> {
     getTexts() {
         let newLine = this.addLine();
 
-        fetch('http://192.168.1.93:3080/word/').then((x) => {
+        fetch(`${KINDER_BACK_URL}/word/`).then((x) => {
             x.json().then((data) => {
                 newLine.remove();
                 for (let word of data) {
@@ -57,7 +58,7 @@ class HelloWorldApp extends React.Component<{}, { text: string }> {
         this.backup_text = this.state.text;
         this.textInput.current.value = '';
 
-        fetch('http://192.168.1.93:3080/word/', {
+        fetch(`${KINDER_BACK_URL}/word/`, {
             method: 'POST',
             body: JSON.stringify({'word': this.state.text}),
             headers: {

@@ -2,6 +2,7 @@ import React, {FormEvent} from "react"
 import {withRouter} from 'react-router-dom';
 import LoginInput from "./LoginInput";
 import FormProps from "../FormProps";
+import {KINDER_BACK_URL} from "../../../common/util";
 
 class LoginForm extends React.Component<FormProps> {
     emailInput: React.RefObject<LoginInput> = React.createRef();
@@ -42,7 +43,7 @@ class LoginForm extends React.Component<FormProps> {
 
         this.loginButton.current!.classList.add('loading');
 
-        fetch('http://192.168.1.93:3080/login', {
+        fetch(`${KINDER_BACK_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +56,6 @@ class LoginForm extends React.Component<FormProps> {
                 if (response.status === 200) {
                     response.text().then((resString) => {
                         const receivedData = JSON.parse(resString);
-                        console.log(receivedData);
                         for (let key in receivedData) if (receivedData.hasOwnProperty(key)) {
                             localStorage.setItem(key, receivedData[key]);
                         }

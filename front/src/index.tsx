@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Welcome from "./welcome/Welcome";
 import Main from "./main/Main";
-import NotFound from "./common/NotFound";
+import ChatPage from "./chat/ChatPage";
 
 
 ReactDOM.render(
@@ -16,6 +16,7 @@ ReactDOM.render(
         <Router>
             <Switch>
                 <Route exact path="/" component={Welcome}/>
+                <Route path="/chat/:profileId" component={ChatPage}/>
                 <Route path="*" component={Main}/>
             </Switch>
         </Router>

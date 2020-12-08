@@ -1,7 +1,8 @@
 import React from "react";
-import Friend from "./components/Friend";
 import FriendList from "./components/FriendList";
 import FriendRequest from "./components/FriendRequest";
+import FriendSearch from "./components/FriendSearch";
+import {KINDER_BACK_URL} from "../../common/util";
 
 export type UserBasicObject = {
     name: string,
@@ -11,7 +12,7 @@ export type UserBasicObject = {
 };
 
 type FriendPageState = {
-    friendList: React.RefObject<FriendList>,
+    friendList: UserBasicObject[],
     requestList: JSX.Element[]
 }
 
@@ -20,19 +21,20 @@ class FriendPage extends React.Component<{}, FriendPageState> {
     constructor(props: any, context: any) {
         super(props, context);
         this.state = {
-            friendList: React.createRef(),
+            friendList: [],
             requestList: []
         }
     }
 
     componentDidMount() {
-        fetch('http://192.168.1.93:3080/friends/' + localStorage.getItem('urlId')).then(res => {
+        fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
             res.text().then(txt => {
                 let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
-                console.log(values);
+                console.log('friends - ', values);
                 if (values) {
-                    console.log(values[0])
-                    this.state.friendList.current!.setState({userBasics: values})
+                    this.setState({
+                        friendList: values
+                    })
                 }
             })
         })
@@ -41,7 +43,7 @@ class FriendPage extends React.Component<{}, FriendPageState> {
     }
 
     getFriendRequests() {
-        fetch(`http://192.168.1.93:3080/friends/${localStorage.getItem('urlId')}/requests`, {
+        fetch(`${KINDER_BACK_URL}/friends/requests`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             },
@@ -57,8 +59,9 @@ class FriendPage extends React.Component<{}, FriendPageState> {
 
     render() {
         return (
-            <div className="Friend-page">
-                <FriendList ref={this.state.friendList}/>
+            <div className="Friend-page container">
+                <FriendSearch/>
+                <FriendList friends={this.state.friendList}/>
                 <div className="friend-requests">
                     {this.state.requestList}
                 </div>

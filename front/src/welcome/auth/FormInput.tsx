@@ -16,7 +16,7 @@ abstract class FormInput<T = {}> extends React.Component<T & FormInputProps, For
     readonly inputWrapper: React.RefObject<HTMLDivElement> = React.createRef();
     readonly warning: React.RefObject<HTMLParagraphElement> = React.createRef();
 
-    protected constructor(props: T & FormInputProps, context: React.Context<any>) {
+    constructor(props: T & FormInputProps, context: any) {
         super(props, context);
 
         this.state = {
