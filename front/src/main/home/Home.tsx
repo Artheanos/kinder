@@ -3,11 +3,12 @@ import React from "react";
 
 import HelloWorldApp from "./HelloWorldApp";
 import {RouteComponentProps} from "react-router";
+import {HomeApp} from "./HomeApp";
 
 function Home(props: RouteComponentProps) {
     return (
         <div className="Home">
-            <HelloWorldApp/>
+            <HomeApp/>
             <div className="container mt-5">
                 <h3>You have successfully logged in</h3>
                 <ul className="list-group">

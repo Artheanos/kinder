@@ -28,10 +28,10 @@ function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
     React.useEffect(() => {
         fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
             res.text().then(txt => {
-                let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
-                if (values) {
+                let users: UserBasicObject[] | null = JSON.parse(txt)['friends'];
+                if (users) {
                     setFriend(
-                        values.filter(f => f.urlId === props.profile.urlId).length !== 0
+                        users.filter(u => u.urlId === props.profile.urlId).length !== 0
                     )
                 }
             })
