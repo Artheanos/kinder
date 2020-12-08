@@ -28,10 +28,12 @@
   justify-content: space-between;
 }
 .Friend .img-wrapper {
+  display: flex;
   width: 100px;
   height: 100px;
 }
 .Friend .img-wrapper img {
+  margin: auto;
   max-width: 100px;
   max-height: 100px;
   border-radius: 5px;
@@ -100,10 +102,17 @@
 .Profile .left-pane {
   text-align: center;
 }
-.Profile .left-pane img {
+.Profile .left-pane .img-wrapper {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+}
+.Profile .left-pane .img-wrapper img {
+  margin: auto;
   max-width: 200px;
   max-height: 200px;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 .Profile .right-pane {
   text-align: center;
@@ -285,13 +294,22 @@
 }
 
 .Hello-world {
+  background: #eee;
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Word-test-app {
   padding: 5% 10%;
   display: grid;
   grid-template-columns: 300px auto;
   grid-template-rows: auto;
   column-gap: 5px;
 }
-.Hello-world .my-box {
+.Word-test-app .my-box {
   text-align: center;
   background-color: #282c34;
   border-radius: 20px;
@@ -301,10 +319,10 @@
   justify-content: center;
   color: white;
 }
-.Hello-world .my-box p {
+.Word-test-app .my-box p {
   font-size: 2rem;
 }
-.Hello-world .spin {
+.Word-test-app .spin {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid #3498db;

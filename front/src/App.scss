@@ -36,10 +36,12 @@
   $img-square-size: 100px;
 
   .img-wrapper {
+    display: flex;
     width: $img-square-size;
     height: $img-square-size;
 
     img {
+      margin: auto;
       max-width: $img-square-size;
       max-height: $img-square-size;
       border-radius: 5px;
@@ -69,6 +71,7 @@
   }
 }
 
+$navbar-height: 80px;
 .Navbar {
   width: 100%;
   $navbar-background: #f4f0ea;
@@ -76,8 +79,8 @@
 
   nav {
     padding: 0;
-    height: 80px;
-    line-height: 80px;
+    height: $navbar-height;
+    line-height: $navbar-height;
     display: flex;
     flex-direction: row;
 
@@ -129,10 +132,26 @@
   }
 
   .left-pane {
-    img {
-      max-width: 200px;
-      max-height: 200px;
-      border-radius: 6px;
+    $img-square-size: 200px;
+
+    //.card-header {
+    //  display: flex;
+    //  flex-direction: column;
+    //  justify-content: center;
+    //}
+
+    .img-wrapper {
+      display: flex;
+      width: $img-square-size;
+      height: $img-square-size;
+      margin: auto;
+
+      img {
+        margin: auto;
+        max-width: $img-square-size;
+        max-height: $img-square-size;
+        border-radius: 5px;
+      }
     }
 
     text-align: center;
@@ -340,6 +359,15 @@
 }
 
 .Hello-world {
+  background: #eee;
+  width: 100%;
+  height: calc(100vh - #{$navbar-height});
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Word-test-app {
   padding: 5% 10%;
   display: grid;
   grid-template-columns: 300px auto;

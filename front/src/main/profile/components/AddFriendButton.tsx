@@ -1,6 +1,6 @@
 import React from 'react';
-import {KINDER_BACK_URL} from "../../common/util";
-import {UserFullObject} from "../../common/UserObjects";
+import {KINDER_BACK_URL} from "../../../common/util";
+import {UserBasicObject, UserFullObject} from "../../../common/UserObjects";
 
 function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
     function invite(e: React.MouseEvent<HTMLButtonElement>) {
@@ -23,7 +23,22 @@ function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
         }
     }
 
-    if (props.isMe) {
+    const [isMyFriend, setFriend] = React.useState(true);
+
+    React.useEffect(() => {
+        fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
+            res.text().then(txt => {
+                let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
+                if (values) {
+                    setFriend(
+                        values.filter(f => f.urlId === props.profile.urlId).length !== 0
+                    )
+                }
+            })
+        })
+    })
+
+    if (props.isMe || isMyFriend) {
         return <div/>;
     } else {
         return (

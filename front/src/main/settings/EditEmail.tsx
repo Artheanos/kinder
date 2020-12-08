@@ -48,7 +48,8 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
             }
         }).then((r) => {
             if (r.status === 200) {
-                alert("Changes have been saved")
+                alert("Changes have been saved");
+                localStorage.setItem('email', body['email'])
             } else {
                 alert("ERROR " + r.status)
             }
