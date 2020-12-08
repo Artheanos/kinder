@@ -1,6 +1,10 @@
 package pl.pjatk.kinder.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.pjatk.kinder.entity.User;
 import pl.pjatk.kinder.repo.UserRepository;
@@ -29,9 +33,11 @@ public class ChatMessageService {
         chatMessageRepository.save(message);
     }
 
-    public List<Message> findChatMessages(String senderId, String recipientId) {
+    public List<Message> findChatMessages(String senderId, String recipientId, int pageSize) {
         String chatId = chatRoomService.getChatRoomId(senderId, recipientId);
-        List<ChatMessage> messages = chatMessageRepository.findAllByChatId(chatId);
+        int numberOfMessages = chatMessageRepository.countAllByChatId(chatId);
+        Pageable pageable = PageRequest.of(numberOfMessages/pageSize, pageSize);
+        List<ChatMessage> messages = chatMessageRepository.findAllByChatId(chatId, pageable);
         return messages.stream().map(e -> new Message(e.getContent(), e.getSender().getUrlId(), e.getRecipient().getUrlId())).collect(Collectors.toList());
     }
 }
