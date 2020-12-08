@@ -1,5 +1,7 @@
 package pl.pjatk.kinder.chat;
 
+import pl.pjatk.kinder.entity.User;
+
 public class Message {
 
     private String message;

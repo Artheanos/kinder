@@ -1,19 +1,31 @@
 package pl.pjatk.kinder.chat;
 
+import pl.pjatk.kinder.entity.User;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "char_room")
+@Table(name = "chat_room")
 public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private Long senderId;
-    private Long recipientId;
+    private String chatId;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
+    @ManyToOne
+    @JoinColumn(name = "recipient_id")
+    private User recipient;
 
     public ChatRoom() {
+    }
+
+    public ChatRoom(String chatId, User sender, User recipient) {
+        this.chatId = chatId;
+        this.sender = sender;
+        this.recipient = recipient;
     }
 
     public Long getId() {
@@ -24,19 +36,27 @@ public class ChatRoom {
         this.id = id;
     }
 
-    public Long getSenderId() {
-        return senderId;
+    public String getChatId() {
+        return chatId;
     }
 
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
-    public Long getRecipientId() {
-        return recipientId;
+    public User getSender() {
+        return sender;
     }
 
-    public void setRecipientId(Long recipientId) {
-        this.recipientId = recipientId;
+    public void setSender(User senderId) {
+        this.sender = senderId;
+    }
+
+    public User getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(User recipientId) {
+        this.recipient = recipientId;
     }
 }
