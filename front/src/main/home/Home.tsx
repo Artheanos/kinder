@@ -1,37 +1,31 @@
-import '../../App.css';
 import React from "react";
 
 import {RouteComponentProps} from "react-router";
-import {HomeApp} from "./HomeApp";
-import {MapSwitch} from "./MapSwitch";
+import {LeftPane} from "./left/LeftPane";
+import {MapContext} from "./MapSwitchContext";
+import {RightPane} from "./right/RightPane";
 
 function Home(props: RouteComponentProps) {
-    const [mapOn, setMapOn] = React.useState(false);
+    const [mapOn, setMapOn] = React.useState(true);
 
     return (
-        <div className="Home row">
-            <div className="col border-right">
-                <MapSwitch onChange={setMapOn} value={mapOn}/>
-            </div>
-            <div className="col p-0">
-                {mapOn ? <div>nothing</div> : <HomeApp/>}
-                <div className="container mt-5">
-                    <h3>You have successfully logged in</h3>
-                    <ul className="list-group">
-                        {Object.keys(localStorage).map(
-                            i => <li className="list-group-item" key={i}>{i} - {localStorage.getItem(i)}</li>
-                        )}
-                    </ul>
-                    <button style={{margin: "0 5%"}} className="btn btn-warning" onClick={() => {
-                        localStorage.clear();
-                        sessionStorage.setItem('skipAnimation', 'true');
-                        props.history.push('/');
-                    }}>
-                        Log Out
-                    </button>
+        <MapContext.Provider value={{mapOn, setMapOn}}>
+            <div className="Home container-fluid">
+                <div className="row">
+                    <LeftPane/>
+                    <RightPane/>
                 </div>
             </div>
-        </div>
+        </MapContext.Provider>
+
+        // <div className="Home container-fluid">
+        //     <div className="row">
+        //         <MapContext.Provider value={{mapOn, setMapOn}}>
+        //             <LeftPane/>
+        //             <RightPane/>
+        //         </MapContext.Provider>
+        //     </div>
+        // </div>
     )
 }
 

@@ -1,4 +1,3 @@
-import '../../App.css';
 import React, {FormEvent} from "react";
 import {RouteComponentProps} from "react-router";
 import ProfileSection from "./components/ProfileSection";

@@ -19,24 +19,36 @@
   text-align: left;
 }
 
-.Friend-page {
-  max-width: 500px;
+.Friend-page .friend-page-right-pane {
+  background: #ddd;
+  z-index: 10;
 }
-
 .Friend {
+  border: none !important;
   align-items: center;
   justify-content: space-between;
 }
+.Friend:hover {
+  background: #eee;
+}
 .Friend .img-wrapper {
   display: flex;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
 }
 .Friend .img-wrapper img {
   margin: auto;
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 50px;
+  max-height: 50px;
   border-radius: 5px;
+}
+.Friend .name {
+  color: #3c4043;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-overflow: revert;
+  white-space: nowrap;
+  z-index: -1;
 }
 
 .Settings {
@@ -291,6 +303,17 @@
   .Welcome .Top-bar .behind {
     padding-top: 100px;
   }
+}
+
+.Home {
+  min-height: calc(100vh - 80px);
+}
+.Home .Left-pane {
+  max-width: 200px;
+  background: #f5f5f5;
+}
+.Home .event-wrapper {
+  min-height: 500px;
 }
 
 .Hello-world {

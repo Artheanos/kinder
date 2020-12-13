@@ -9,17 +9,19 @@ type FriendProps = {
 
 function Friend(props: FriendProps) {
     return (
-        <li className="Friend d-flex list-group-item">
-            <div className="img-wrapper">
+        <li className="Friend d-flex list-group-item justify-content-start">
+            <div className="img-wrapper mr-2">
                 <img src={photoUrl(props.userBasic.photoUrl)} alt={props.userBasic.name}/>
             </div>
             <Link to={'profile/' + props.userBasic.urlId} style={{
                 color: 'black',
                 textDecoration: 'none'
             }}>
-                <h3>{props.userBasic.name} {props.userBasic.surname}</h3>
+                <div className="name mr-2" style={{border: "none"}}>
+                    {props.userBasic.name}
+                </div>
             </Link>
-            <a href={chatUrl(props.userBasic.urlId)} target="_blank" rel="noopener noreferrer">Chat</a>
+            <a className="ml-auto" href={chatUrl(props.userBasic.urlId)} target="_blank" rel="noopener noreferrer">Chat</a>
             {/*<h3>{this.props.name}</h3>*/}
             {/*<h3>{this.props.surname}</h3>*/}
         </li>
