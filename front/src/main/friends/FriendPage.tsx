@@ -10,32 +10,40 @@ function FriendPage() {
     const [friendList, setFriendList] = useState<UserBasicObject[]>([]);
     const [requestList, setRequestList] = useState<JSX.Element[]>([]);
 
-    function getFriendRequests() {
+    function fetchFriendRequests() {
         fetch(`${KINDER_BACK_URL}/friends/requests`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             },
         }).then(res => {
-            res.text().then(txt => {
-                let users: UserBasicObject[] = JSON.parse(txt)['friends'];
-                setRequestList(
-                    users.map(i => <FriendRequest user={i}/>)
-                );
-            })
+            if (res.status === 200) {
+                res.text().then(txt => {
+                    let users: UserBasicObject[] = JSON.parse(txt)['friends'];
+                    setRequestList(
+                        users.map(i => <FriendRequest user={i}/>)
+                    );
+                })
+            } else {
+                alert("ERROR while fetching requests\nstatus " + res.status);
+            }
         })
     }
 
-    useEffect(() => {
+    function fetchFriends() {
         fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
             res.text().then(txt => {
                 let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
                 console.log('friends - ', values);
                 if (values) {
-                    setFriendList(values)
+                    setFriendList(values);
                 }
             })
         })
-        getFriendRequests();
+    }
+
+    useEffect(() => {
+        fetchFriends();
+        fetchFriendRequests();
     }, []);
 
     return (
