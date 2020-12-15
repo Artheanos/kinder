@@ -32,7 +32,7 @@ class FriendSearch extends React.Component<{}, FriendSearchState> {
                     </button>
                 </form>
                 <div className="friends-found">
-                    <FriendList friends={this.state.friendsFound}/>
+                    <FriendList friends={this.state.friendsFound} setActiveUser={()=>null}/>
                 </div>
             </div>
         )

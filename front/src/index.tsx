@@ -17,7 +17,6 @@ ReactDOM.render(
         <Router>
             <Switch>
                 <Route exact path="/" component={Welcome}/>
-                <Route path="/chat/:profileId" component={ChatPage}/>
                 <Route path="*" component={Main}/>
             </Switch>
         </Router>

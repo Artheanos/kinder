@@ -1,20 +1,22 @@
-//html, body, #root {
-//  height: 100%;
-//}
+$navbar-height: 80px;
+
+html, body, #root, .Main {
+  height: 100%;
+}
 
 .Chat-page {
-  height: 100vh;
 }
 
 .chat-column {
-  height: auto;
   bottom: 0;
   position: relative;
   width: 100%;
-  border: solid 1px black;
+  border: solid 1px grey;
 
   .chat-messages {
-    height: 100%;
+    height: 50vh;
+    overflow-y: scroll;
+    padding: 0 1rem;
 
     .message {
       &.me {
@@ -29,8 +31,10 @@
 }
 
 .Friend-page {
+  height: calc(100% - #{$navbar-height});
+
   .friend-page-right-pane {
-    background: #ddd;
+    background: #eee;
     z-index: 10;
   }
 
@@ -92,7 +96,6 @@
   }
 }
 
-$navbar-height: 80px;
 .Navbar {
   width: 100%;
   $navbar-background: #f4f0ea;

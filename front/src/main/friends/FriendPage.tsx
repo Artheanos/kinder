@@ -4,11 +4,20 @@ import FriendRequest from "./components/FriendRequest";
 import FriendSearch from "./components/FriendSearch";
 import {KINDER_BACK_URL} from "../../common/util";
 import {UserBasicObject} from "../../common/UserObjects";
+import ChatPage from "../../chat/ChatPage";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {RouteComponentProps} from "react-router";
 
-function FriendPage() {
+function FriendPage(props: RouteComponentProps) {
 
     const [friendList, setFriendList] = useState<UserBasicObject[]>([]);
     const [requestList, setRequestList] = useState<JSX.Element[]>([]);
+
+    // const [activeUser] = useState<string>("");
+
+    function setActiveUser(urlId: string) {
+        props.history.push('/friends/' + urlId);
+    }
 
     function fetchFriendRequests() {
         fetch(`${KINDER_BACK_URL}/friends/requests`, {
@@ -58,12 +67,13 @@ function FriendPage() {
             </div>
             <div className="row">
                 <div className="friend-page-left-pane col-4">
-                    <FriendList friends={friendList}/>
+                    <FriendList friends={friendList} setActiveUser={setActiveUser}/>
                 </div>
                 <div className="friend-page-right-pane col p-0">
-                    <div className="vh-100 d-flex align-items-center justify-content-center">
-                        <h1>Chat</h1>
-                    </div>
+                    <Route path="/friends/:profileId" component={ChatPage}/>
+                    {/*<div className="vh-100 d-flex align-items-center justify-content-center">*/}
+                    {/*    <h1>Chat</h1>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </div>
