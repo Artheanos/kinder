@@ -32,8 +32,7 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
                 this.client!.subscribe(
                     "/topic/" + this.props.match.params.profileId,
                     (stompMessage) => {
-                        console.log('i got msg', stompMessage);
-                        let {senderId, recipientId, message} = JSON.parse(stompMessage.body);
+                        let {senderId, message} = JSON.parse(stompMessage.body);
                         this.addMessage(message, senderId === localStorage.getItem('urlId'));
                     })
             }
@@ -50,6 +49,7 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
         let messageToSend = this.state.inputValue;
         let myId = localStorage.getItem('urlId');
         let recipientId = this.props.match.params.profileId;
+
         this.client.send("/app/chat", {}, JSON.stringify({
             'message': messageToSend,
             'senderId': myId,
@@ -60,8 +60,8 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
     addMessage(text: string, imTheOwner: boolean = true) {
         this.setState({
             messages: this.state.messages.concat(<ChatMessage imTheOwner={imTheOwner} text={text}/>),
-            inputValue: '',
-        });
+            ...(imTheOwner && {inputValue: ''})
+        } as any);
     }
 
     render() {

@@ -1,6 +1,7 @@
 import React from "react";
-import {UserBasicObject} from "../FriendPage";
-import {chatUrl, photoUrl, profileUrl} from "../../../common/util";
+import {chatUrl, photoUrl} from "../../../common/util";
+import {Link} from "react-router-dom";
+import {UserBasicObject} from "../../../common/UserObjects";
 
 type FriendProps = {
     userBasic: UserBasicObject
@@ -8,15 +9,22 @@ type FriendProps = {
 
 function Friend(props: FriendProps) {
     return (
-        <div className="Friend" style={{border: 'solid 1px black'}}>
-            <p>{props.userBasic.name}</p>
-            <p>{props.userBasic.surname}</p>
-            <a href={profileUrl(props.userBasic.urlId)}>Go to profile</a>
-            <a href={chatUrl(props.userBasic.urlId)} target="_blank" rel="noopener noreferrer">Chat</a>
-            <img src={photoUrl(props.userBasic.photoUrl)} alt={props.userBasic.name}/>
+        <li className="Friend d-flex list-group-item justify-content-start">
+            <div className="img-wrapper mr-2">
+                <img src={photoUrl(props.userBasic.photoUrl)} alt={props.userBasic.name}/>
+            </div>
+            <Link to={'profile/' + props.userBasic.urlId} style={{
+                color: 'black',
+                textDecoration: 'none'
+            }}>
+                <div className="name mr-2" style={{border: "none"}}>
+                    {props.userBasic.name}
+                </div>
+            </Link>
+            <a className="ml-auto" href={chatUrl(props.userBasic.urlId)} target="_blank" rel="noopener noreferrer">Chat</a>
             {/*<h3>{this.props.name}</h3>*/}
             {/*<h3>{this.props.surname}</h3>*/}
-        </div>
+        </li>
     )
 }
 

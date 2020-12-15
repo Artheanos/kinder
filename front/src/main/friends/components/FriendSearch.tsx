@@ -1,6 +1,6 @@
 import React, {FormEvent} from "react";
 import FriendList from "./FriendList";
-import {UserBasicObject} from "../FriendPage";
+import {UserBasicObject} from "../../../common/UserObjects";
 
 type FriendSearchState = {
     searchQuery: string,
@@ -24,8 +24,8 @@ class FriendSearch extends React.Component<{}, FriendSearchState> {
 
     render() {
         return (
-            <div className="Friend-search">
-                <form onSubmit={this.handleSubmit}>
+            <div className="Friend-search m-2">
+                <form onSubmit={this.handleSubmit} className="d-flex justify-content-around">
                     <input type="text"/>
                     <button className="btn btn-primary">
                         Find a friend

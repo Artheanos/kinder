@@ -1,19 +1,11 @@
-import '../../App.css';
 import React, {FormEvent} from "react";
 import {RouteComponentProps} from "react-router";
-import ProfileSection from "./ProfileSection";
-import ProfileImage from "./ProfileImage";
-import AddFriendButton from "./AddFriendButton";
+import ProfileSection from "./components/ProfileSection";
+import ProfileImage from "./components/ProfileImage";
+import AddFriendButton from "./components/AddFriendButton";
 import {KINDER_BACK_URL} from "../../common/util";
-
-export type UserFullObject = {
-    name: string,
-    surname: string,
-    urlId: string,
-    photoUrl: string | null,
-    description: string | null,
-    city: string | null,
-};
+import {UserFullObject} from "../../common/UserObjects";
+import {SaveButton} from "./components/SaveButton";
 
 async function getProfileByUrlId(urlId: string): Promise<UserFullObject> {
     let x = await fetch(`${KINDER_BACK_URL}/users/${urlId}/full`);
@@ -24,12 +16,12 @@ type ProfileState = {
     profileId: string,
     profile: UserFullObject | null,
     editing: boolean,
+    saving: boolean,
     isMe: boolean,
 
     inputAbout: React.RefObject<ProfileSection>,
     inputFrom: React.RefObject<ProfileSection>,
-    submitButton: React.RefObject<HTMLButtonElement>,
-    profileImage: React.RefObject<ProfileImage>
+    profileImage: React.RefObject<ProfileImage>,
 };
 
 type ProfileUrlParams = {
@@ -50,7 +42,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
 
             inputAbout: React.createRef(),
             inputFrom: React.createRef(),
-            submitButton: React.createRef(),
+            saving: false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,7 +54,8 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
 
     updateProfile() {
         getProfileByUrlId(this.props.match.params.profileId).then((i) => {
-            this.setState({profile: i})
+            this.setState({profile: i});
+            console.log(i);
         });
     }
 
@@ -80,19 +73,11 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
 
     handleSubmit(e: FormEvent) {
         e.preventDefault();
-        let formData = new FormData();
         let files = this.state.profileImage.current!.state.fileInput.current!.files;
+        let formData = new FormData();
         if (files && files.length) {
             formData.append('file', files[0])
         }
-        // formData.append(
-        //     "data",
-        //     JSON.stringify({
-        //         "city": "a",
-        //         "description": "b",
-        //         "urlId": "Jan.Kowalski928"
-        //     })
-        // )
         formData.append("data",
             new Blob(
                 [JSON.stringify({
@@ -103,6 +88,9 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 {type: "application/json"}
             )
         )
+
+        this.setState({saving: true});
+
         fetch(`${KINDER_BACK_URL}/user/data/edit`,
             {
                 method: 'PATCH',
@@ -113,17 +101,14 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
             }
         ).then(i => {
             if (i.status === 200) {
+                this.updateProfile();
                 this.state.profile!.description = this.state.inputAbout.current!.state.inputValue;
                 this.state.profile!.city = this.state.inputFrom.current!.state.inputValue;
             } else {
                 alert("ERROR " + i.status)
             }
         }).finally(() => {
-                if (this.state.submitButton) {
-                    this.state.submitButton.current!.classList.remove('loading');
-                    this.state.submitButton.current!.innerHTML = 'Save';
-                }
-                this.setState({editing: false})
+                this.setState({editing: false, saving: false})
             }
         )
 
@@ -150,11 +135,13 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
 
 
     render() {
-        if (this.state.profile !== null) {
+        if (this.state.profile === null) {
+            return (<div>Loading</div>)
+        } else {
             return (
                 <div className="Profile m-auto container-md">
                     <form>
-                        <div className="d-sm-flex">
+                        <div className="row d-sm-flex">
                             <div className="left-pane col-sm-6">
                                 <div className="card">
                                     <div className="card-header">
@@ -169,7 +156,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                                     </div>
                                 </div>
                             </div>
-                            <div className="right-pane m-auto col-sm-6">
+                            <div className="right-pane col-sm-6">
                                 <ProfileSection ref={this.state.inputAbout} title="About"
                                                 text={this.state.profile.description || ''}
                                                 editable={this.state.editing}/>
@@ -183,10 +170,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                                 {this.state.isMe ?
                                     this.state.editing ?
                                         <div>
-                                            <button className="btn btn-success mr-5" ref={this.state.submitButton}
-                                                    onClick={this.handleSubmit}>
-                                                Save
-                                            </button>
+                                            <SaveButton saving={this.state.saving} onClick={this.handleSubmit}/>
                                             <button className="btn btn-danger"
                                                     onClick={() => this.setState({editing: false})}>
                                                 Cancel
@@ -206,8 +190,6 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                     </form>
                 </div>
             );
-        } else {
-            return (<div>Loading</div>)
         }
     }
 }

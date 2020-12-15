@@ -1,73 +1,73 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import FriendList from "./components/FriendList";
 import FriendRequest from "./components/FriendRequest";
 import FriendSearch from "./components/FriendSearch";
 import {KINDER_BACK_URL} from "../../common/util";
+import {UserBasicObject} from "../../common/UserObjects";
 
-export type UserBasicObject = {
-    name: string,
-    surname: string,
-    urlId: string,
-    photoUrl: string | null,
-};
+function FriendPage() {
 
-type FriendPageState = {
-    friendList: UserBasicObject[],
-    requestList: JSX.Element[]
-}
+    const [friendList, setFriendList] = useState<UserBasicObject[]>([]);
+    const [requestList, setRequestList] = useState<JSX.Element[]>([]);
 
-class FriendPage extends React.Component<{}, FriendPageState> {
-
-    constructor(props: any, context: any) {
-        super(props, context);
-        this.state = {
-            friendList: [],
-            requestList: []
-        }
-    }
-
-    componentDidMount() {
-        fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
-            res.text().then(txt => {
-                let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
-                console.log('friends - ', values);
-                if (values) {
-                    this.setState({
-                        friendList: values
-                    })
-                }
-            })
-        })
-
-        this.getFriendRequests();
-    }
-
-    getFriendRequests() {
+    function fetchFriendRequests() {
         fetch(`${KINDER_BACK_URL}/friends/requests`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             },
         }).then(res => {
-            res.text().then(txt => {
-                let users: UserBasicObject[] = JSON.parse(txt)['friends'];
-                this.setState({
-                    requestList: users.map(i => <FriendRequest user={i}/>)
+            if (res.status === 200) {
+                res.text().then(txt => {
+                    let users: UserBasicObject[] = JSON.parse(txt)['friends'];
+                    setRequestList(
+                        users.map(i => <FriendRequest user={i}/>)
+                    );
                 })
+            } else {
+                alert("ERROR while fetching requests\nstatus " + res.status);
+            }
+        })
+    }
+
+    function fetchFriends() {
+        fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
+            res.text().then(txt => {
+                let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
+                console.log('friends - ', values);
+                if (values) {
+                    setFriendList(values);
+                }
             })
         })
     }
 
-    render() {
-        return (
-            <div className="Friend-page container">
-                <FriendSearch/>
-                <FriendList friends={this.state.friendList}/>
+    useEffect(() => {
+        fetchFriends();
+        fetchFriendRequests();
+    }, []);
+
+    return (
+        <div className="Friend-page container-fluid p-0">
+            <div className="row">
                 <div className="friend-requests">
-                    {this.state.requestList}
+                    {requestList}
                 </div>
             </div>
-        )
-    }
+            <div className="row">
+                <FriendSearch/>
+            </div>
+            <div className="row">
+                <div className="friend-page-left-pane col-4">
+                    <FriendList friends={friendList}/>
+                </div>
+                <div className="friend-page-right-pane col p-0">
+                    <div className="vh-100 d-flex align-items-center justify-content-center">
+                        <h1>Chat</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default FriendPage;

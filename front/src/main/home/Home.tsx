@@ -1,29 +1,31 @@
-import '../../App.css';
 import React from "react";
 
-import HelloWorldApp from "./HelloWorldApp";
 import {RouteComponentProps} from "react-router";
+import {LeftPane} from "./left/LeftPane";
+import {MapContext} from "./MapSwitchContext";
+import {RightPane} from "./right/RightPane";
 
 function Home(props: RouteComponentProps) {
+    const [mapOn, setMapOn] = React.useState(true);
+
     return (
-        <div className="Home">
-            <button style={{margin: "0 5%"}} className="btn btn-warning" onClick={() => {
-                localStorage.clear();
-                sessionStorage.setItem('skipAnimation', 'true');
-                props.history.push('/');
-            }}>
-                Log Out
-            </button>
-            <div className="jumbotron">
-                <h1 className="display-4">You have successfully logged in</h1>
-                <div style={{whiteSpace: "nowrap"}}>
-                    {Object.keys(localStorage).map(
-                        i => <h3 key={i}>{i} - {localStorage.getItem(i)}</h3>
-                    )}
+        <MapContext.Provider value={{mapOn, setMapOn}}>
+            <div className="Home container-fluid">
+                <div className="row">
+                    <LeftPane/>
+                    <RightPane/>
                 </div>
             </div>
-            <HelloWorldApp/>
-        </div>
+        </MapContext.Provider>
+
+        // <div className="Home container-fluid">
+        //     <div className="row">
+        //         <MapContext.Provider value={{mapOn, setMapOn}}>
+        //             <LeftPane/>
+        //             <RightPane/>
+        //         </MapContext.Provider>
+        //     </div>
+        // </div>
     )
 }
 
