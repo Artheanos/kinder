@@ -2,7 +2,7 @@ import React, {FormEvent} from "react";
 import {ProfileProps} from "../main/profile/Profile";
 import ChatMessage from "./ChatMessage";
 import {CompatClient, Stomp} from '@stomp/stompjs';
-import {KINDER_BACK_WS_URL} from "../common/util";
+import {KINDER_BACK_URL, KINDER_BACK_WS_URL} from "../common/util";
 
 type ChatPageState = {
     messages: JSX.Element[],
@@ -23,6 +23,18 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.connect = this.connect.bind(this);
         this.connect();
+    }
+
+    componentDidMount() {
+        fetch(`${KINDER_BACK_URL}/messages/${localStorage.getItem('urlId')}/${this.props.match.params.profileId}/10`,).then(res => {
+            res.text().then(resData => {
+                let jsonData: any = JSON.parse(resData);
+                for (let messageObject of jsonData) {
+                    let {message, senderId} = messageObject;
+                    this.addMessage(message, senderId === localStorage.getItem('urlId'));
+                }
+            })
+        })
     }
 
     connect() {
