@@ -36,8 +36,8 @@ public class ChatMessageService {
     public List<Message> findChatMessages(String senderId, String recipientId, int pageSize) {
         String chatId = chatRoomService.getChatRoomId(senderId, recipientId);
         int numberOfMessages = chatMessageRepository.countAllByChatId(chatId);
-        Pageable pageable = PageRequest.of(numberOfMessages/pageSize, pageSize);
-        List<ChatMessage> messages = chatMessageRepository.findAllByChatId(chatId, pageable);
+        //Pageable pageable = PageRequest.of(numberOfMessages/pageSize, pageSize);
+        List<ChatMessage> messages = chatMessageRepository.findAllByChatId(chatId);
         return messages.stream().map(e -> new Message(e.getContent(), e.getSender().getUrlId(), e.getRecipient().getUrlId())).collect(Collectors.toList());
     }
 }
