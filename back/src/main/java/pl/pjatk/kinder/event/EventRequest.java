@@ -2,29 +2,40 @@ package pl.pjatk.kinder.event;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
-import pl.pjatk.kinder.entity.State;
-import pl.pjatk.kinder.entity.Subcategory;
+import pl.pjatk.kinder.entity.Address;
+import pl.pjatk.kinder.entity.Category;
+import pl.pjatk.kinder.entity.Photo;
 
-import java.sql.Timestamp;
-import java.util.List;
 
 @Component
 @RequestScope
 public class EventRequest {
 
+
     private String title;
-    private String addres;
     private String description;
     private String startDate;
     private String endDate;
     private int capacity;
 
+    private String address_name;
+    private double latitude;
+    private double longitude;
+
+    private String category_title;
+
+    private String photo_url;
 
     public EventRequest(){}
 
-    public EventRequest(String title, String addres, String description, String startDate, String endDate, int capacity) {
+    public EventRequest(String title, String address_name, double latitude, double longitude, String category_title,
+                        String photo_url, String description, String startDate, String endDate, int capacity) {
         this.title = title;
-        this.addres = addres;
+        this.address_name = address_name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.category_title = category_title;
+        this.photo_url = photo_url;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -33,10 +44,6 @@ public class EventRequest {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getAddres() {
-        return addres;
     }
 
     public String getDescription() {
@@ -55,4 +62,23 @@ public class EventRequest {
         return capacity;
     }
 
+    public String getAddress_name() {
+        return address_name;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getCategory_title() {
+        return category_title;
+    }
+
+    public String getPhoto_url() {
+        return photo_url;
+    }
 }

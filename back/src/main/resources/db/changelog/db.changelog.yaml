@@ -151,3 +151,57 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20200412_add_user_friend_request.sql
+
+  - changeSet:
+      id: 20201512_remove_subcategory_table
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201512_remove_subcategory_table.sql
+
+  - changeSet:
+      id: 20201512_add_photo_id_column
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201512_add_photo_id_column.sql
+
+  - changeSet:
+      id: 20201512_add_table_address
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201512_add_table_address.sql
+
+  - changeSet:
+      id: 20201512_event_change_address_column.sql
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201512_event_change_address_column.sql
+
+  - changeSet:
+      id: 20201512_remove_event_subcategory_table
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201512_remove_event_subcategory_table.sql
+
+  - changeSet:
+      id: 20201512_event_add_category_column
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20201512_event_add_category_column.sql

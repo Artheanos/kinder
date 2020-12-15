@@ -14,35 +14,41 @@ public class Event {
     private Long id;
 
     private String title;
-    private String addres;
     private String description;
     private Timestamp startdate;
     private Timestamp enddate;
     private int capacity;
     private State state;
 
+    @OneToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
 
-   //@ManyToMany(mappedBy = "events")
-   // private List<User> users = new ArrayList<>();
-
-
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @OneToMany(mappedBy = "event")
     private List<Ticket> tickets;
 
-    @ManyToMany(mappedBy = "events")
-    private List<Subcategory> subcategories;
 
     public Event(){}
 
-    public Event(String title, String addres, String description, Timestamp startdate, Timestamp enddate, int capacity, State state, User user) {
+    public Event(String title, Address address, Category category, Photo photo, String description,
+                 Timestamp startdate, Timestamp enddate, int capacity, State state, User user) {
+
         this.title = title;
-        this.addres = addres;
+        this.address = address;
+        this.category = category;
+        this.photo = photo;
         this.description = description;
         this.startdate = startdate;
         this.enddate = enddate;
@@ -65,14 +71,6 @@ public class Event {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getAddres() {
-        return addres;
-    }
-
-    public void setAddres(String addres) {
-        this.addres = addres;
     }
 
     public String getDescription() {
@@ -115,14 +113,6 @@ public class Event {
         this.state = state;
     }
 
-   // public List<User> getUsers() {
-    //    return users;
-    //}
-
-    //public void setUsers(List<User> users) {
-   //     this.users = users;
-    //}
-
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -130,14 +120,5 @@ public class Event {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-
-    public List<Subcategory> getSubcategories() {
-        return subcategories;
-    }
-
-    public void setSubcategories(List<Subcategory> subcategories) {
-        this.subcategories = subcategories;
-    }
-
 
 }

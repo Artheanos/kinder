@@ -15,8 +15,8 @@ public class Category {
     private String title;
     private String description;
 
-    @OneToMany(mappedBy="category")
-    private List<Subcategory> subcategories;
+    @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
+    private Event event;
 
     public Category(){}
 
@@ -47,5 +47,15 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", event=" + event +
+                '}';
     }
 }
