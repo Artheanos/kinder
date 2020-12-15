@@ -6,12 +6,14 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import pl.pjatk.kinder.entity.User;
 import pl.pjatk.kinder.repo.UserRepository;
 
 @Controller
+@CrossOrigin("*")
 public class ChatController {
 
     private SimpMessagingTemplate messagingTemplate;
@@ -40,6 +42,5 @@ public class ChatController {
     public ResponseEntity<?> findMessages(@PathVariable String senderUrlId, @PathVariable String recipientUrlId, @PathVariable int pageSize) {
         return ResponseEntity.ok(chatMessageService.findChatMessages(senderUrlId, recipientUrlId, pageSize));
     }
-
 
 }
