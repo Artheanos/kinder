@@ -6,7 +6,17 @@ function FriendList(props: { friends: UserBasicObject[], setActiveUser: (urlId: 
     return (
         <div className="Friend-list">
             <ul className="list-group">
-                {props.friends.map(value => <Friend userBasic={value} key={value.urlId} setActiveUser={props.setActiveUser}/>)}
+                {
+                    props.friends.length
+                        ?
+                        props.friends.map(value =>
+                            <li className="list-group-item p-0" key={value.urlId} >
+                                <Friend userBasic={value} setActiveUser={props.setActiveUser}/>
+                            </li>
+                        )
+                        :
+                        <div>You have no friends :(</div>
+                }
             </ul>
         </div>
     )

@@ -1,8 +1,8 @@
 import React, {FormEvent} from "react";
-import {ProfileProps} from "../main/profile/Profile";
+import {ProfileProps} from "../../../profile/Profile";
 import ChatMessage from "./ChatMessage";
 import {CompatClient, Stomp} from '@stomp/stompjs';
-import {KINDER_BACK_URL, KINDER_BACK_WS_URL} from "../common/util";
+import {KINDER_BACK_URL, KINDER_BACK_WS_URL} from "../../../../common/util";
 
 type ChatPageState = {
     messages: JSX.Element[],
@@ -90,8 +90,11 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
     }
 
     addMessage(text: string, imTheOwner: boolean = true) {
-        let chatMessages = this.chatMessages.current!;
-        let scrollDown = (chatMessages.scrollTop + chatMessages.clientHeight === chatMessages.scrollHeight);
+        let scrollDown = false;
+        let chatMessages = this.chatMessages.current;
+        if (chatMessages) {
+            scrollDown = (chatMessages.scrollTop + chatMessages.clientHeight >= chatMessages.scrollHeight - 3);
+        }
 
         this.state.messages.push(<ChatMessage imTheOwner={imTheOwner} text={text} key={this.state.messages.length}/>);
         this.setState({
@@ -116,7 +119,8 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
                             <input type="text" className="form-control" value={this.state.inputValue}
                                    onChange={(x) => {
                                        this.setState({inputValue: x.target.value});
-                                   }}/>
+                                   }}
+                            />
                         </form>
                     </div>
                 </div>

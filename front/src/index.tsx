@@ -9,7 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Welcome from "./welcome/Welcome";
 import Main from "./main/Main";
-import ChatPage from "./chat/ChatPage";
 
 
 ReactDOM.render(

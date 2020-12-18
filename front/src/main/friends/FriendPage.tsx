@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from "react";
 import FriendList from "./components/FriendList";
-import FriendRequest from "./components/FriendRequest";
-import FriendSearch from "./components/FriendSearch";
 import {KINDER_BACK_URL} from "../../common/util";
 import {UserBasicObject} from "../../common/UserObjects";
-import ChatPage from "../../chat/ChatPage";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import ChatPage from "./components/chat/ChatPage";
+import {Route} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
+import FriendRequestList from "./components/friend_requests/FriendRequestList";
+import {FriendRequestListContext} from "./components/friend_requests/FriendRequestListContext";
 
 function FriendPage(props: RouteComponentProps) {
 
     const [friendList, setFriendList] = useState<UserBasicObject[]>([]);
-    const [requestList, setRequestList] = useState<JSX.Element[]>([]);
-
-    // const [activeUser] = useState<string>("");
+    const [requestList, setRequestList] = useState<UserBasicObject[]>([]);
 
     function setActiveUser(urlId: string) {
         props.history.push('/friends/' + urlId);
     }
 
     function fetchFriendRequests() {
+        // setRequestList([{name: "Jan", surname: "Kowalski", urlId: "", photoUrl: ""}])
+
         fetch(`${KINDER_BACK_URL}/friends/requests`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
@@ -28,9 +28,7 @@ function FriendPage(props: RouteComponentProps) {
             if (res.status === 200) {
                 res.text().then(txt => {
                     let users: UserBasicObject[] = JSON.parse(txt)['friends'];
-                    setRequestList(
-                        users.map(i => <FriendRequest user={i}/>)
-                    );
+                    setRequestList(users);
                 })
             } else {
                 alert("ERROR while fetching requests\nstatus " + res.status);
@@ -58,13 +56,22 @@ function FriendPage(props: RouteComponentProps) {
     return (
         <div className="Friend-page container-fluid p-0">
             <div className="row">
-                <div className="friend-requests">
-                    {requestList}
+                <div className="col-4 text-center">
+                    <FriendRequestListContext.Provider value={{
+                        onRespond: (urlId: string) => {
+                            fetchFriends();
+                            fetchFriendRequests();
+                        }
+                    }}>
+                        <FriendRequestList requests={requestList}/>
+                    </FriendRequestListContext.Provider>
                 </div>
             </div>
-            <div className="row">
-                <FriendSearch/>
-            </div>
+            {/*<div className="row">*/}
+            {/*    <div className="col-4 text-center">*/}
+            {/*        <FriendSearch/>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className="row">
                 <div className="friend-page-left-pane col-4">
                     <FriendList friends={friendList} setActiveUser={setActiveUser}/>

@@ -70,7 +70,7 @@ html, body, #root, .Main {
     font-size: 0.95rem;
     text-overflow: revert;
     white-space: nowrap;
-    z-index: -1;
+    cursor: default;
   }
 
   align-items: center;

@@ -1,5 +1,5 @@
 import React from "react";
-import {capitalize} from "../../common/util";
+import {String_capitalize} from "../../common/util";
 
 type FormInputProps = {
     name: string,
@@ -21,7 +21,7 @@ abstract class FormInput<T = {}> extends React.Component<T & FormInputProps, For
 
         this.state = {
             name: props.name,
-            label: props.label || capitalize(props.name),
+            label: props.label || String_capitalize(props.name),
             placeholder: props.placeholder || '',
             value: props.initialValue || '',
             type: props.type || 'text'

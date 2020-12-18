@@ -2,11 +2,14 @@ import React from 'react';
 import {KINDER_BACK_URL} from "../../../common/util";
 import {UserBasicObject, UserFullObject} from "../../../common/UserObjects";
 
-function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
+const AddFriendButton: React.FC<{ profile: UserFullObject, isMe: boolean }> = ({profile, isMe}) => {
+
+    const [isMyFriend, setFriend] = React.useState(true);
+
     function invite(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        if (props.profile) {
-            fetch(`${KINDER_BACK_URL}/friends/${props.profile.urlId}/add`, {
+        if (profile) {
+            fetch(`${KINDER_BACK_URL}/friends/${profile.urlId}/add`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,
@@ -23,23 +26,21 @@ function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
         }
     }
 
-    const [isMyFriend, setFriend] = React.useState(true);
-
     React.useEffect(() => {
         fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
             res.text().then(txt => {
                 let users: UserBasicObject[] | null = JSON.parse(txt)['friends'];
                 if (users) {
                     setFriend(
-                        users.filter(u => u.urlId === props.profile.urlId).length !== 0
+                        users.filter(u => u.urlId === profile.urlId).length !== 0
                     )
                 }
             })
         })
     })
 
-    if (props.isMe || isMyFriend) {
-        return <div/>;
+    if (isMe || isMyFriend) {
+        return null;
     } else {
         return (
             <div className="col justify-content-end d-flex">
@@ -47,6 +48,6 @@ function AddFriendButton(props: { profile: UserFullObject, isMe: boolean }) {
             </div>
         )
     }
-}
+};
 
 export default AddFriendButton;
