@@ -28,22 +28,6 @@ export const RightPane: React.FC = () => {
                     {mapOn ? <KinderMapApp/> : <ListApp/>}
                 </div>
             </EventContext.Provider>
-            <div className="container mt-5">
-                <h3>You have successfully logged in</h3>
-                <ul className="list-group">
-                    {Object.keys(localStorage).filter(i => i !== 'token').map(
-                        i => <li className="list-group-item" key={i}>{i} - {localStorage.getItem(i)}</li>
-                    )}
-                </ul>
-                <button style={{margin: "0 5%"}} className="btn btn-warning" onClick={() => {
-                    localStorage.clear();
-                    sessionStorage.setItem('skipAnimation', 'true');
-                    window.location.replace('/');
-                    // props.history.push('/');
-                }}>
-                    Log Out
-                </button>
-            </div>
         </div>
     )
 }

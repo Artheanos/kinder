@@ -9,6 +9,14 @@ export const LeftPane: React.FC = () => {
     return (
         <div className="Left-pane col-sm-3 p-4">
             <CustomSwitch label="Map" value={mapOn} setValue={setMapOn}/>
+            <button style={{margin: "0 5%"}} className="btn btn-warning" onClick={() => {
+                localStorage.clear();
+                sessionStorage.setItem('skipAnimation', 'true');
+                window.location.replace('/');
+                // props.history.push('/');
+            }}>
+                Log Out
+            </button>
         </div>
     )
 }

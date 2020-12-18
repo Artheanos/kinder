@@ -4,31 +4,6 @@ import {photoUrl} from "../../../common/util";
 
 type ProfileImageProps = { editable: boolean, profile: Exclude<UserFullObject, null> }
 
-// const ProfileImage: React.FC<ProfileImageProps> = (props) => {
-//     // this.state = {
-//     //     fileInput: React.createRef(),
-//     // }
-//     const fileInput = React.useRef(null);
-//
-//     if (props.editable) {
-//         return (
-//             <div>
-//                 <img src={photoUrl(props.profile.photoUrl)}
-//                      alt={props.profile.name}/>
-//                 <input type="file" accept="image/x-png,image/gif,image/jpeg" className="form-control-file"
-//                        id="imageInput" style={{'cursor': 'pointer'}} ref={fileInput}/>
-//             </div>
-//         )
-//     } else {
-//         return (
-//             <div>
-//                 <img src={photoUrl(props.profile.photoUrl)}
-//                      alt={props.profile.name}/>
-//             </div>
-//         )
-//     }
-// }
-
 class ProfileImage extends React.Component<ProfileImageProps, { fileInput: React.RefObject<HTMLInputElement> }> {
     constructor(props: ProfileImageProps, context: any) {
         super(props, context);
@@ -45,8 +20,17 @@ class ProfileImage extends React.Component<ProfileImageProps, { fileInput: React
                         <img src={photoUrl(this.props.profile.photoUrl)}
                              alt={this.props.profile.name}/>
                     </div>
-                    <input type="file" accept="image/x-png,image/jpeg" className="form-control-file"
-                           id="imageInput" style={{'cursor': 'pointer'}} ref={this.state.fileInput}/>
+                    <div className="custom-file" style={{maxWidth: '300px'}}>
+                        <input type="file" name="file" className="custom-file-input" id="file_input" accept="image/*"
+                               ref={this.state.fileInput} style={{cursor: 'pointer'}}
+                               onChange={(e) => {
+                                   let fileName = e.target.value.split('\\').pop()?.slice(0, 28) + '...';
+                                   let label = e.target.nextElementSibling!;
+                                   label.classList.add('selected');
+                                   label.innerHTML = fileName!;
+                               }} required/>
+                        <label className="custom-file-label text-left" htmlFor="file_input">Choose File</label>
+                    </div>
                 </div>
             )
         } else {

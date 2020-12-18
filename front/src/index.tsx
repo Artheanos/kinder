@@ -5,6 +5,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.min';
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Welcome from "./welcome/Welcome";
