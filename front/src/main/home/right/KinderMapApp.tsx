@@ -1,41 +1,8 @@
-import React, {JSXElementConstructor, useContext, useState} from 'react';
-import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leaflet';
+import React, {useContext} from 'react';
+import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import {EventContext} from "./EventContext";
-import {DivIcon, Icon, LatLng} from "leaflet";
+import FormMarker from "./FormMarker";
 
-const TestClick: React.FC<any> = (props) => {
-    const [position, setPosition] = useState<LatLng | null>(null);
-
-    const map = useMapEvents({
-        click(e) {
-            setPosition(e.latlng);
-        },
-    });
-
-    if (position)
-        return (
-            <Marker position={position}>
-                <Popup className="popup-input">
-                    <form>
-                        <div className="form-row">
-                            <label>
-                                Title
-                                <input className="form-control" type="text"/>
-                            </label>
-                        </div>
-                        <div className="form-row">
-                            <label>
-                                Description
-                                <input className="form-control" type="text"/>
-                            </label>
-                        </div>
-                    </form>
-                </Popup>
-            </Marker>
-        )
-    else
-        return null
-}
 
 export function KinderMapApp() {
 
@@ -54,7 +21,7 @@ export function KinderMapApp() {
                     </Popup>
                 </Marker>
             )}
-            <TestClick/>
+            <FormMarker/>
         </MapContainer>
     );
 }

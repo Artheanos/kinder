@@ -1,5 +1,5 @@
-export const KINDER_BACK_IP = '192.168.0.234';
-export const KINDER_BACK_PORT = 3080
+export const KINDER_BACK_IP = 'localhost';
+export const KINDER_BACK_PORT = 3080;
 
 export const KINDER_BACK_URL = `http://${KINDER_BACK_IP}:${KINDER_BACK_PORT}`;
 export const KINDER_BACK_WS_URL = `ws://${KINDER_BACK_IP}:${KINDER_BACK_PORT}`;
