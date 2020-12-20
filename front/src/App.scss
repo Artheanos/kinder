@@ -1,4 +1,5 @@
 $navbar-height: 80px;
+$navbar-background: #f4f0ea;
 
 html, body, #root, .Main {
   height: 100%;
@@ -19,12 +20,17 @@ html, body, #root, .Main {
     padding: 0 1rem;
 
     .message {
+      border-radius: 1rem;
+      padding: 0.5rem;
+
       &.me {
         text-align: right;
+        background: white;
       }
 
       &.someone {
         text-align: left;
+        background: #efe0c9;
       }
     }
   }
@@ -98,7 +104,6 @@ html, body, #root, .Main {
 
 .Navbar {
   width: 100%;
-  $navbar-background: #f4f0ea;
   background: $navbar-background;
 
   nav {

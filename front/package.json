@@ -16,6 +16,7 @@
     "leaflet": "^1.7.1",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
     "react-leaflet": "^3.0.2",
     "react-scripts": "4.0.0",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.5.19",
+    "@types/react-datepicker": "^3.1.2",
     "@types/react-router-dom": "^5.1.6",
     "react-router-dom": "^5.2.0"
   }

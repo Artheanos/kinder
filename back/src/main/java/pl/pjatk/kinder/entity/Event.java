@@ -108,12 +108,12 @@ public class Event {
         this.state = state;
     }
 
-   // public List<User> getUsers() {
+    // public List<User> getUsers() {
     //    return users;
     //}
 
     //public void setUsers(List<User> users) {
-   //     this.users = users;
+    //     this.users = users;
     //}
 
     public List<Ticket> getTickets() {
