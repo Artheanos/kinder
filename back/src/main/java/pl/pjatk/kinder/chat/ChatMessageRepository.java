@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ChatMessageRepository extends CrudRepository<ChatMessage, Long> {
 
-    List<ChatMessage> findAllByChatIdOrderByTimeSend(String chatId, Pageable pageable);
+    List<ChatMessage> findAllByChatIdOrderByTimeSendDesc(String chatId, Pageable pageable);
     List<ChatMessage> findAllByChatId(String chatId);
     int countAllByChatId(String chatId);
 }

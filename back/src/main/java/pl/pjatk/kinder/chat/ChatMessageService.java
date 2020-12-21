@@ -42,7 +42,7 @@ public class ChatMessageService {
     public List<Message> findChatMessages(String senderId, String recipientId, int page) {
         String chatId = chatRoomService.getChatRoomId(senderId, recipientId);
         Pageable pageable = PageRequest.of(page, numberOfMessagesPerPage);
-        List<ChatMessage> messages = chatMessageRepository.findAllByChatIdOrderByTimeSend(chatId, pageable);
+        List<ChatMessage> messages = chatMessageRepository.findAllByChatIdOrderByTimeSendDesc(chatId, pageable);
         Collections.reverse(messages);
         return messages.stream().map(e -> new Message(e.getContent(), e.getSender().getUrlId(), e.getRecipient().getUrlId())).collect(Collectors.toList());
     }
