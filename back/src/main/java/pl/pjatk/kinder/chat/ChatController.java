@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import pl.pjatk.kinder.entity.User;
 import pl.pjatk.kinder.repo.UserRepository;
 
+import java.security.Principal;
+
 @Controller
 @CrossOrigin("*")
 public class ChatController {
@@ -38,9 +40,9 @@ public class ChatController {
         this.messagingTemplate.convertAndSend("/topic/" + message.getRecipientId(), new Message(message.getMessage(), message.getSenderId(), message.getRecipientId()));
     }
 
-    @GetMapping("/messages/{senderUrlId}/{recipientUrlId}/{page}")
-    public ResponseEntity<?> findMessages(@PathVariable String senderUrlId, @PathVariable String recipientUrlId, @PathVariable int page) {
-        return ResponseEntity.ok(chatMessageService.findChatMessages(senderUrlId, recipientUrlId, page));
+    @GetMapping("/messages/{recipientUrlId}/{page}")
+    public ResponseEntity<?> findMessages(@PathVariable String recipientUrlId, @PathVariable int page, Principal principal) {
+        return ResponseEntity.ok(chatMessageService.findChatMessages(userRepository.findByEmail(principal.getName()).get().getUrlId(), recipientUrlId, page));
     }
 
 }
