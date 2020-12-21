@@ -6,28 +6,36 @@ import {KINDER_BACK_URL, KINDER_BACK_WS_URL} from "../../../../common/util";
 
 type ChatPageState = {
     messages: JSX.Element[],
-    inputValue: string
+    inputValue: string,
+}
+
+type MessageObject = {
+    message: string,
+    senderId: string,
+    recipientId: string,
 }
 
 class ChatPage extends React.Component<ProfileProps, ChatPageState> {
 
     private client: CompatClient | null = null;
     private chatMessages: React.RefObject<HTMLDivElement> = React.createRef();
+    private pageNumber = 0;
 
     constructor(props: ProfileProps, context: any) {
         super(props, context);
         this.state = {
             messages: [],
-            inputValue: ''
+            inputValue: '',
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
         this.connect = this.connect.bind(this);
         this.addMessage = this.addMessage.bind(this);
     }
 
     componentDidMount() {
-        this.fetchMessages();
+        this.fetchMessages(0);
         this.connect();
     }
 
@@ -37,21 +45,32 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
                 messages: [],
                 inputValue: ''
             });
-            this.fetchMessages();
+            this.fetchMessages(0);
             this.client?.disconnect(this.connect);
         }
     }
 
-    fetchMessages() {
-        fetch(`${KINDER_BACK_URL}/messages/${localStorage.getItem('urlId')}/${this.props.match.params.profileId}/10`,).then(res => {
+    fetchMessages(page: number) {
+        let prevScrollHeight = this.chatMessages.current!.scrollHeight;
+        fetch(
+            `${KINDER_BACK_URL}/messages/${localStorage.getItem('urlId')}/${this.props.match.params.profileId}/${page}`
+        ).then(res => {
             res.text().then(resData => {
-                let jsonData: any = JSON.parse(resData);
+                let jsonData: MessageObject[] = JSON.parse(resData);
                 if (jsonData.length) {
-                    for (let messageObject of jsonData) {
-                        let {message, senderId} = messageObject;
-                        this.addMessage(message, senderId === localStorage.getItem('urlId'));
+                    let msgs = jsonData.map(i =>
+                        <ChatMessage text={i.message} imTheOwner={i.senderId === localStorage.getItem('urlId')}/>
+                    );
+                    this.setState({
+                        messages: msgs.concat(this.state.messages)
+                    })
+                    if (this.pageNumber === 0) {
+                        this.chatMessages.current?.scrollTo(0, this.chatMessages.current.scrollHeight);
+                    } else {
+                        this.chatMessages.current?.scrollTo(0, this.chatMessages.current?.scrollHeight - prevScrollHeight);
                     }
-                    this.chatMessages.current?.scrollTo(0, this.chatMessages.current.scrollHeight);
+                } else {
+                    this.pageNumber = -1;
                 }
             })
         });
@@ -89,15 +108,26 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
         }));
     }
 
-    addMessage(text: string, imTheOwner: boolean = true) {
+    handleScroll(e: React.UIEvent<HTMLElement>) {
+        let chatMessages = this.chatMessages.current;
+        if (chatMessages) {
+            if (this.pageNumber !== -1 && chatMessages.scrollTop === 0) {
+                this.fetchMessages(++this.pageNumber);
+            }
+        }
+    }
+
+    addMessage(text: string, imTheOwner: boolean) {
         let scrollDown = false;
         let chatMessages = this.chatMessages.current;
         if (chatMessages) {
             scrollDown = (chatMessages.scrollTop + chatMessages.clientHeight >= chatMessages.scrollHeight - 3);
         }
 
-        this.state.messages.push(<ChatMessage imTheOwner={imTheOwner} text={text} key={this.state.messages.length}/>);
+        let newMessage = <ChatMessage imTheOwner={imTheOwner} text={text} key={this.state.messages.length}/>;
+
         this.setState({
+            messages: this.state.messages.concat(newMessage),
             ...(imTheOwner && {inputValue: ''})
         } as any);
 
@@ -111,7 +141,7 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
             <div className="Chat-page container">
                 <h1>Chat with <i>{this.props.match.params.profileId}</i></h1>
                 <div className="chat-column">
-                    <div className="chat-messages" ref={this.chatMessages}>
+                    <div className="chat-messages" ref={this.chatMessages} onScroll={this.handleScroll}>
                         {this.state.messages}
                     </div>
                     <div className="chat-input">
