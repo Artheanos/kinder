@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ChatMessageRepository extends CrudRepository<ChatMessage, Long> {
 
-    List<ChatMessage> findAllByChatIdDesc(String chatId);
+    List<ChatMessage> findAllByChatId(String chatId);
     int countAllByChatId(String chatId);
 }
