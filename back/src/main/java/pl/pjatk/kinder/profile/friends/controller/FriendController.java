@@ -22,9 +22,10 @@ public class FriendController {
         this.friendService = friendService;
     }
 
-    @GetMapping("{urlId}")
-    public ResponseEntity<FriendListResponse> getFriends(@PathVariable String urlId) {
-        return friendService.getFriendList(urlId);
+    @PreAuthorize("#principal != null")
+    @GetMapping
+    public ResponseEntity<FriendListResponse> getFriends(Principal principal) {
+        return friendService.getFriendList(principal.getName());
     }
 
     @PreAuthorize("#principal != null")

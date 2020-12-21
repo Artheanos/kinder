@@ -32,8 +32,8 @@ public class FriendService {
         this.friendRequestRepository = friendRequestRepository;
     }
 
-    public ResponseEntity<FriendListResponse> getFriendList(String urlId) {
-        User user = userRepository.findByUrlId(urlId).get();
+    public ResponseEntity<FriendListResponse> getFriendList(String email) {
+        User user = userRepository.findByEmail(email).get();
         List<User> friends = user.getFriends().stream().map(Friend::getFriendId).collect(Collectors.toList());
         FriendListResponse response = buildFriendListResponse(friends);
         return ResponseEntity.ok(response);
