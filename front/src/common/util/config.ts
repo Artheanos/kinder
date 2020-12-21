@@ -1,4 +1,4 @@
-export const KINDER_BACK_IP = 'localhost';
+export const KINDER_BACK_IP = '192.168.1.93';
 export const KINDER_BACK_PORT = 3080;
 
 export const KINDER_BACK_URL = `http://${KINDER_BACK_IP}:${KINDER_BACK_PORT}`;
