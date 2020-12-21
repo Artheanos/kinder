@@ -1,5 +1,6 @@
 import React, {FormEvent} from "react";
 import RegisterInput from "../../welcome/auth/Register/RegisterInput";
+import {KINDER_BACK_URL} from "../../common/util";
 
 type Inputs = {
     [key: string]: React.RefObject<RegisterInput>
@@ -32,7 +33,7 @@ class EditPassword extends React.Component<{}, { inputs: Inputs }> {
             body[i] = this.state.inputs[i].current!.state.value;
         }
 
-        fetch('http://192.168.1.93:3080/user/fullname/edit', {
+        fetch(`${KINDER_BACK_URL}/user/fullname/edit`, {
             method: "PATCH",
             body: JSON.stringify(body),
             headers: {

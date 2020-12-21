@@ -1,70 +1,94 @@
-import React from "react";
-import Friend from "./components/Friend";
+import React, {useState, useEffect} from "react";
 import FriendList from "./components/FriendList";
-import FriendRequest from "./components/FriendRequest";
+import {KINDER_BACK_URL} from "../../common/util";
+import {UserBasicObject} from "../../common/UserObjects";
+import ChatPage from "./components/chat/ChatPage";
+import {Route} from "react-router-dom";
+import {RouteComponentProps} from "react-router";
+import FriendRequestList from "./components/friend_requests/FriendRequestList";
+import {FriendRequestListContext} from "./components/friend_requests/FriendRequestListContext";
 
-export type UserBasicObject = {
-    name: string,
-    surname: string,
-    urlId: string,
-    photoUrl: string | null,
-};
+function FriendPage(props: RouteComponentProps) {
 
-type FriendPageState = {
-    friendList: React.RefObject<FriendList>,
-    requestList: JSX.Element[]
-}
+    const [friendList, setFriendList] = useState<UserBasicObject[]>([]);
+    const [requestList, setRequestList] = useState<UserBasicObject[]>([]);
 
-class FriendPage extends React.Component<{}, FriendPageState> {
-
-    constructor(props: any, context: any) {
-        super(props, context);
-        this.state = {
-            friendList: React.createRef(),
-            requestList: []
-        }
+    function setActiveUser(urlId: string) {
+        props.history.push('/friends/' + urlId);
     }
 
-    componentDidMount() {
-        fetch('http://192.168.1.93:3080/friends/' + localStorage.getItem('urlId')).then(res => {
-            res.text().then(txt => {
-                let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
-                console.log(values);
-                if (values) {
-                    console.log(values[0])
-                    this.state.friendList.current!.setState({userBasics: values})
-                }
-            })
-        })
+    function fetchFriendRequests() {
+        // setRequestList([{name: "Jan", surname: "Kowalski", urlId: "", photoUrl: ""}])
 
-        this.getFriendRequests();
-    }
-
-    getFriendRequests() {
-        fetch(`http://192.168.1.93:3080/friends/${localStorage.getItem('urlId')}/requests`, {
+        fetch(`${KINDER_BACK_URL}/friends/requests`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             },
         }).then(res => {
-            res.text().then(txt => {
-                let users: UserBasicObject[] = JSON.parse(txt)['friends'];
-                this.setState({
-                    requestList: users.map(i => <FriendRequest user={i}/>)
+            if (res.status === 200) {
+                res.text().then(txt => {
+                    let users: UserBasicObject[] = JSON.parse(txt)['friends'];
+                    setRequestList(users);
                 })
+            } else {
+                alert("ERROR while fetching requests\nstatus " + res.status);
+            }
+        })
+    }
+
+    function fetchFriends() {
+        fetch(`${KINDER_BACK_URL}/friends`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+            }
+        }).then(res => {
+            res.text().then(txt => {
+                let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
+                console.log('friends - ', values);
+                if (values) {
+                    setFriendList(values);
+                }
             })
         })
     }
 
-    render() {
-        return (
-            <div className="Friend-page">
-                <FriendList ref={this.state.friendList}/>
-                <div className="friend-requests">
-                    {this.state.requestList}
+    useEffect(() => {
+        fetchFriends();
+        fetchFriendRequests();
+    }, []);
+
+    return (
+        <div className="Friend-page container-fluid p-0">
+            <div className="row">
+                <div className="col-4 text-center">
+                    <FriendRequestListContext.Provider value={{
+                        onRespond: (urlId: string) => {
+                            fetchFriends();
+                            fetchFriendRequests();
+                        }
+                    }}>
+                        <FriendRequestList requests={requestList}/>
+                    </FriendRequestListContext.Provider>
                 </div>
             </div>
-        )
-    }
+            {/*<div className="row">*/}
+            {/*    <div className="col-4 text-center">*/}
+            {/*        <FriendSearch/>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+            <div className="row">
+                <div className="friend-page-left-pane col-4">
+                    <FriendList friends={friendList} setActiveUser={setActiveUser}/>
+                </div>
+                <div className="friend-page-right-pane col p-0">
+                    <Route path="/friends/:profileId" component={ChatPage}/>
+                    {/*<div className="vh-100 d-flex align-items-center justify-content-center">*/}
+                    {/*    <h1>Chat</h1>*/}
+                    {/*</div>*/}
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default FriendPage;

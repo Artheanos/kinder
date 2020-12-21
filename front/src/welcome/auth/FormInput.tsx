@@ -1,5 +1,5 @@
 import React from "react";
-import {capitalize} from "../../common/util";
+import {String_capitalize} from "../../common/util";
 
 type FormInputProps = {
     name: string,
@@ -16,12 +16,12 @@ abstract class FormInput<T = {}> extends React.Component<T & FormInputProps, For
     readonly inputWrapper: React.RefObject<HTMLDivElement> = React.createRef();
     readonly warning: React.RefObject<HTMLParagraphElement> = React.createRef();
 
-    protected constructor(props: T & FormInputProps, context: React.Context<any>) {
+    constructor(props: T & FormInputProps, context: any) {
         super(props, context);
 
         this.state = {
             name: props.name,
-            label: props.label || capitalize(props.name),
+            label: props.label || String_capitalize(props.name),
             placeholder: props.placeholder || '',
             value: props.initialValue || '',
             type: props.type || 'text'
