@@ -53,7 +53,11 @@ class ChatPage extends React.Component<ProfileProps, ChatPageState> {
     fetchMessages(page: number) {
         let prevScrollHeight = this.chatMessages.current!.scrollHeight;
         fetch(
-            `${KINDER_BACK_URL}/messages/${localStorage.getItem('urlId')}/${this.props.match.params.profileId}/${page}`
+            `${KINDER_BACK_URL}/messages/${this.props.match.params.profileId}/${page}`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                }
+            }
         ).then(res => {
             res.text().then(resData => {
                 let jsonData: MessageObject[] = JSON.parse(resData);
