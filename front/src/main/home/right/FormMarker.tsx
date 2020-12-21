@@ -13,7 +13,7 @@ const FormMarker: React.FC = (props) => {
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [limit, setLimit] = useState(0);
+    const [capacity, setLimit] = useState(0);
 
     const startDatePicker = React.createRef<DatePicker>();
     const endDatePicker = React.createRef<DatePicker>();
@@ -30,10 +30,11 @@ const FormMarker: React.FC = (props) => {
             title,
             description,
             startDate,
-            endDate
+            endDate,
+            capacity
         }
 
-        console.log(body);
+        console.log(JSON.stringify(body));
     }
 
     // if (position) {
@@ -97,8 +98,8 @@ const FormMarker: React.FC = (props) => {
                     </div>
                     <div className="form-row">
                         <label>
-                            Limit <b>{limit || "No limit"}</b>
-                            <input type="range" className="custom-range" min="0" max="100" step="1" value={limit}
+                            Limit <b>{capacity || "No limit"}</b>
+                            <input type="range" className="custom-range" min="0" max="100" step="1" value={capacity}
                                    onChange={(e) => setLimit(+e.target.value)}
                             />
                         </label>

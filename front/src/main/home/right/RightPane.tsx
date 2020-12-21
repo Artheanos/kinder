@@ -10,15 +10,15 @@ export const RightPane: React.FC = () => {
     const [eventList, setEventList] = React.useState<Partial<EventBasicObject>[]>([]);
 
     useEffect(() => {
-        setEventList([{
-            title: 'Tance polamance',
-            lat: 54.42681988010237,
-            lng: 18.571529388427738
-        }, {
-            title: 'picko',
-            lat: 54.43256158213563,
-            lng: 18.582859039306644
-        }])
+        // setEventList([{
+        //     title: 'Tance polamance',
+        //     lat: 54.42681988010237,
+        //     lng: 18.571529388427738
+        // }, {
+        //     title: 'picko',
+        //     lat: 54.43256158213563,
+        //     lng: 18.582859039306644
+        // }])
     }, [])
 
     return (
