@@ -38,9 +38,9 @@ public class ChatController {
         this.messagingTemplate.convertAndSend("/topic/" + message.getRecipientId(), new Message(message.getMessage(), message.getSenderId(), message.getRecipientId()));
     }
 
-    @GetMapping("/messages/{senderUrlId}/{recipientUrlId}/{pageSize}")
-    public ResponseEntity<?> findMessages(@PathVariable String senderUrlId, @PathVariable String recipientUrlId, @PathVariable int pageSize) {
-        return ResponseEntity.ok(chatMessageService.findChatMessages(senderUrlId, recipientUrlId, pageSize));
+    @GetMapping("/messages/{senderUrlId}/{recipientUrlId}/{page}")
+    public ResponseEntity<?> findMessages(@PathVariable String senderUrlId, @PathVariable String recipientUrlId, @PathVariable int page) {
+        return ResponseEntity.ok(chatMessageService.findChatMessages(senderUrlId, recipientUrlId, page));
     }
 
 }

@@ -1,7 +1,6 @@
 package pl.pjatk.kinder.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import pl.pjatk.kinder.entity.User;
 import pl.pjatk.kinder.repo.UserRepository;
