@@ -1,5 +1,6 @@
 import React, {FormEvent} from "react";
 import RegisterInput from "../../welcome/auth/Register/RegisterInput";
+import {KINDER_BACK_URL} from "../../common/util";
 
 type Inputs = {
     [key: string]: React.RefObject<RegisterInput>
@@ -19,14 +20,7 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
     }
 
     componentDidMount() {
-        fetch(`http://192.168.1.93:3080/users/${localStorage.getItem('urlId')}/basic`).then(r => {
-            r.text().then(value => {
-                let data = JSON.parse(value);
-                for (let i in this.state.inputs) if (this.state.inputs.hasOwnProperty(i)) {
-                    this.state.inputs[i].current!.setState({value: data[i]});
-                }
-            })
-        })
+        this.state.inputs['email'].current!.setState({value: localStorage.getItem('email')!});
     }
 
     handleSubmit(e: FormEvent) {
@@ -43,7 +37,9 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
             body[i] = this.state.inputs[i].current!.state.value;
         }
 
-        fetch('http://192.168.1.93:3080/user/fullname/edit', {
+        console.log('SENDING', body);
+
+        fetch(`${KINDER_BACK_URL}/user/email/edit`, {
             method: "PATCH",
             body: JSON.stringify(body),
             headers: {
@@ -52,7 +48,8 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
             }
         }).then((r) => {
             if (r.status === 200) {
-                alert("Changes have been saved")
+                alert("Changes have been saved");
+                localStorage.setItem('email', body['email'])
             } else {
                 alert("ERROR " + r.status)
             }

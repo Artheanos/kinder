@@ -1,26 +1,30 @@
-import React from "react";
-import {UserBasicObject} from "../FriendPage";
+import React, {PropsWithChildren} from "react";
+import {photoUrl, profileUrl} from "../../../common/util";
+import {Link} from "react-router-dom";
+import {UserBasicObject} from "../../../common/UserObjects";
 
 type FriendProps = {
-    userBasic: UserBasicObject
-    // name: string,
-    // surname: string,
-    // pictureId: string,
+    userBasic: UserBasicObject,
+    setActiveUser?: (urlId: string) => any
 }
 
-class Friend extends React.Component<FriendProps> {
-    render() {
-        return (
-            <div className="Friend" style={{border: 'solid 1px black'}}>
-                {this.props.userBasic.name}
-                {this.props.userBasic.surname}
-                {this.props.userBasic.urlId}
-                {this.props.userBasic.photoUrl}
-                {/*<h3>{this.props.name}</h3>*/}
-                {/*<h3>{this.props.surname}</h3>*/}
+const Friend: React.FC<PropsWithChildren<FriendProps>> = (props) => {
+    return (
+        <div className="Friend d-flex justify-content-start p-4"
+             onClick={() => props.setActiveUser ? props.setActiveUser(props.userBasic.urlId) : null}>
+            <a href={profileUrl(props.userBasic.urlId)} target="_blank"
+               rel="noopener noreferrer">
+                <div className="img-wrapper mr-2">
+
+                    <img src={photoUrl(props.userBasic.photoUrl)} alt={props.userBasic.name}/>
+                </div>
+            </a>
+            <div className="name mr-2">
+                {props.userBasic.name}
             </div>
-        )
-    }
+            {props.children}
+        </div>
+    )
 }
 
 export default Friend;
