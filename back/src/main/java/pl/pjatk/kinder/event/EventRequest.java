@@ -1,10 +1,12 @@
 package pl.pjatk.kinder.event;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
-import pl.pjatk.kinder.entity.Address;
-import pl.pjatk.kinder.entity.Category;
-import pl.pjatk.kinder.entity.Photo;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
 
 
 @Component
@@ -14,8 +16,12 @@ public class EventRequest {
 
     private String title;
     private String description;
-    private String startDate;
-    private String endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    private LocalDateTime startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    private LocalDateTime endDate;
     private int capacity;
 
     private String address_name;
@@ -24,18 +30,16 @@ public class EventRequest {
 
     private String category_title;
 
-    private String photo_url;
 
     public EventRequest(){}
 
     public EventRequest(String title, String address_name, double latitude, double longitude, String category_title,
-                        String photo_url, String description, String startDate, String endDate, int capacity) {
+                          String description, LocalDateTime startDate, LocalDateTime endDate, int capacity) {
         this.title = title;
         this.address_name = address_name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.category_title = category_title;
-        this.photo_url = photo_url;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -50,11 +54,11 @@ public class EventRequest {
         return description;
     }
 
-    public String getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
@@ -76,9 +80,5 @@ public class EventRequest {
 
     public String getCategory_title() {
         return category_title;
-    }
-
-    public String getPhoto_url() {
-        return photo_url;
     }
 }

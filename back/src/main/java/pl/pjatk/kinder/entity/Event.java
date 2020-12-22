@@ -1,7 +1,9 @@
 package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -15,8 +17,10 @@ public class Event {
 
     private String title;
     private String description;
-    private Timestamp startdate;
-    private Timestamp enddate;
+    @Column(name = "startdate")
+    private Timestamp startDate;
+    @Column(name = "enddate")
+    private Timestamp endDate;
     private int capacity;
     private State state;
 
@@ -28,11 +32,11 @@ public class Event {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -43,15 +47,15 @@ public class Event {
     public Event(){}
 
     public Event(String title, Address address, Category category, Photo photo, String description,
-                 Timestamp startdate, Timestamp enddate, int capacity, State state, User user) {
+                 Timestamp startDate, Timestamp endDate, int capacity, State state, User user) {
 
         this.title = title;
         this.address = address;
         this.category = category;
         this.photo = photo;
         this.description = description;
-        this.startdate = startdate;
-        this.enddate = enddate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.capacity = capacity;
         this.state = state;
         this.user = user;
@@ -81,20 +85,22 @@ public class Event {
         this.description = description;
     }
 
-    public Timestamp getStartdate() {
-        return startdate;
+    public String getStartDate(){
+        String startDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.startDate);
+        return startDate;
     }
 
-    public void setStartdate(Timestamp startDate) {
-        this.startdate = startDate;
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
     }
 
-    public Timestamp getEnddate() {
-        return enddate;
+    public String getEndDate() {
+        String endDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.endDate);
+        return endDate;
     }
 
-    public void setEnddate(Timestamp endDate) {
-        this.enddate = endDate;
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
     }
 
     public int getCapacity() {
@@ -113,12 +119,31 @@ public class Event {
         this.state = state;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
+    public String getCategory() {
+        return category.getTitle();
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
+    public String getOwner() {
+        return user.getName()+" "+user.getSurname();
+    }
 }

@@ -15,8 +15,8 @@ public class Category {
     private String title;
     private String description;
 
-    @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
-    private Event event;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Event> events;
 
     public Category(){}
 
@@ -25,13 +25,6 @@ public class Category {
         this.description = description;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -47,15 +40,5 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", event=" + event +
-                '}';
     }
 }

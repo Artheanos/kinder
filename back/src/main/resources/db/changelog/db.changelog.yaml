@@ -205,3 +205,21 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20201512_event_add_category_column.sql
+
+  - changeSet:
+      id: 20202112_event_change_date_type
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202112_event_change_date_type.sql
+
+  - changeSet:
+      id: 20202112_event_change_date_to_timestamp
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202112_event_change_date_to_timestamp.sql

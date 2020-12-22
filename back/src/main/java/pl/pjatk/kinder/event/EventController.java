@@ -2,16 +2,21 @@ package pl.pjatk.kinder.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.pjatk.kinder.category.CategoryService;
 import pl.pjatk.kinder.entity.*;
 import pl.pjatk.kinder.repo.AddressRepository;
-import pl.pjatk.kinder.repo.PhotoRepository;
 import pl.pjatk.kinder.repo.UserRepository;
 import pl.pjatk.kinder.security.model.ResponseMessage;
+import pl.pjatk.kinder.services.PhotoService;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -24,67 +29,80 @@ public class EventController {
     private EventService eventService;
     private CategoryService categoryService;
     private UserRepository userRepository;
-    private PhotoRepository photoRepository;
+    private PhotoService photoService;
     private AddressRepository addressRepository;
 
     @Autowired
     public EventController(EventService eventService, CategoryService categoryService,
-                           UserRepository userRepository, PhotoRepository photoRepository,
+                           UserRepository userRepository, PhotoService photoService,
                            AddressRepository addressRepository) {
 
         this.eventService = eventService;
         this.categoryService = categoryService;
         this.userRepository = userRepository;
-        this.photoRepository = photoRepository;
+        this.photoService = photoService;
         this.addressRepository = addressRepository;
     }
 
 
-    @PostMapping
-    public ResponseEntity addEvent(@RequestBody EventRequest req){
-        //to do validation
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> addEvent(@RequestPart(value = "file", required = false) MultipartFile file, @RequestPart("data") EventRequest req) throws IOException, NoSuchAlgorithmException {
+        //todo: validation and photo for event
+
         if (eventService.existsByTitle(req.getTitle())) {
 
             return ResponseEntity.badRequest().body(new ResponseMessage("Event with that name already exists"));
         }
         else {
 
-            Timestamp startDate, endDate;
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
             long userId = userRepository.findByEmail(userEmail).get().getId();
+            Timestamp startdate;
+            Timestamp enddate;
 
-            //correct input date format yyyy-MM-dd HH:mm:ss.SSS
             try {
 
-                startDate = Timestamp.valueOf(req.getStartDate());
-                endDate = Timestamp.valueOf(req.getEndDate());
-                Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+                Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+
+                startdate = Timestamp.valueOf(req.getStartDate());
+                enddate = Timestamp.valueOf(req.getEndDate());
 
 
-                if(startDate.after(endDate))
+                if(startdate.after(enddate))
                     return ResponseEntity.badRequest().body(
                             new ResponseMessage("Start date cannot be earlier than end date"));
 
 
-                if (currentTime.after(startDate) || currentTime.after(endDate))
+                if (currentDate.after(startdate) || currentDate.after(enddate))
                     return ResponseEntity.badRequest().body(
                             new ResponseMessage("You cannot add events that have already passed"));
 
             } catch (Exception e) { return ResponseEntity.badRequest().body(new ResponseMessage("Wrong date format")); }
 
             Address address = new Address(req.getAddress_name(), req.getLatitude(), req.getLongitude());
-            addressRepository.save(address);
 
-            Photo photo = new Photo(req.getPhoto_url());
-            photoRepository.save(photo);
 
-            Category category = categoryService.findByTitle(req.getCategory_title());
+            Category category;
+            if(categoryService.existsByTitle(req.getCategory_title()))
+                category = categoryService.findByTitle(req.getCategory_title());
+            else
+                category = null;
 
-            //Default state = 'Waiting'
-            eventService.save(new Event(req.getTitle(), address,
-                    category, photo, req.getDescription(), startDate, endDate,
-                    req.getCapacity(), State.Waiting, userRepository.findById(userId).get()
-            ));
+                addressRepository.save(address);
+
+
+                Photo photo;
+                if (file != null) {
+                    photo = photoService.save(file);
+                }
+                else photo = null;
+
+
+                //Default state = 'Waiting'
+                eventService.save(new Event(req.getTitle(), address,
+                        category, photo, req.getDescription(), startdate, enddate,
+                        req.getCapacity(), State.Waiting, userRepository.findById(userId).get()
+                ));
 
             return new ResponseEntity(new ResponseMessage("Event created"), HttpStatus.CREATED);
         }
