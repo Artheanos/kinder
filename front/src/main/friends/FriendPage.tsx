@@ -37,7 +37,11 @@ function FriendPage(props: RouteComponentProps) {
     }
 
     function fetchFriends() {
-        fetch(`${KINDER_BACK_URL}/friends/${localStorage.getItem('urlId')}`).then(res => {
+        fetch(`${KINDER_BACK_URL}/friends`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+            }
+        }).then(res => {
             res.text().then(txt => {
                 let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
                 console.log('friends - ', values);
