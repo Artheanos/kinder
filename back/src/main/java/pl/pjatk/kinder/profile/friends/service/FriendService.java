@@ -133,4 +133,9 @@ public class FriendService {
         return ResponseEntity.ok("Friend deleted");
     }
 
+    public ResponseEntity<FriendListResponse> findFriends(String query) {
+        List<User> users = userRepository.findByQuery(query);
+        FriendListResponse response = buildFriendListResponse(users);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -29,6 +29,12 @@ public class FriendController {
     }
 
     @PreAuthorize("#principal != null")
+    @GetMapping("{query}/find")
+    public ResponseEntity<FriendListResponse> findFriends(@PathVariable String query) {
+        return friendService.findFriends(query);
+    }
+
+    @PreAuthorize("#principal != null")
     @GetMapping("requests")
     public ResponseEntity<?> getFriendRequests(Principal principal) {
         return friendService.getFriendRequests(principal.getName());
