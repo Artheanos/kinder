@@ -21,7 +21,8 @@ public class EventService {
 
     public List<Event> findAll(){
         List<Event> events = new ArrayList<>();
-        eventRepository.findAll().forEach(events::add);
+        eventRepository.findAll()
+                .forEach(events::add);
         return events;
     }
 

@@ -110,9 +110,9 @@ public class EventController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<Event>> getAllEvents(){
+    public ResponseEntity<?> getAllEvents(){
         var res = eventService.findAll();
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping("/title/{title}")

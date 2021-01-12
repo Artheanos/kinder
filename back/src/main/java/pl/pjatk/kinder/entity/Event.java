@@ -40,8 +40,8 @@ public class Event {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "event")
-    private List<Ticket> tickets;
+//    @OneToMany(mappedBy = "event")
+//    private List<Ticket> tickets;
 
 
     public Event(){}
@@ -85,8 +85,7 @@ public class Event {
         this.description = description;
     }
 
-    public String getStartDate(){
-        String startDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.startDate);
+    public Timestamp getStartDate() {
         return startDate;
     }
 
@@ -94,8 +93,7 @@ public class Event {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
-        String endDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.endDate);
+    public Timestamp getEndDate() {
         return endDate;
     }
 
@@ -119,14 +117,6 @@ public class Event {
         this.state = state;
     }
 
-    // public List<User> getUsers() {
-    //    return users;
-    //}
-
-    //public void setUsers(List<User> users) {
-    //     this.users = users;
-    //}
-
     public Address getAddress() {
         return address;
     }
@@ -135,13 +125,13 @@ public class Event {
         this.address = address;
     }
 
-    public String getCategory() {
-        return category.getTitle();
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public Photo getPhoto() {
         return photo;
@@ -151,7 +141,19 @@ public class Event {
         this.photo = photo;
     }
 
-    public String getOwner() {
-        return user.getName()+" "+user.getSurname();
+    public Category getCategory() {
+        return category;
     }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+//
+//    public List<Ticket> getTickets() {
+//        return tickets;
+//    }
+//
+//    public void setTickets(List<Ticket> tickets) {
+//        this.tickets = tickets;
+//    }
 }
