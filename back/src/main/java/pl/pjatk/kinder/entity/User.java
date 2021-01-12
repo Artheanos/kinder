@@ -38,6 +38,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friend> friends = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Event> events;
+
     /*@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "user_event",

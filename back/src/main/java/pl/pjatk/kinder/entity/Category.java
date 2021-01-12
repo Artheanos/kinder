@@ -15,8 +15,8 @@ public class Category {
     private String title;
     private String description;
 
-    @OneToMany(mappedBy="category")
-    private List<Subcategory> subcategories;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Event> events;
 
     public Category(){}
 

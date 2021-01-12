@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").authenticated()
                 .antMatchers("/friends").authenticated()
                 .antMatchers("/messages/**").authenticated()
+                .antMatchers("/event").authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

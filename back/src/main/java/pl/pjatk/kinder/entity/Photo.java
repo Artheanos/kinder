@@ -12,20 +12,14 @@ public class Photo {
 
     private String url;
 
+    @OneToOne(mappedBy = "photo", cascade = CascadeType.ALL)
+    private Event event;
+
     public Photo() {
     }
 
     public Photo(String url) {
         this.url = url;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUrl() {

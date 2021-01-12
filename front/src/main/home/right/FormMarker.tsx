@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import new_event_image from './new_event.png';
 
 import 'react-datepicker/dist/react-datepicker.css'
+
 import {EventContext} from "./EventContext";
 
 const FormMarker: React.FC = () => {
@@ -28,6 +29,7 @@ const FormMarker: React.FC = () => {
         >
             <Popup className="popup-input">
                 <h1>Popup</h1>
+
             </Popup>
         </Marker>
     )

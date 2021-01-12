@@ -1,8 +1,9 @@
 package pl.pjatk.kinder.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -15,33 +16,49 @@ public class Event {
     private Long id;
 
     private String title;
-    private String addres;
     private String description;
+    @Column(name = "startdate")
     private Timestamp startDate;
+    @Column(name = "enddate")
     private Timestamp endDate;
     private int capacity;
     private State state;
 
+    @OneToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
 
-   // @ManyToMany(mappedBy = "events")
-   // private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @OneToMany(mappedBy = "event")
     private List<Ticket> tickets;
 
-    @ManyToMany(mappedBy = "events")
-    private List<Subcategory> subcategories;
 
     public Event(){}
 
-    public Event(String title, String addres, String description, Timestamp startDate, Timestamp endDate, int capacity, State state) {
+    public Event(String title, Address address, Category category, Photo photo, String description,
+                 Timestamp startDate, Timestamp endDate, int capacity, State state, User user) {
+
         this.title = title;
-        this.addres = addres;
+        this.address = address;
+        this.category = category;
+        this.photo = photo;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.capacity = capacity;
         this.state = state;
+        this.user = user;
     }
 
     public Long getId() {
@@ -60,14 +77,6 @@ public class Event {
         this.title = title;
     }
 
-    public String getAddres() {
-        return addres;
-    }
-
-    public void setAddres(String addres) {
-        this.addres = addres;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -76,7 +85,8 @@ public class Event {
         this.description = description;
     }
 
-    public Timestamp getStartDate() {
+    public String getStartDate(){
+        String startDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.startDate);
         return startDate;
     }
 
@@ -84,7 +94,8 @@ public class Event {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public String getEndDate() {
+        String endDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.endDate);
         return endDate;
     }
 
@@ -116,19 +127,31 @@ public class Event {
     //     this.users = users;
     //}
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public List<Subcategory> getSubcategories() {
-        return subcategories;
+    public String getCategory() {
+        return category.getTitle();
     }
 
-    public void setSubcategories(List<Subcategory> subcategories) {
-        this.subcategories = subcategories;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
+    public String getOwner() {
+        return user.getName()+" "+user.getSurname();
     }
 }
