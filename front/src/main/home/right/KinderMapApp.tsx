@@ -15,7 +15,7 @@ export function KinderMapApp() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {eventList.map(value =>
-                <Marker position={[value.lat!, value.lng!]} title={value.title}>
+                <Marker position={[value.address!.latitude, value.address!.longitude]} title={value.title}>
                     <Popup>
                         <h3>{value.title}</h3>
                     </Popup>

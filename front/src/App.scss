@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 $navbar-height: 80px;
 $navbar-background: #f4f0ea;
 
@@ -46,6 +48,12 @@ html, body, #root, .Main {
 
   .friend-page-left-pane {
 
+  }
+}
+
+.Event-form {
+  .react-datepicker-wrapper {
+    display: block;
   }
 }
 

@@ -1,41 +1,20 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {Icon, LatLng} from "leaflet";
 import {Marker, Popup, useMapEvents} from "react-leaflet";
 import DatePicker from "react-datepicker";
 import new_event_image from './new_event.png';
 
 import 'react-datepicker/dist/react-datepicker.css'
+import {EventContext} from "./EventContext";
 
-const FormMarker: React.FC = (props) => {
-    const [position, setPosition] = useState<LatLng | null>(null);
-
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [capacity, setLimit] = useState(0);
-
-    const startDatePicker = React.createRef<DatePicker>();
-    const endDatePicker = React.createRef<DatePicker>();
+const FormMarker: React.FC = () => {
+    const [position, setPosition] = useContext(EventContext).positionState;
 
     useMapEvents({
         click(e) {
             setPosition(e.latlng);
         },
     });
-
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        let body = {
-            title,
-            description,
-            startDate,
-            endDate,
-            capacity
-        }
-
-        console.log(JSON.stringify(body));
-    }
 
     // if (position) {
     return (
@@ -48,66 +27,7 @@ const FormMarker: React.FC = (props) => {
                 })}
         >
             <Popup className="popup-input">
-                <form onSubmit={handleSubmit}>
-                    <div className="form-row">
-                        <label>
-                            Title
-                            <input className="form-control" type="text" value={title}
-                                   onChange={(e) => setTitle(e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-row">
-                        <label>
-                            Start date
-                            <DatePicker className="form-control onblur-fix" selected={startDate}
-                                        onChange={(date, event) => {
-                                            setStartDate(date as Date);
-                                            event?.preventDefault();
-                                        }}
-                                        onFocus={() => endDatePicker.current?.setOpen(false)}
-                                        ref={startDatePicker}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-row">
-                        <label>
-                            End date
-                            <DatePicker className="form-control" selected={endDate}
-                                        onChange={(date, event) => {
-                                            setEndDate(date as Date);
-                                            event?.preventDefault();
-                                        }}
-                                        onBlur={() => {
-                                            console.log("?");
-                                            // endDatePicker.current!.setOpen(false);
-                                        }}
-                                        ref={endDatePicker}
-                            >
-                                <div>dupa</div>
-                            </DatePicker>
-                        </label>
-                    </div>
-                    <div className="form-row">
-                        <label>
-                            Description
-                            <input className="form-control" type="text" value={description}
-                                   onChange={(e) => setDescription(e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-row">
-                        <label>
-                            Limit <b>{capacity || "No limit"}</b>
-                            <input type="range" className="custom-range" min="0" max="100" step="1" value={capacity}
-                                   onChange={(e) => setLimit(+e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-row">
-                        <input type="submit" className="btn btn-primary"/>
-                    </div>
-                </form>
+                <h1>Popup</h1>
             </Popup>
         </Marker>
     )

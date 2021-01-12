@@ -9,3 +9,19 @@ export type EventBasicObject = {
     capacity: string,
     state: string,
 }
+
+export type EventResponseObject = {
+    "id": number,
+    "title": string,
+    "description": string,
+    "startDate": string,
+    "endDate": string,
+    "capacity": number,
+    "state": string,
+    "address": {
+        "address_name": string,
+        "latitude": number,
+        "longitude": number
+    },
+    "photo": never
+}
