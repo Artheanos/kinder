@@ -160,3 +160,21 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20200612_change_char_room_primary_key.sql
+
+  - changeSet:
+      id: 20202112_modify_chat_message
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202112_modify_chat_message.sql
+
+  - changeSet:
+      id: 20202112_delete_words
+      author: Aleksander Konieczny
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20202112_delete_words.sql

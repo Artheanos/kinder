@@ -32,8 +32,8 @@ public class FriendService {
         this.friendRequestRepository = friendRequestRepository;
     }
 
-    public ResponseEntity<FriendListResponse> getFriendList(String urlId) {
-        User user = userRepository.findByUrlId(urlId).get();
+    public ResponseEntity<FriendListResponse> getFriendList(String email) {
+        User user = userRepository.findByEmail(email).get();
         List<User> friends = user.getFriends().stream().map(Friend::getFriendId).collect(Collectors.toList());
         FriendListResponse response = buildFriendListResponse(friends);
         return ResponseEntity.ok(response);
@@ -133,4 +133,9 @@ public class FriendService {
         return ResponseEntity.ok("Friend deleted");
     }
 
+    public ResponseEntity<FriendListResponse> findFriends(String query) {
+        List<User> users = userRepository.findByQuery(query);
+        FriendListResponse response = buildFriendListResponse(users);
+        return ResponseEntity.ok(response);
+    }
 }
