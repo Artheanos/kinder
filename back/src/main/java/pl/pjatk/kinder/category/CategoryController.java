@@ -40,6 +40,11 @@ public class CategoryController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id){
+        categoryService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<Category>> getAllCategories(){
