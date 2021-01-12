@@ -191,7 +191,8 @@ databaseChangeLog:
   - changeSet:
       id: 20202112_delete_words
       author: Aleksander Konieczny
-      relativeToChangelogFile: true
+      sqlFile:
+        relativeToChangelogFile: true
         stripComments: true
         splitStatements: false
         path: 20202112_delete_words.sql
