@@ -16,7 +16,6 @@ import pl.pjatk.kinder.services.PhotoService;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -33,9 +32,8 @@ public class EventController {
     private AddressRepository addressRepository;
 
     @Autowired
-    public EventController(EventService eventService, CategoryService categoryService,
-                           UserRepository userRepository, PhotoService photoService,
-                           AddressRepository addressRepository) {
+    public EventController(EventService eventService, CategoryService categoryService, UserRepository userRepository,
+                           PhotoService photoService, AddressRepository addressRepository) {
 
         this.eventService = eventService;
         this.categoryService = categoryService;
@@ -46,79 +44,95 @@ public class EventController {
 
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> addEvent(@RequestPart(value = "file", required = false) MultipartFile file, @RequestPart("data") EventRequest req) throws IOException, NoSuchAlgorithmException {
-        //todo: validation and photo for event
+    public ResponseEntity<?> addEvent(@RequestPart(value = "file", required = false) MultipartFile file,
+                                      @RequestPart("data") EventRequest req) throws IOException, NoSuchAlgorithmException {
 
-        if (eventService.existsByTitle(req.getTitle())) {
+        //Checking if event with that name already exists
+        if (!eventService.existsByTitle(req.getTitle())){
 
-            return ResponseEntity.badRequest().body(new ResponseMessage("Event with that name already exists"));
-        }
-        else {
-
+            //userEmail and userId needed for assign event for currently logged user
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
             long userId = userRepository.findByEmail(userEmail).get().getId();
-            Timestamp startdate;
-            Timestamp enddate;
 
-            try {
+            //Timestamps for checking if event date is correct and LocalDate -> Timestamp conversion
+            Timestamp eventStartDate, eventEndDate, currentDate;
+            eventStartDate = Timestamp.valueOf(req.getStartDate());
+            eventEndDate = Timestamp.valueOf(req.getEndDate());
+            currentDate = new Timestamp(System.currentTimeMillis());
 
-                Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+            //Event date validation
+            if (eventStartDate.after(eventStartDate))
+                return new ResponseEntity<>(
+                        new ResponseMessage("The event start date must be earlier than the event end date"),
+                        HttpStatus.BAD_REQUEST
+                );
+            else if (currentDate.after(eventStartDate) || currentDate.after(eventEndDate)) {
+                return new ResponseEntity<>(
+                        new ResponseMessage("The start and end date of the event cannot be later than the current date."),
+                        HttpStatus.BAD_REQUEST
+                );
+            }
+            else {
 
-                startdate = Timestamp.valueOf(req.getStartDate());
-                enddate = Timestamp.valueOf(req.getEndDate());
+                try {
+                    Address address = addressRepository.save(new Address(req.getAddress_name(), req.getLatitude(), req.getLongitude()));
+                    Category category = categoryService.findByTitle(req.getCategory_title());
+                    Photo photo = photoService.save(file);
 
+                    eventService.save(new Event(req.getTitle(), address,
+                            category, photo, req.getDescription(), eventStartDate, eventEndDate,
+                            req.getCapacity(), State.Waiting, userRepository.findById(userId).get()
+                    ));
 
-                if(startdate.after(enddate))
-                    return ResponseEntity.badRequest().body(
-                            new ResponseMessage("Start date cannot be earlier than end date"));
-
-
-                if (currentDate.after(startdate) || currentDate.after(enddate))
-                    return ResponseEntity.badRequest().body(
-                            new ResponseMessage("You cannot add events that have already passed"));
-
-            } catch (Exception e) { return ResponseEntity.badRequest().body(new ResponseMessage("Wrong date format")); }
-
-            Address address = new Address(req.getAddress_name(), req.getLatitude(), req.getLongitude());
-
-
-            Category category;
-            if(categoryService.existsByTitle(req.getCategory_title()))
-                category = categoryService.findByTitle(req.getCategory_title());
-            else
-                category = null;
-
-                addressRepository.save(address);
-
-
-                Photo photo;
-                if (file != null) {
-                    photo = photoService.save(file);
+                    return new ResponseEntity<>(new ResponseMessage("Event successfully added"), HttpStatus.CREATED);
+                } catch (Exception e){
+                    System.out.println(e);
+                    e.printStackTrace();
+                    return new ResponseEntity<>(new ResponseMessage("Something went wrong"), HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-                else photo = null;
-
-
-                //Default state = 'Waiting'
-                eventService.save(new Event(req.getTitle(), address,
-                        category, photo, req.getDescription(), startdate, enddate,
-                        req.getCapacity(), State.Waiting, userRepository.findById(userId).get()
-                ));
-
-            return new ResponseEntity(new ResponseMessage("Event created"), HttpStatus.CREATED);
+            }
         }
+        else return new ResponseEntity<>(
+                new ResponseMessage("Event with that name already exists"), HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> removeEvent(@RequestParam String title){
+        if(eventService.existsByTitle(title)){
+            Event eventToRemove = eventService.findByTitle(title);
+            User loggedUser = userRepository.findByEmail(SecurityContextHolder.getContext().
+                    getAuthentication().getName()).get();
+            if (loggedUser.getUrlId() == eventToRemove.getEventCreator().getUrlId() ||
+                    loggedUser.getRole() == Role.ROLE_ADMIN){
+                eventService.remove(eventToRemove.getId());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else return new ResponseEntity<>(
+                    new ResponseMessage("An event can only be deleted by the owner or administrator."),
+                    HttpStatus.UNAUTHORIZED);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllEvents(){
+    public ResponseEntity<List<Event>> getAllEvents(){
         var res = eventService.findAll();
-        return ResponseEntity.ok(res);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
 
     @GetMapping("/title/{title}")
     public ResponseEntity<Event> getEventsByTitle(@PathVariable String title){
         if(eventService.existsByTitle(title))
             return new ResponseEntity<>(eventService.findByTitle(title), HttpStatus.FOUND);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<Event> getEventsByCategory(@PathVariable String category){
+        if(eventService.existsByCategory(category))
+            return new ResponseEntity<>(eventService.findByCategory(category), HttpStatus.FOUND);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

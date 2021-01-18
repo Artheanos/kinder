@@ -12,7 +12,7 @@ public class Photo {
 
     private String url;
 
-    @OneToOne(mappedBy = "photo", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "photo", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch=FetchType.EAGER)
     private Event event;
 
     public Photo() {

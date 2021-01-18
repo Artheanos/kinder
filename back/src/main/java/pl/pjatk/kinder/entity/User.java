@@ -38,20 +38,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friend> friends = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Event> events;
+    @OneToMany(mappedBy = "eventCreator")
+    private List<Event> createdEvents = new ArrayList<>();
 
-    /*@ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "user_event",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "event_id") }
-    )
-    private List<Event> events;
-
-    @OneToMany(mappedBy = "user")
-    private List<Ticket> tickets;
-*/
+    @ManyToMany(mappedBy = "participants")
+    private List<Event> attendedEvent = new ArrayList<>();
 
 
     public User(){}
@@ -187,5 +178,9 @@ public class User implements UserDetails {
 
     public void setFriends(List<Friend> friends) {
         this.friends = friends;
+    }
+
+    public List<Event> getAttendedEvents() {
+        return attendedEvent;
     }
 }

@@ -30,11 +30,17 @@ public class EventService {
         return eventRepository.findEventByTitle(title);
     }
 
+    public Event findByCategory(String category) {return eventRepository.findEventByCategory(category);}
+
     public boolean existsByTitle(String title){
         return eventRepository.existsByTitle(title);
     }
-    
+
+    public boolean existsByCategory(String category) {return eventRepository.existsByCategory(category);}
+
     public void save(Event event){
         eventRepository.save(event);
     }
+
+    public void remove(Long id) { eventRepository.deleteById(id);}
 }

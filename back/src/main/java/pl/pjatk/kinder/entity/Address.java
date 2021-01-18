@@ -3,7 +3,7 @@ package pl.pjatk.kinder.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address", schema = "public")
+@Table(name = "address")
 public class Address {
 
     @Id
@@ -14,7 +14,7 @@ public class Address {
     private double latitude;
     private double longitude;
 
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "address", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch=FetchType.EAGER)
     private Event event;
 
     public Address(){}

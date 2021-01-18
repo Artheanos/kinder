@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface EventRepository extends CrudRepository<Event, Long> {
 
     Event findEventByTitle(String title);
+    Event findEventByCategory(String category);
     boolean existsByTitle(String title);
-
+    boolean existsByCategory(String category);
+    void deleteById(Long id);
 }

@@ -1,9 +1,11 @@
 package pl.pjatk.kinder.entity;
 
+import pl.pjatk.kinder.profile.details.BasicUserInfoResponse;
+
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,13 +26,19 @@ public class Event {
     private int capacity;
     private State state;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User eventCreator;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_event",
+            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private List<User> participants = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "photo_id")
@@ -40,14 +48,14 @@ public class Event {
     @JoinColumn(name = "category_id")
     private Category category;
 
-//    @OneToMany(mappedBy = "event")
-//    private List<Ticket> tickets;
+    @OneToMany(mappedBy = "event")
+    private List<Ticket> tickets= new ArrayList<>();
 
 
     public Event(){}
 
     public Event(String title, Address address, Category category, Photo photo, String description,
-                 Timestamp startDate, Timestamp endDate, int capacity, State state, User user) {
+                 Timestamp startDate, Timestamp endDate, int capacity, State state, User eventCreator) {
 
         this.title = title;
         this.address = address;
@@ -58,7 +66,7 @@ public class Event {
         this.endDate = endDate;
         this.capacity = capacity;
         this.state = state;
-        this.user = user;
+        this.eventCreator = eventCreator;
     }
 
     public Long getId() {
@@ -85,7 +93,8 @@ public class Event {
         this.description = description;
     }
 
-    public Timestamp getStartDate() {
+    public String getStartDate(){
+        String startDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.startDate);
         return startDate;
     }
 
@@ -93,7 +102,8 @@ public class Event {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public String getEndDate() {
+        String endDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(this.endDate);
         return endDate;
     }
 
@@ -125,13 +135,13 @@ public class Event {
         this.address = address;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public String getCategory() {
+        return category.getTitle();
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Photo getPhoto() {
         return photo;
@@ -141,19 +151,29 @@ public class Event {
         this.photo = photo;
     }
 
-    public Category getCategory() {
-        return category;
+    public BasicUserInfoResponse getEventCreator() {
+        Photo photo = eventCreator.getPhoto();
+        BasicUserInfoResponse eventCreatorInfo = new BasicUserInfoResponse(
+                eventCreator.getName(), eventCreator.getSurname(), eventCreator.getUrlId(),
+                photo != null ? photo.getUrl() : null);
+        return eventCreatorInfo;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void addParticipant(User user) {
+        this.participants.add(user);
     }
-//
-//    public List<Ticket> getTickets() {
-//        return tickets;
-//    }
-//
-//    public void setTickets(List<Ticket> tickets) {
-//        this.tickets = tickets;
-//    }
+
+    public void removeParticipant(User user){
+        this.participants.remove(user);
+    }
+
+    public List<BasicUserInfoResponse> getParticipants(){
+        List<BasicUserInfoResponse> participantsInfo  = new ArrayList<>();
+        for (User user : participants){
+            participantsInfo.add(new BasicUserInfoResponse(user.getName(), user.getSurname(),
+                    user.getUrlId(), user.getPhoto() != null ? user.getPhoto().getUrl() : null));
+        }
+        return participantsInfo;
+    }
+
 }
