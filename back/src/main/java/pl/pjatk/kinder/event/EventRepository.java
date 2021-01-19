@@ -1,8 +1,11 @@
 package pl.pjatk.kinder.event;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import pl.pjatk.kinder.entity.Event;
+import pl.pjatk.kinder.entity.State;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +18,5 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     boolean existsByTitle(String title);
     boolean existsByCategory(String category);
     void deleteById(Long id);
+    List<Event> findAllByState(State state);
 }
