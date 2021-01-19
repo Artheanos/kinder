@@ -250,3 +250,12 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: 20202112_event_change_date_to_timestamp.sql
+
+  - changeSet:
+      id: 20211901_event_title_not_unique
+      author: Rafał Kreft
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: 20211901_event_title_not_unique.sql

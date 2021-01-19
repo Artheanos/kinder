@@ -11,7 +11,6 @@ import pl.pjatk.kinder.profile.details.BasicUserInfoResponse;
 import pl.pjatk.kinder.repo.UserRepository;
 import pl.pjatk.kinder.security.model.ResponseMessage;
 
-import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -30,11 +29,11 @@ public class EventParticipationController {
 
 
     @PostMapping
-    public ResponseEntity<?> joinEvent(@RequestParam String title){
-        if(eventService.existsByTitle(title)){
+    public ResponseEntity<?> joinEvent(@RequestParam Long id){
+        if(eventService.existsById(id)){
             User loggedUser = userRepository.findByEmail(SecurityContextHolder.getContext().
                     getAuthentication().getName()).get();
-            Event event = eventService.findByTitle(title);
+            Event event = eventService.findById(id);
             if(loggedUser.getUrlId() != event.getEventCreator().getUrlId()){
                 for (BasicUserInfoResponse x : event.getParticipants()){
                     if (x.getUrlId() == loggedUser.getUrlId()){
@@ -56,11 +55,11 @@ public class EventParticipationController {
 
 
     @DeleteMapping
-    public ResponseEntity<?> leaveEvent(@RequestParam String title){
-        if(eventService.existsByTitle(title)){
+    public ResponseEntity<?> leaveEvent(@RequestParam Long id){
+        if(eventService.existsById(id)){
             User loggedUser = userRepository.findByEmail(SecurityContextHolder.getContext().
                     getAuthentication().getName()).get();
-            Event event = eventService.findByTitle(title);
+            Event event = eventService.findById(id);
 
             for (BasicUserInfoResponse x : event.getParticipants()){
                 if (x.getUrlId() == loggedUser.getUrlId()){

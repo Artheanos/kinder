@@ -32,11 +32,17 @@ public class EventService {
 
     public Event findByCategory(String category) {return eventRepository.findEventByCategory(category);}
 
+    public Event findById(Long id) { return eventRepository.findEventById(id);}
+
+    public List<Event> findAllByTitle(String title) { return eventRepository.findAllByTitle(title);}
+
     public boolean existsByTitle(String title){
         return eventRepository.existsByTitle(title);
     }
 
     public boolean existsByCategory(String category) {return eventRepository.existsByCategory(category);}
+
+    public boolean existsById(Long id){ return eventRepository.existsById(id);}
 
     public void save(Event event){
         eventRepository.save(event);
