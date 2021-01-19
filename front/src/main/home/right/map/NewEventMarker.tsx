@@ -1,14 +1,11 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {Icon, LatLng} from "leaflet";
+import React, {useContext} from "react";
+import {Icon} from "leaflet";
 import {Marker, Popup, useMapEvents} from "react-leaflet";
-import DatePicker from "react-datepicker";
 import new_event_image from './new_event.png';
-
 import 'react-datepicker/dist/react-datepicker.css'
+import {EventContext} from "../EventContext";
 
-import {EventContext} from "./EventContext";
-
-const FormMarker: React.FC = () => {
+const NewEventMarker: React.FC = () => {
     const [position, setPosition] = useContext(EventContext).positionState;
 
     useMapEvents({
@@ -29,7 +26,6 @@ const FormMarker: React.FC = () => {
         >
             <Popup className="popup-input">
                 <h1>Popup</h1>
-
             </Popup>
         </Marker>
     )
@@ -37,4 +33,4 @@ const FormMarker: React.FC = () => {
     //     return null
 }
 
-export default FormMarker;
+export default NewEventMarker;

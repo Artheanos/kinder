@@ -57,6 +57,17 @@ html, body, #root, .Main {
   }
 }
 
+.Event-marker {
+  img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  div {
+    margin-bottom: 1rem;
+  }
+}
+
 .Friend {
   $img-square-size: 50px;
   border: none !important;

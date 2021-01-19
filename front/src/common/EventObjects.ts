@@ -23,5 +23,5 @@ export type EventResponseObject = {
         "latitude": number,
         "longitude": number
     },
-    "photo": never
+    "photo": { url: string } | null
 }

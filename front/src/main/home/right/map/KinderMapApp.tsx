@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
-import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
-import {EventContext} from "./EventContext";
-import FormMarker from "./FormMarker";
+import {MapContainer, TileLayer} from 'react-leaflet';
+import {EventContext} from "../EventContext";
+import NewEventMarker from "./NewEventMarker";
+import EventMarker from "./EventMarker";
 
 
 export function KinderMapApp() {
@@ -14,14 +15,8 @@ export function KinderMapApp() {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {eventList.map(value =>
-                <Marker position={[value.address!.latitude, value.address!.longitude]} title={value.title}>
-                    <Popup>
-                        <h3>{value.title}</h3>
-                    </Popup>
-                </Marker>
-            )}
-            <FormMarker/>
+            {eventList.map(event => <EventMarker key={event.id} eventObject={event}/>)}
+            <NewEventMarker/>
         </MapContainer>
     );
 }

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {KinderMapApp} from "./KinderMapApp";
+import {KinderMapApp} from "./map/KinderMapApp";
 import {ListApp} from "./ListApp";
 import {MapContext} from "../MapSwitchContext";
 import {EventContext} from "./EventContext";
@@ -11,27 +11,20 @@ import {LatLng} from "leaflet";
 
 export const RightPane: React.FC = () => {
     const {mapOn} = React.useContext(MapContext);
-    const [eventList, setEventList] = React.useState<Partial<EventResponseObject>[]>([]);
+    const [eventList, setEventList] = React.useState<EventResponseObject[]>([]);
     const positionState = React.useState<LatLng | null>(null);
 
     useEffect(() => {
         fetch(`${KINDER_BACK_URL}/event/all`).then(res => {
             if (res.ok) {
                 res.text().then(value => {
+                    console.log(value);
                     let jsonData: EventResponseObject[] = JSON.parse(value);
                     setEventList(jsonData);
+                    console.log(eventList);
                 })
             }
         })
-        // setEventList([{
-        //     title: 'Tance polamance',
-        //     lat: 54.42681988010237,
-        //     lng: 18.571529388427738
-        // }, {
-        //     title: 'picko',
-        //     lat: 54.43256158213563,
-        //     lng: 18.582859039306644
-        // }])
     }, [])
 
     return (

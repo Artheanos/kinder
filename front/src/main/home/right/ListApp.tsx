@@ -2,7 +2,7 @@ import React from "react";
 import {EventContext} from "./EventContext";
 
 export const ListApp: React.FC = () => {
-    const {eventList, setEventList} = React.useContext(EventContext);
+    const {eventList} = React.useContext(EventContext);
 
     return (
         <div className="container mt-3">

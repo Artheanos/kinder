@@ -2,16 +2,27 @@ import React, {useContext, useState} from "react";
 import DatePicker from "react-datepicker";
 import {Button, Form} from "react-bootstrap";
 import {EventContext} from "./EventContext";
-import {KINDER_BACK_URL} from "../../../common/util";
+import {KINDER_BACK_URL, myDateFormat} from "../../../common/util";
 import {OSMObject} from "../../../common/OSMObject";
 import {LatLng} from "leaflet";
 
-function myDateFormat(date: Date) {
-    return date.toISOString().replace('T', ' ').replace(/:\d+.\d+Z/, '');
-}
 
 async function addressToLocation(address: string) {
-    return await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURI(address));
+    try {
+        let response = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURI(address));
+        return await response.text();
+    } catch (e) {
+        alert(e);
+    }
+}
+
+async function locationToAddress(lat: string | number, lng: string | number): Promise<string> {
+    try {
+        let response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
+        return await response.text();
+    } catch (e) {
+        throw e;
+    }
 }
 
 const EventForm: React.FC = () => {
@@ -99,18 +110,17 @@ const EventForm: React.FC = () => {
                 <Form.Group>
                     <Form.Label>Address</Form.Label>
                     <Form.Control type="text" value={addressName} onChange={e => setAddressName(e.target.value)}/>
-                    <Button variant="outline-secondary" onClick={() => {
-                        addressToLocation(addressName).then((res) => {
-                            res.text().then((val) => {
-                                let jsonData: OSMObject[] = JSON.parse(val);
-                                console.log(jsonData[0]);
-                                if (position) {
-                                    position.lat = Number(jsonData[0].lat);
-                                    position.lng = Number(jsonData[0].lon);
-                                    setPosition(new LatLng(position.lat, position.lng));
-                                }
-                            })
-                        });
+                    <Button variant="outline-secondary" className="mt-2" onClick={async () => {
+                        let response = await addressToLocation(addressName);
+                        if (response) {
+                            let jsonData: OSMObject[] = JSON.parse(response);
+                            console.log(jsonData[0]);
+                            if (position) {
+                                position.lat = Number(jsonData[0].lat);
+                                position.lng = Number(jsonData[0].lon);
+                                setPosition(new LatLng(position.lat, position.lng));
+                            }
+                        }
                     }}>Go to</Button>
                 </Form.Group>
 

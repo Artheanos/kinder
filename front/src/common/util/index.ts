@@ -12,6 +12,10 @@ export function profileUrl(urlId: string) {
     return `${KINDER_FRONT_URL}/profile/${urlId}`;
 }
 
+export function myDateFormat(date: Date) {
+    return date.toISOString().replace('T', ' ').replace(/:\d+.\d+Z/, '');
+}
+
 export * from './config';
 export * from './randoms';
 export * from './generic';

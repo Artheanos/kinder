@@ -4,12 +4,12 @@ import {LatLng} from "leaflet";
 
 export const EventContext = createContext<{
     positionState: [LatLng | null, Dispatch<SetStateAction<LatLng | null>>]
-    eventList: Partial<EventResponseObject>[],
-    setEventList: (eventList: Partial<EventResponseObject>[]) => any,
+    eventList: EventResponseObject[],
+    setEventList: (eventList: EventResponseObject[]) => any,
 }>({
     positionState: [null, function (p1: ((prevState: (LatLng | null)) => (LatLng | null)) | LatLng | null) {
     }],
     eventList: [],
-    setEventList(eventList: Partial<EventResponseObject>[]): any {
+    setEventList(eventList: EventResponseObject[]): any {
     }
 });
