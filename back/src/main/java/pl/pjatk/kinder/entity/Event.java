@@ -48,9 +48,8 @@ public class Event {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "event")
-    private List<Ticket> tickets= new ArrayList<>();
-
+    //@OneToMany(mappedBy = "event")
+    //private List<Ticket> tickets= new ArrayList<>();
 
     public Event(){}
 
@@ -135,9 +134,9 @@ public class Event {
         this.address = address;
     }
 
-    public String getCategory() {
-        return category.getTitle();
-    }
+    //public String getCategory() {
+    //    return category.getTitle();
+    //}
 
     public void setCategory(Category category) {
         this.category = category;
