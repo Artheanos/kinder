@@ -47,9 +47,6 @@ public class EventController {
     public ResponseEntity<?> addEvent(@RequestPart(value = "file", required = false) MultipartFile file,
                                       @RequestPart("data") EventRequest req) throws IOException, NoSuchAlgorithmException {
 
-        //Checking if event with that name already exists
-        if (!eventService.existsByTitle(req.getTitle())){
-
             //userEmail and userId needed for assign event for currently logged user
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
             long userId = userRepository.findByEmail(userEmail).get().getId();
@@ -91,9 +88,6 @@ public class EventController {
                     return new ResponseEntity<>(new ResponseMessage("Something went wrong"), HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
-        }
-        else return new ResponseEntity<>(
-                new ResponseMessage("Event with that name already exists"), HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping
