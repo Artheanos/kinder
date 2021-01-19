@@ -10,7 +10,7 @@ function Navbar() {
                 <NavbarItem title="Profile" to={`/profile/${localStorage.getItem('urlId')}`}/>
                 <NavbarItem title="Settings" to={`/settings`}/>
                 <NavbarItem title="Friends" to={`/friends`}/>
-                <NavbarItem title="Categories" to={`/categories`}/>
+                {localStorage.getItem('role') === "ROLE_ADMIN" && <NavbarItem title="Categories" to={`/categories`}/>}
             </nav>
         </div>
     )
