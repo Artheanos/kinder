@@ -24,6 +24,7 @@ public class Event {
     @Column(name = "enddate")
     private Timestamp endDate;
     private int capacity;
+
     private State state;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
