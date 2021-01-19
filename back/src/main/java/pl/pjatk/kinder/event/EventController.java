@@ -97,9 +97,9 @@ public class EventController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> removeEvent(@RequestParam String title){
-        if(eventService.existsByTitle(title)){
-            Event eventToRemove = eventService.findByTitle(title);
+    public ResponseEntity<?> removeEvent(@RequestParam Long id){
+        if(eventService.existsById(id)){
+            Event eventToRemove = eventService.findById(id);
             User loggedUser = userRepository.findByEmail(SecurityContextHolder.getContext().
                     getAuthentication().getName()).get();
             if (loggedUser.getUrlId() == eventToRemove.getEventCreator().getUrlId() ||
@@ -123,9 +123,9 @@ public class EventController {
 
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<Event> getEventsByTitle(@PathVariable String title){
+    public ResponseEntity<List<Event>> getEventsByTitle(@PathVariable String title){
         if(eventService.existsByTitle(title))
-            return new ResponseEntity<>(eventService.findByTitle(title), HttpStatus.FOUND);
+            return new ResponseEntity<>(eventService.findAllByTitle(title), HttpStatus.FOUND);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
