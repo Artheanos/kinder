@@ -97,6 +97,7 @@ const EventForm: React.FC = () => {
 
     return (
         <div className="Event-form p-5">
+            <h1>Create Event</h1>
             <Form onSubmit={handleSubmit}>
 
                 <Form.Group>
@@ -114,8 +115,7 @@ const EventForm: React.FC = () => {
                         let response = await addressToLocation(addressName);
                         if (response) {
                             let jsonData: OSMObject[] = JSON.parse(response);
-                            console.log(jsonData[0]);
-                            if (position) {
+                            if (jsonData.length > 0 && position) {
                                 position.lat = Number(jsonData[0].lat);
                                 position.lng = Number(jsonData[0].lon);
                                 setPosition(new LatLng(position.lat, position.lng));

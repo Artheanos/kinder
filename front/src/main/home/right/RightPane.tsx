@@ -12,6 +12,7 @@ import {LatLng} from "leaflet";
 export const RightPane: React.FC = () => {
     const {mapOn} = React.useContext(MapContext);
     const [eventList, setEventList] = React.useState<EventResponseObject[]>([]);
+    const myEventsState = React.useState<number[]>([]);
     const positionState = React.useState<LatLng | null>(null);
 
     useEffect(() => {
@@ -25,11 +26,24 @@ export const RightPane: React.FC = () => {
                 })
             }
         })
+
+        fetch(`${KINDER_BACK_URL}/event/participation`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+            }
+        }).then(res => {
+            if (res.ok) {
+                res.text().then(value => {
+                    let jsonData: EventResponseObject[] = JSON.parse(value);
+                    myEventsState[1](jsonData.map(i => i.id))
+                })
+            }
+        })
     }, [])
 
     return (
         <div className="Right-pane col-sm p-0">
-            <EventContext.Provider value={{eventList, setEventList, positionState}}>
+            <EventContext.Provider value={{eventList, setEventList, positionState, myEventsState}}>
                 <div className="event-wrapper">
                     {mapOn ? <KinderMapApp/> : <ListApp/>}
                 </div>

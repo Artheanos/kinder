@@ -1,3 +1,5 @@
+import {UserBasicObject} from "./UserObjects";
+
 export type EventBasicObject = {
     title: string,
     address: string,
@@ -23,5 +25,7 @@ export type EventResponseObject = {
         "latitude": number,
         "longitude": number
     },
-    "photo": { url: string } | null
+    "photo": { url: string } | null,
+    "eventCreator": UserBasicObject,
+    "participants": UserBasicObject[]
 }
