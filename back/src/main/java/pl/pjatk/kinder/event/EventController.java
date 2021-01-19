@@ -74,8 +74,9 @@ public class EventController {
                 try {
                     Address address = addressRepository.save(new Address(req.getAddress_name(), req.getLatitude(), req.getLongitude()));
                     Category category = categoryService.findByTitle(req.getCategory_title());
-                    Photo photo = photoService.save(file);
-
+                    Photo photo;
+                    if(file != null) photo = photoService.save(file);
+                    else photo = null;
                     eventService.save(new Event(req.getTitle(), address,
                             category, photo, req.getDescription(), eventStartDate, eventEndDate,
                             req.getCapacity(), State.Waiting, userRepository.findById(userId).get()
