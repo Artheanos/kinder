@@ -39,7 +39,7 @@ public class StatusManager {
         List<Event> events = StreamSupport.stream(eventRepository.findAll().spliterator(), false).collect(Collectors.toList());
         events.stream()
                 .filter(e -> e.getState() == State.Active)
-                .filter(e -> LocalDate.now().isAfter(LocalDate.parse(e.getStartDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss"))))
+                .filter(e -> LocalDate.now().isAfter(LocalDate.parse(e.getEndDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss"))))
                 .forEach(e -> e.setState(State.Ended));
         eventRepository.saveAll(events);
     }
