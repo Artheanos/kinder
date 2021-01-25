@@ -116,19 +116,25 @@ public class EventController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Event> getEventById(@PathVariable Long id){
+        if(eventService.existsById(id))
+            return new ResponseEntity(eventService.findById(id), HttpStatus.OK);
+        else return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping("/title/{title}")
     public ResponseEntity<List<Event>> getEventsByTitle(@PathVariable String title){
         if(eventService.existsByTitle(title))
-            return new ResponseEntity<>(eventService.findAllByTitle(title), HttpStatus.FOUND);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(eventService.findAllByTitle(title), HttpStatus.OK);
+        else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/category/{category}")
     public ResponseEntity<Event> getEventsByCategory(@PathVariable String category){
         if(eventService.existsByCategory(category))
-            return new ResponseEntity<>(eventService.findByCategory(category), HttpStatus.FOUND);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(eventService.findByCategory(category), HttpStatus.OK);
+        else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
 }
