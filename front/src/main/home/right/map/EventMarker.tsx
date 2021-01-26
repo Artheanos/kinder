@@ -1,9 +1,10 @@
 import {Marker, Popup} from "react-leaflet";
 import React, {useContext, useEffect, useState} from "react";
 import {EventResponseObject} from "../../../../common/EventObjects";
-import {KINDER_BACK_URL, myDateFormat, photoUrl} from "../../../../common/util";
+import {KINDER_BACK_URL, KINDER_FRONT_URL, myDateFormat, photoUrl} from "../../../../common/util";
 import {FormLabel} from "react-bootstrap";
 import {EventContext} from "../EventContext";
+import {Link} from "react-router-dom";
 
 
 const EventMarker: React.FC<{ eventObject: EventResponseObject }> = ({eventObject}) => {
@@ -53,6 +54,9 @@ const EventMarker: React.FC<{ eventObject: EventResponseObject }> = ({eventObjec
                         <FormLabel className="mb-0 mr-3">Coming?</FormLabel>
                         <input style={{width: '20px', height: '20px'}} type="checkbox" checked={going}
                                onChange={handleChange}/>
+                    </div>
+                    <div>
+                        <Link to={`/event/${eventObject.id}`}>Go to event</Link>
                     </div>
                 </div>
             </Popup>
