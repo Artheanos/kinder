@@ -93,7 +93,7 @@ class EditName extends React.Component<{}, { inputs: Inputs }> {
                                        }
                                    }}
                     />
-                    <LoginInput type="password" name="editPassword" placeholder="*******" ref={this.state.inputs.password}/>
+                    <LoginInput type="password" label={"Your password"} name={"password"} placeholder="*******" ref={this.state.inputs.password}/>
                     <input type="submit" className="btn btn-primary"/>
                 </form>
             </div>

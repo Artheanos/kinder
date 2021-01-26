@@ -1,6 +1,7 @@
 import React, {FormEvent} from "react";
 import RegisterInput from "../../welcome/auth/Register/RegisterInput";
 import {KINDER_BACK_URL} from "../../common/util";
+import LoginInput from "../../welcome/auth/Login/LoginInput";
 
 type Inputs = {
     [key: string]: React.RefObject<RegisterInput>
@@ -9,7 +10,7 @@ type Inputs = {
 class EditEmail extends React.Component<{}, { inputs: Inputs }> {
     constructor(props: any, context: any) {
         super(props, context);
-        let inputNames = ['email'];
+        let inputNames = ['email', 'password'];
         let inputs: Inputs = {};
         inputNames.forEach((key) => inputs[key] = React.createRef());
         this.state = {
@@ -46,14 +47,15 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             }
-        }).then((r) => {
-            if (r.status === 200) {
+        }).then(response => response.json())
+            .then((r: any) => {
                 alert("Changes have been saved");
                 localStorage.setItem('email', body['email'])
-            } else {
-                alert("ERROR " + r.status)
-            }
-        }).catch(reason => alert("ERROR\n" + reason))
+                localStorage.setItem('token', r.token)
+                console.log(r)
+            }).catch(reason => {
+                alert(reason)
+        })
     }
 
     render() {
@@ -64,6 +66,8 @@ class EditEmail extends React.Component<{}, { inputs: Inputs }> {
                     <RegisterInput ref={this.state.inputs.email} name="email" type="email"
                                    getInvalidMessage={(v: string) => null}
                     />
+                    <LoginInput type="password" label={"Your password"} name="password" placeholder="*******"
+                                ref={this.state.inputs.password}/>
                     <input type="submit" className="btn btn-primary"/>
                 </form>
             </div>
