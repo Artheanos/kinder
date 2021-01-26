@@ -34,8 +34,8 @@ public class EventParticipationController {
             User loggedUser = userRepository.findByEmail(SecurityContextHolder.getContext().
                     getAuthentication().getName()).get();
             Event event = eventService.findById(id);
-
-            if(event.getCapacity()+1 > event.getParticipants().size())
+            System.out.println(event.getCapacity()+1);
+            if(event.getParticipants().size() == event.getCapacity())
                 return new ResponseEntity<>(
                     new ResponseMessage("The event has reached the maximum number of participants"),
                     HttpStatus.CONFLICT);
