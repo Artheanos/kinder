@@ -36,8 +36,13 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-integration', version: '2.4.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.4.0'
 
-}
 
-test {
-    useJUnitPlatform()
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.11.1'
+    testImplementation 'org.testcontainers:postgresql:1.14.3'
+    testImplementation 'io.rest-assured:rest-assured'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-jaxb-annotations
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.12.0'
+
 }
