@@ -140,7 +140,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
         } else {
             return (
                 <div className="Profile m-auto container-md">
-                    <form>
+                    <form onSubmit={(e) => e.preventDefault()}>
                         <div className="row d-sm-flex">
                             <div className="left-pane col-sm-6">
                                 <div className="card">
