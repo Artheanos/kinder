@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {KinderMapApp} from "./map/KinderMapApp";
-import {ListApp} from "./ListApp";
+import {ListApp} from "./list/ListApp";
 import {MapContext} from "../MapSwitchContext";
 import {EventContext} from "./EventContext";
 import {EventResponseObject} from "../../../common/EventObjects";

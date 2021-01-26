@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {KINDER_BACK_URL} from "../../../common/util";
 import {UserBasicObject, UserFullObject} from "../../../common/UserObjects";
 
 const AddFriendButton: React.FC<{ profile: UserFullObject, isMe: boolean }> = ({profile, isMe}) => {
 
-        const [isMyFriend, setFriend] = React.useState(true);
+        const [isMyFriend, setFriend] = useState(true);
+        const [invited, setInvited] = useState(false);
 
         function invite(e: React.MouseEvent<HTMLButtonElement>) {
             e.preventDefault();
@@ -16,9 +17,9 @@ const AddFriendButton: React.FC<{ profile: UserFullObject, isMe: boolean }> = ({
                     },
                 }).then(res => {
                     if (res.status === 200) {
-                        alert("User invited");
+                        setInvited(true);
                     } else if (res.status === 400) {
-                        alert("User already invited");
+                        setInvited(true);
                     } else {
                         alert("ERROR\n" + res.status)
                     }
@@ -67,6 +68,12 @@ const AddFriendButton: React.FC<{ profile: UserFullObject, isMe: boolean }> = ({
 
         if (isMe) {
             return null;
+        } else if (invited) {
+            return (
+                <div className="col justify-content-end d-flex">
+                    <button className="btn disabled">Invited</button>
+                </div>
+            )
         } else if (isMyFriend) {
             return (
                 <div className="col justify-content-end d-flex">

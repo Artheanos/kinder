@@ -1,6 +1,7 @@
 import React, {FormEvent} from "react";
 import RegisterInput from "../../welcome/auth/Register/RegisterInput";
 import {KINDER_BACK_URL} from "../../common/util";
+import LoginInput from "../../welcome/auth/Login/LoginInput";
 
 type Inputs = {
     [key: string]: React.RefObject<RegisterInput>
@@ -9,7 +10,7 @@ type Inputs = {
 class EditName extends React.Component<{}, { inputs: Inputs }> {
     constructor(props: any, context: any) {
         super(props, context);
-        let inputNames = ['name', 'surname'];
+        let inputNames = ['name', 'surname', 'password'];
         let inputs: Inputs = {};
         inputNames.forEach((key) => inputs[key] = React.createRef());
         this.state = {
@@ -57,7 +58,13 @@ class EditName extends React.Component<{}, { inputs: Inputs }> {
             } else {
                 alert("ERROR " + r.status)
             }
-        }).catch(reason => alert("ERROR\n" + reason))
+        }).catch(reason => {
+            if (reason.status === 403) {
+                alert("Invalid password")
+            } else {
+                alert("ERROR\n" + reason)
+            }
+        })
     }
 
     render() {
@@ -86,6 +93,7 @@ class EditName extends React.Component<{}, { inputs: Inputs }> {
                                        }
                                    }}
                     />
+                    <LoginInput type="password" name="editPassword" placeholder="*******" ref={this.state.inputs.password}/>
                     <input type="submit" className="btn btn-primary"/>
                 </form>
             </div>

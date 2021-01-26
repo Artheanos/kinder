@@ -51,6 +51,12 @@ html, body, #root, .Main {
   }
 }
 
+.Event-page {
+  .EventImage {
+    border-radius: 0.5rem;
+  }
+}
+
 .Event-form {
   .react-datepicker-wrapper {
     display: block;
