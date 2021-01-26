@@ -41,7 +41,7 @@ public class UserEditController {
         User user = userRepository.findByEmail(principal.getName()).get();
 
         if (!passwordEncoder.matches(fullNameEditRequest.getPassword(), user.getPassword())) {
-            return ResponseEntity.ok("Invalid password");
+            return new ResponseEntity<>("Wrong password", HttpStatus.FORBIDDEN);
         }
 
         user.setName(fullNameEditRequest.getName());
