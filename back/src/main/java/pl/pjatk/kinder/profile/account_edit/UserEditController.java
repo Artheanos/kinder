@@ -3,17 +3,24 @@ package pl.pjatk.kinder.profile.account_edit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.pjatk.kinder.entity.Photo;
 import pl.pjatk.kinder.entity.User;
 import pl.pjatk.kinder.repo.UserRepository;
+import pl.pjatk.kinder.security.jwt.JwtUtils;
 import pl.pjatk.kinder.services.PhotoService;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -23,12 +30,17 @@ public class UserEditController {
     private UserRepository userRepository;
     private PhotoService photoService;
     private PasswordEncoder passwordEncoder;
+    private JwtUtils jwtUtils;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserEditController(UserRepository userRepository, PhotoService photoService, PasswordEncoder passwordEncoder) {
+    public UserEditController(UserRepository userRepository, PhotoService photoService, PasswordEncoder passwordEncoder,
+                              JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.photoService = photoService;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
     }
 
     @PatchMapping("fullname/edit")
@@ -60,15 +72,22 @@ public class UserEditController {
         User user = userRepository.findByEmail(principal.getName()).get();
 
         if (!passwordEncoder.matches(emailEditRequest.getPassword(), user.getPassword())) {
-            return ResponseEntity.ok("Invalid password");
+            return new ResponseEntity<>("Wrong password", HttpStatus.FORBIDDEN);
         }
 
         if (userRepository.existsByEmail(emailEditRequest.getEmail())) {
             return new ResponseEntity<>("Email already exists!", HttpStatus.BAD_REQUEST);
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         user.setEmail(emailEditRequest.getEmail());
         userRepository.save(user);
-        return ResponseEntity.ok("Modified");
+        UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(user, auth.getCredentials(), auth.getAuthorities());
+//        Authentication a = authenticationManager.authenticate(newAuth);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "Modified");
+        response.put("token", jwtUtils.generateToken(newAuth));
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("password/edit")
@@ -81,12 +100,16 @@ public class UserEditController {
         User user = userRepository.findByEmail(principal.getName()).get();
 
         if (!passwordEncoder.matches(passwordRequest.getPassword(), user.getPassword())) {
-            return ResponseEntity.ok("Invalid password");
+            return new ResponseEntity<>("Wrong password", HttpStatus.FORBIDDEN);
         }
 
         user.setPassword(passwordEncoder.encode(passwordRequest.getNewPassword()));
         userRepository.save(user);
-        return ResponseEntity.ok("Modified");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "Modified");
+        response.put("token", jwtUtils.generateToken(SecurityContextHolder.getContext().getAuthentication()));
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping(path = "data/edit", consumes = {"multipart/form-data"})
