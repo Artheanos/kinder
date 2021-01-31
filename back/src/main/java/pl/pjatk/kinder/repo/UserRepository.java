@@ -15,7 +15,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByEmail(String Email);
     Optional<User> findByUrlId(String urlId);
 
-    @Query("SELECT u FROM User u where concat(u.name, ' ', u.surname) like %:query%")
+    @Query("SELECT u FROM User u where lower(concat(u.name, ' ', u.surname)) like lower(concat('%', :query,'%'))")
     List<User> findByQuery(@Param("query") String query);
 
     boolean existsByEmail(String email);
