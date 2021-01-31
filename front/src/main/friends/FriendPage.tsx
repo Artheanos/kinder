@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import FriendList from "./components/FriendList";
 import {KINDER_BACK_URL} from "../../common/util";
-import {UserBasicObject} from "../../common/UserObjects";
 import ChatPage from "./components/chat/ChatPage";
 import {Route} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
@@ -10,8 +9,8 @@ import {FriendRequestListContext} from "./components/friend_requests/FriendReque
 
 function FriendPage(props: RouteComponentProps) {
 
-    const [friendList, setFriendList] = useState<UserBasicObject[]>([]);
-    const [requestList, setRequestList] = useState<UserBasicObject[]>([]);
+    const [friendList, setFriendList] = useState<Kinder.UserBasicObject[]>([]);
+    const [requestList, setRequestList] = useState<Kinder.UserBasicObject[]>([]);
 
     function setActiveUser(urlId: string) {
         props.history.push('/friends/' + urlId);
@@ -27,7 +26,7 @@ function FriendPage(props: RouteComponentProps) {
         }).then(res => {
             if (res.status === 200) {
                 res.text().then(txt => {
-                    let users: UserBasicObject[] = JSON.parse(txt)['friends'];
+                    let users: Kinder.UserBasicObject[] = JSON.parse(txt)['friends'];
                     setRequestList(users);
                 })
             } else {
@@ -43,7 +42,7 @@ function FriendPage(props: RouteComponentProps) {
             }
         }).then(res => {
             res.text().then(txt => {
-                let values: UserBasicObject[] | null = JSON.parse(txt)['friends'];
+                let values: Kinder.UserBasicObject[] | null = JSON.parse(txt)['friends'];
                 console.log('friends - ', values);
                 if (values) {
                     setFriendList(values);

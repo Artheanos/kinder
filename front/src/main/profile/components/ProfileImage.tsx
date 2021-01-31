@@ -1,8 +1,7 @@
 import React from "react";
-import {UserFullObject} from "../../../common/UserObjects";
 import {photoUrl} from "../../../common/util";
 
-type ProfileImageProps = { editable: boolean, profile: Exclude<UserFullObject, null> }
+type ProfileImageProps = { editable: boolean, profile: Exclude<Kinder.UserFullObject, null> }
 
 class ProfileImage extends React.Component<ProfileImageProps, { fileInput: React.RefObject<HTMLInputElement> }> {
     constructor(props: ProfileImageProps, context: any) {

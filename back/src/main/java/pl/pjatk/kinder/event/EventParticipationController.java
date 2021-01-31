@@ -40,9 +40,9 @@ public class EventParticipationController {
                     new ResponseMessage("The event has reached the maximum number of participants"),
                     HttpStatus.CONFLICT);
 
-            if(loggedUser.getUrlId() != event.getEventCreator().getUrlId()){
+            if(!loggedUser.getUrlId().equals(event.getEventCreator().getUrlId())){
                 for (BasicUserInfoResponse x : event.getParticipants()){
-                    if (x.getUrlId() == loggedUser.getUrlId()){
+                    if (x.getUrlId().equals(loggedUser.getUrlId())){
                         return new ResponseEntity<>(
                                 new ResponseMessage("You already participate in that event."),
                                 HttpStatus.CONFLICT);

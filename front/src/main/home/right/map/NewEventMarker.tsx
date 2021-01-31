@@ -1,18 +1,26 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Icon} from "leaflet";
 import {Marker, Popup, useMapEvents} from "react-leaflet";
 import new_event_image from './new_event.png';
 import 'react-datepicker/dist/react-datepicker.css'
 import {EventContext} from "../EventContext";
+import {locationToAddress} from "../../../../common/util";
 
 const NewEventMarker: React.FC = () => {
     const [position, setPosition] = useContext(EventContext).positionState;
+    const [msg, setMsg] = useState('Event');
 
     useMapEvents({
         click(e) {
             setPosition(e.latlng);
         },
     });
+
+    useEffect(() => {
+        if (position?.lat && position?.lng) {
+            locationToAddress(position.lat, position.lng).then(r => setMsg(r.display_name));
+        }
+    }, [position?.lat, position?.lng])
 
     // if (position) {
     return (
@@ -25,7 +33,7 @@ const NewEventMarker: React.FC = () => {
                 })}
         >
             <Popup className="popup-input">
-                <h1>Popup</h1>
+                <h3>{msg}</h3>
             </Popup>
         </Marker>
     )

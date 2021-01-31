@@ -1,13 +1,12 @@
 import {Marker, Popup} from "react-leaflet";
 import React, {useContext, useEffect, useState} from "react";
-import {EventResponseObject} from "../../../../common/EventObjects";
 import {KINDER_BACK_URL, KINDER_FRONT_URL, myDateFormat, photoUrl} from "../../../../common/util";
 import {FormLabel} from "react-bootstrap";
 import {EventContext} from "../EventContext";
 import {Link} from "react-router-dom";
 
 
-const EventMarker: React.FC<{ eventObject: EventResponseObject }> = ({eventObject}) => {
+const EventMarker: React.FC<{ eventObject: Kinder.EventResponseObject }> = ({eventObject}) => {
     const [myEvents] = useContext(EventContext).myEventsState;
     const [going, setGoing] = useState(false);
 

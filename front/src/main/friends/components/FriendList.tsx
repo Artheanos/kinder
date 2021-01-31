@@ -1,8 +1,7 @@
 import React from "react";
 import Friend from "./Friend";
-import {UserBasicObject} from "../../../common/UserObjects";
 
-function FriendList(props: { friends: UserBasicObject[], setActiveUser: (urlId: string) => any }) {
+function FriendList(props: { friends: Kinder.UserBasicObject[], setActiveUser: (urlId: string) => any }) {
     return (
         <div className="Friend-list">
             <ul className="list-group">

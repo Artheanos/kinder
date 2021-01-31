@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {KINDER_BACK_URL} from "../../../common/util";
-import {UserBasicObject, UserFullObject} from "../../../common/UserObjects";
 
-const AddFriendButton: React.FC<{ profile: UserFullObject, isMe: boolean }> = ({profile, isMe}) => {
+const AddFriendButton: React.FC<{ profile: Kinder.UserFullObject, isMe: boolean }> = ({profile, isMe}) => {
 
         const [isMyFriend, setFriend] = useState(true);
         const [invited, setInvited] = useState(false);
@@ -49,14 +48,14 @@ const AddFriendButton: React.FC<{ profile: UserFullObject, isMe: boolean }> = ({
             }
         }
 
-        React.useEffect(() => {
+        useEffect(() => {
             fetch(`${KINDER_BACK_URL}/friends`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,
                 },
             }).then(res => {
                 res.text().then(txt => {
-                    let users: UserBasicObject[] | null = JSON.parse(txt)['friends'];
+                    let users: Kinder.UserBasicObject[] | null = JSON.parse(txt)['friends'];
                     if (users) {
                         setFriend(
                             users.filter(u => u.urlId === profile.urlId).length !== 0

@@ -1,29 +1,10 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 import {Button, Form} from "react-bootstrap";
 import {EventContext} from "./EventContext";
-import {KINDER_BACK_URL, myDateFormat} from "../../../common/util";
-import {OSMObject} from "../../../common/OSMObject";
+import {addressToLocation, KINDER_BACK_URL, myDateFormat} from "../../../common/util";
 import {LatLng} from "leaflet";
 
-
-async function addressToLocation(address: string) {
-    try {
-        let response = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURI(address));
-        return await response.text();
-    } catch (e) {
-        alert(e);
-    }
-}
-
-async function locationToAddress(lat: string | number, lng: string | number): Promise<string> {
-    try {
-        let response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
-        return await response.text();
-    } catch (e) {
-        throw e;
-    }
-}
 
 const EventForm: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -38,6 +19,14 @@ const EventForm: React.FC = () => {
     const endDatePicker = React.createRef<DatePicker>();
 
     const [position, setPosition] = useContext(EventContext).positionState;
+
+    const [categories, setCategories] = useState<Kinder.Category[]>([]);
+
+    async function fetchCategories() {
+        let response = await fetch(`${KINDER_BACK_URL}/category/all`);
+        let result: Kinder.Category[] = JSON.parse(await response.text());
+        setCategories(result);
+    }
 
     function fileInputOnChange(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target.files;
@@ -95,6 +84,10 @@ const EventForm: React.FC = () => {
         });
     }
 
+    useEffect(() => {
+        fetchCategories();
+    }, [])
+
     return (
         <div className="Event-form p-5">
             <h1>Create Event</h1>
@@ -127,6 +120,14 @@ const EventForm: React.FC = () => {
                 <Form.Group>
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
+                </Form.Group>
+
+                <Form.Group>
+                    <Form.Label>Category</Form.Label>
+                    <Form.Control as="select">
+                        <option>None</option>
+                        {categories.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                    </Form.Control>
                 </Form.Group>
 
                 <Form.Group>

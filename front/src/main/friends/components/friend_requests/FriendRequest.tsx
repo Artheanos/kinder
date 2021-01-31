@@ -1,11 +1,10 @@
 import React, {useContext} from "react";
 import {KINDER_BACK_URL} from "../../../../common/util";
-import {UserBasicObject} from "../../../../common/UserObjects";
 import Friend from "../Friend";
 import {FriendRequestListContext} from "./FriendRequestListContext";
 
 type FriendRequestProps = {
-    user: UserBasicObject
+    user: Kinder.UserBasicObject
 }
 
 const FriendRequest: React.FC<FriendRequestProps> = ({user}) => {
@@ -20,7 +19,6 @@ const FriendRequest: React.FC<FriendRequestProps> = ({user}) => {
             }
         }).then(res => {
             if (res.status === 200) {
-                alert("OK");
                 onRespond(user.urlId);
             } else {
                 alert("ERROR\n" + res.status)
@@ -29,14 +27,13 @@ const FriendRequest: React.FC<FriendRequestProps> = ({user}) => {
     }
 
     function decline() {
-        fetch(`${KINDER_BACK_URL}/friends/${user.urlId}`, {
+        fetch(`${KINDER_BACK_URL}/friends/${user.urlId}/decline`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`,
             }
         }).then(res => {
             if (res.status === 200) {
-                alert("OK")
                 onRespond(user.urlId);
             } else {
                 alert("ERROR\n" + res.status)

@@ -1,8 +1,7 @@
 import React from "react";
 import FriendRequest from "./FriendRequest";
-import {UserBasicObject} from "../../../../common/UserObjects";
 
-const FriendRequestList: React.FC<{ requests: UserBasicObject[] }> = ({requests}) => {
+const FriendRequestList: React.FC<{ requests: Kinder.UserBasicObject[] }> = ({requests}) => {
     if (requests.length) {
         return (
             <div>

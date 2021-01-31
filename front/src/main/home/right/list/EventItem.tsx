@@ -1,8 +1,7 @@
 import React from "react";
-import {EventResponseObject} from "../../../../common/EventObjects";
 import {Link} from "react-router-dom";
 
-const EventItem: React.FC<{ eventObject: EventResponseObject }> = ({eventObject}) => {
+const EventItem: React.FC<{ eventObject: Kinder.EventResponseObject }> = ({eventObject}) => {
     return (
         <div>
             <h2>{eventObject.title}</h2>

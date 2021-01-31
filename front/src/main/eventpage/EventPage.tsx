@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
 import {RouteComponentProps} from "react-router";
-import {EventResponseObject} from "../../common/EventObjects";
 import {KINDER_BACK_URL, myDateFormat, photoUrl} from "../../common/util";
 import {Button, Col, Container, FormLabel, Row} from "react-bootstrap";
 import Friend from "../friends/components/Friend";
@@ -12,7 +11,7 @@ type EventPageProps = RouteComponentProps<{ eventId: string }>
 
 const EventPage: React.FC<EventPageProps> = (props) => {
     const eventId = props.match.params.eventId;
-    const [eventObject, setEventObject] = useState<EventResponseObject | null>(null);
+    const [eventObject, setEventObject] = useState<Kinder.EventResponseObject | null>(null);
 
     const [going, setGoing] = useState(false);
 
@@ -23,7 +22,7 @@ const EventPage: React.FC<EventPageProps> = (props) => {
             }
         }).then(res => {
             res.text().then(val => {
-                let jsonData: EventResponseObject = JSON.parse(val);
+                let jsonData: Kinder.EventResponseObject = JSON.parse(val);
                 setEventObject(jsonData);
             })
         });
@@ -61,7 +60,7 @@ const EventPage: React.FC<EventPageProps> = (props) => {
             if (res.ok) {
                 res.text().then(value => {
                     if (eventObject !== null) {
-                        let jsonData: EventResponseObject[] = JSON.parse(value);
+                        let jsonData: Kinder.EventResponseObject[] = JSON.parse(value);
                         setGoing(jsonData.map(i => i.id).includes(eventObject.id))
                     }
                 })
@@ -108,9 +107,13 @@ const EventPage: React.FC<EventPageProps> = (props) => {
                             <div className="d-flex flex-wrap">
                                 <div className="d-flex align-items-center w-100 between my-3">
                                     <h3 className="w-100">Participants</h3>
-                                    <FormLabel className="mb-0 mr-3">Coming?</FormLabel>
-                                    <input style={{width: '20px', height: '20px'}} type="checkbox" checked={going}
-                                           onChange={handleChange}/>
+                                    {eventObject.eventCreator.urlId !== localStorage.getItem('urlId') ?
+                                        <>
+                                            <FormLabel className="mb-0 mr-3">Coming?</FormLabel>
+                                            <input style={{width: '20px', height: '20px'}} type="checkbox"
+                                                   checked={going}
+                                                   onChange={handleChange}/>
+                                        </> : null}
                                 </div>
                                 <h6 className="w-100">{eventObject.participants.length} out
                                     of {eventObject.capacity}</h6>

@@ -1,10 +1,8 @@
 import React, {PropsWithChildren} from "react";
 import {photoUrl, profileUrl} from "../../../common/util";
-import {Link} from "react-router-dom";
-import {UserBasicObject} from "../../../common/UserObjects";
 
 type FriendProps = {
-    userBasic: UserBasicObject,
+    userBasic: Kinder.UserBasicObject,
     setActiveUser?: (urlId: string) => any
 }
 

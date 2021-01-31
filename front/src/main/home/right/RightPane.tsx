@@ -3,7 +3,6 @@ import {KinderMapApp} from "./map/KinderMapApp";
 import {ListApp} from "./list/ListApp";
 import {MapContext} from "../MapSwitchContext";
 import {EventContext} from "./EventContext";
-import {EventResponseObject} from "../../../common/EventObjects";
 import {KINDER_BACK_URL} from "../../../common/util";
 import EventForm from "./EventForm";
 import {LatLng} from "leaflet";
@@ -11,7 +10,7 @@ import {LatLng} from "leaflet";
 
 export const RightPane: React.FC = () => {
     const {mapOn} = React.useContext(MapContext);
-    const [eventList, setEventList] = React.useState<EventResponseObject[]>([]);
+    const [eventList, setEventList] = React.useState<Kinder.EventResponseObject[]>([]);
     const myEventsState = React.useState<number[]>([]);
     const positionState = React.useState<LatLng | null>(null);
 
@@ -20,7 +19,7 @@ export const RightPane: React.FC = () => {
             if (res.ok) {
                 res.text().then(value => {
                     console.log(value);
-                    let jsonData: EventResponseObject[] = JSON.parse(value);
+                    let jsonData: Kinder.EventResponseObject[] = JSON.parse(value);
                     setEventList(jsonData);
                     console.log(eventList);
                 })
@@ -34,7 +33,7 @@ export const RightPane: React.FC = () => {
         }).then(res => {
             if (res.ok) {
                 res.text().then(value => {
-                    let jsonData: EventResponseObject[] = JSON.parse(value);
+                    let jsonData: Kinder.EventResponseObject[] = JSON.parse(value);
                     myEventsState[1](jsonData.map(i => i.id))
                 })
             }

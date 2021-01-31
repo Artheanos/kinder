@@ -4,17 +4,16 @@ import ProfileSection from "./components/ProfileSection";
 import ProfileImage from "./components/ProfileImage";
 import AddFriendButton from "./components/AddFriendButton";
 import {KINDER_BACK_URL} from "../../common/util";
-import {UserFullObject} from "../../common/UserObjects";
 import {SaveButton} from "./components/SaveButton";
 
-async function getProfileByUrlId(urlId: string): Promise<UserFullObject> {
+async function getProfileByUrlId(urlId: string): Promise<Kinder.UserFullObject> {
     let x = await fetch(`${KINDER_BACK_URL}/users/${urlId}/full`);
     return JSON.parse(await x.text());
 }
 
 type ProfileState = {
     profileId: string,
-    profile: UserFullObject | null,
+    profile: Kinder.UserFullObject | null,
     editing: boolean,
     saving: boolean,
     isMe: boolean,

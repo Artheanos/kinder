@@ -1,10 +1,9 @@
 import React, {FormEvent} from "react";
 import FriendList from "./FriendList";
-import {UserBasicObject} from "../../../common/UserObjects";
 
 type FriendSearchState = {
     searchQuery: string,
-    friendsFound: UserBasicObject[]
+    friendsFound: Kinder.UserBasicObject[]
 }
 
 class FriendSearch extends React.Component<{}, FriendSearchState> {
