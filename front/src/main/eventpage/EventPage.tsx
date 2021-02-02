@@ -6,6 +6,10 @@ import Friend from "../friends/components/Friend";
 import {EventContext} from "../home/right/EventContext";
 import EventItem from "../home/right/list/EventItem";
 import {Link} from "react-router-dom";
+import {MapContainer, TileLayer} from "react-leaflet";
+import EventMarker from "../home/right/map/EventMarker";
+import NewEventMarker from "../home/right/map/NewEventMarker";
+import {EventMap} from "./EventMap";
 
 type EventPageProps = RouteComponentProps<{ eventId: string }>
 
@@ -89,9 +93,7 @@ const EventPage: React.FC<EventPageProps> = (props) => {
                                 <li className="list-group-item">
                                     <h3>Where?</h3>
                                     <div className="mb-3">At {eventObject.address.address_name}</div>
-                                    <a href={`https://www.google.com/maps/?q=${eventObject.address.latitude},${eventObject.address.longitude}`}>
-                                        <Button>Open in Google Maps</Button>
-                                    </a>
+                                    <EventMap lat={eventObject.address.latitude} lng={eventObject.address.longitude} title={eventObject.title}/>
                                 </li>
                             </ul>
                         </Col>
