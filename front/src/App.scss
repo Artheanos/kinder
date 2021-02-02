@@ -143,6 +143,7 @@ html, body, #root, .Main {
     $a-font-size: 1.2rem;
 
     a {
+      white-space: nowrap;
       text-decoration: none;
       height: 100%;
       padding: 0 1.6rem;

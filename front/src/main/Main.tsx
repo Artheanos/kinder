@@ -8,6 +8,8 @@ import FriendPage from "./friends/FriendPage";
 import CategoryPage from "./admin/CategoryPage";
 import {CategoryFilter} from "./admin/CategoryFilter";
 import EventPage from "./eventpage/EventPage";
+import EventForm from "./new_event/EventForm";
+import MyEvents from "./my_events/MyEvents";
 
 const Main: React.FC = () => {
     if (!localStorage.getItem('token')) {
@@ -24,6 +26,8 @@ const Main: React.FC = () => {
             <Route path="/settings" component={Settings}/>
             <Route path="/friends" component={FriendPage}/>
             <Route path="/categories" component={CategoryFilter as any}/>
+            <Route path="/new-event" component={EventForm}/>
+            <Route path="/my-events" component={MyEvents}/>
         </div>
     )
 };

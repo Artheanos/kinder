@@ -1,11 +1,10 @@
 import React, {useEffect} from "react";
 import {KinderMapApp} from "./map/KinderMapApp";
-import {ListApp} from "./list/ListApp";
 import {MapContext} from "../MapSwitchContext";
 import {EventContext} from "./EventContext";
 import {KINDER_BACK_URL} from "../../../common/util";
-import EventForm from "./EventForm";
 import {LatLng} from "leaflet";
+import ListApp from "./list/ListApp";
 
 
 export const RightPane: React.FC = () => {
@@ -46,7 +45,6 @@ export const RightPane: React.FC = () => {
                 <div className="event-wrapper">
                     {mapOn ? <KinderMapApp/> : <ListApp/>}
                 </div>
-                <EventForm/>
             </EventContext.Provider>
         </div>
     )

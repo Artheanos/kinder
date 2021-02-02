@@ -12,9 +12,12 @@ export function profileUrl(urlId: string) {
     return `${KINDER_FRONT_URL}/profile/${urlId}`;
 }
 
-export function myDateFormat(date: Date) {
+export function myDateFormat(date: Date | string) {
+    if (typeof date === "string")
+        date = new Date(date);
     return date.toISOString().replace('T', ' ').replace(/:\d+.\d+Z/, '');
 }
+
 
 
 export async function addressToLocation(address: string) {

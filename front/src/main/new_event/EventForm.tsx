@@ -1,24 +1,23 @@
-import React, {useContext, useEffect, useState} from "react";
-import DatePicker from "react-datepicker";
+import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
-import {EventContext} from "./EventContext";
-import {addressToLocation, KINDER_BACK_URL, myDateFormat} from "../../../common/util";
+import {addressToLocation, KINDER_BACK_URL, myDateFormat} from "../../common/util";
 import {LatLng} from "leaflet";
+import {MapContainer, Marker, TileLayer} from "react-leaflet";
+import EventFormMarker from "./EventFormMarker";
 
 
 const EventForm: React.FC = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [capacity, setLimit] = useState(0);
     const [photo, setPhoto] = useState<File | null>(null);
     const [addressName, setAddressName] = useState('');
+    const [category, setCategory] = useState('Impreza');
 
-    const startDatePicker = React.createRef<DatePicker>();
-    const endDatePicker = React.createRef<DatePicker>();
-
-    const [position, setPosition] = useContext(EventContext).positionState;
+    const [position, setPosition] = useState<LatLng | null>(null);
+    const [extraPosition, setExtraPosition] = useState<LatLng | null>(null);
 
     const [categories, setCategories] = useState<Kinder.Category[]>([]);
 
@@ -42,6 +41,7 @@ const EventForm: React.FC = () => {
         let body = {
             title,
             description,
+            category,
             address_name: addressName,
             startDate: myDateFormat(startDate),
             endDate: myDateFormat(endDate),
@@ -86,7 +86,7 @@ const EventForm: React.FC = () => {
 
     useEffect(() => {
         fetchCategories();
-    }, [])
+    }, []);
 
     return (
         <div className="Event-form p-5">
@@ -97,6 +97,14 @@ const EventForm: React.FC = () => {
                     <Form.Label>
                         Location
                     </Form.Label>
+                    <MapContainer center={[54.3749, 18.6943]} zoom={11} scrollWheelZoom={true}
+                                  style={{height: '200px', borderRadius: '0.4rem'}}>
+                        <TileLayer
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <EventFormMarker {...{position, setPosition, extraPosition}}/>
+                    </MapContainer>
                     <Form.Control readOnly={true}
                                   value={position ? `${position.lat} ${position.lng}` : 'Click the map to set location'}/>
                 </Form.Group>
@@ -111,7 +119,7 @@ const EventForm: React.FC = () => {
                             if (jsonData.length > 0 && position) {
                                 position.lat = Number(jsonData[0].lat);
                                 position.lng = Number(jsonData[0].lon);
-                                setPosition(new LatLng(position.lat, position.lng));
+                                setExtraPosition(new LatLng(position.lat, position.lng));
                             }
                         }
                     }}>Go to</Button>
@@ -124,8 +132,7 @@ const EventForm: React.FC = () => {
 
                 <Form.Group>
                     <Form.Label>Category</Form.Label>
-                    <Form.Control as="select">
-                        <option>None</option>
+                    <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
                         {categories.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                     </Form.Control>
                 </Form.Group>
@@ -134,13 +141,11 @@ const EventForm: React.FC = () => {
                     <Form.Label>
                         Start date
                     </Form.Label>
-                    <DatePicker className="form-control onblur-fix" selected={startDate}
-                                onChange={(date, event) => {
-                                    setStartDate(date as Date);
-                                    event?.preventDefault();
-                                }}
-                                onFocus={() => endDatePicker.current?.setOpen(false)}
-                                ref={startDatePicker}
+                    <Form.Control className="form-control onblur-fix" value={startDate} type="date"
+                                  onChange={(event) => {
+                                      setStartDate(event.target.value);
+                                      event?.preventDefault();
+                                  }}
                     />
                 </Form.Group>
 
@@ -148,14 +153,13 @@ const EventForm: React.FC = () => {
                     <Form.Label>
                         End Date
                     </Form.Label>
-                    <DatePicker className="form-control" selected={endDate}
-                                onChange={(date, event) => {
-                                    setEndDate(date as Date);
-                                    event?.preventDefault();
-                                }}
-                                ref={endDatePicker}
+                    <Form.Control type="date" className="form-control" value={endDate}
+                                  onChange={(event) => {
+                                      setEndDate(event.target.value);
+                                      event?.preventDefault();
+                                  }}
                     >
-                    </DatePicker>
+                    </Form.Control>
                 </Form.Group>
 
                 <Form.Group>

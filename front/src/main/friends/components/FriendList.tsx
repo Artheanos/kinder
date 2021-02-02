@@ -1,7 +1,12 @@
 import React from "react";
 import Friend from "./Friend";
 
-function FriendList(props: { friends: Kinder.UserBasicObject[], setActiveUser: (urlId: string) => any }) {
+type FriendListProps = {
+    friends: Kinder.UserBasicObject[]
+    setActiveUser?: (urlId: string) => any
+}
+
+const FriendList: React.FC<FriendListProps> = (props) => {
     return (
         <div className="Friend-list">
             <ul className="list-group">
@@ -10,11 +15,11 @@ function FriendList(props: { friends: Kinder.UserBasicObject[], setActiveUser: (
                         ?
                         props.friends.map(value =>
                             <li className="list-group-item p-0" key={value.urlId} >
-                                <Friend userBasic={value} setActiveUser={props.setActiveUser}/>
+                                <Friend userBasic={value} setActiveUser={props.setActiveUser} />
                             </li>
                         )
                         :
-                        <div>You have no friends :(</div>
+                        props.children || null
                 }
             </ul>
         </div>
