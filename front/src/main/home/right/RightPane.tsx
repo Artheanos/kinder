@@ -42,7 +42,7 @@ export const RightPane: React.FC = () => {
     return (
         <div className="Right-pane col-sm p-0">
             <EventContext.Provider value={{eventList, setEventList, positionState, myEventsState}}>
-                <div className="event-wrapper">
+                <div className="event-wrapper h-100">
                     {mapOn ? <KinderMapApp/> : <ListApp/>}
                 </div>
             </EventContext.Provider>

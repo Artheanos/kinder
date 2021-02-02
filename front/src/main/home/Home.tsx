@@ -10,8 +10,8 @@ function Home(props: RouteComponentProps) {
 
     return (
         <MapContext.Provider value={{mapOn, setMapOn}}>
-            <div className="Home container-fluid">
-                <div className="row">
+            <div className="Home h-75 container-fluid position-relative">
+                <div className="row h-100 overflow-hidden ">
                     <LeftPane/>
                     <RightPane/>
                 </div>
