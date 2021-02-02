@@ -17,7 +17,6 @@ import pl.pjatk.kinder.services.PhotoService;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -154,20 +153,5 @@ public class EventController {
                 getAuthentication().getName()).get();
         return new ResponseEntity(loggedUser.getCreatedEvents(), HttpStatus.OK);
     }
-
-
-//    @GetMapping("/status")
-//    public ResponseEntity<Event> getEventsByState(@RequestParam String state){
-//
-//        State eventState = Enum.valueOf(State.class, state);
-//
-//        if(eventService.existsByState(eventState)){
-//
-//            List<Event> eventsByState = eventService.findAllByState(eventState);
-//
-//            return new ResponseEntity(eventsByState, HttpStatus.OK);
-//        }
-//        else return new ResponseEntity(HttpStatus.NOT_FOUND);
-//    }
 
 }

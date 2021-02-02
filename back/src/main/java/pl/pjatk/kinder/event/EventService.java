@@ -28,16 +28,11 @@ public class EventService {
         return events;
     }
 
-
     public List<Event> findByCategory(Category category) {return eventRepository.findEventByCategory(category);}
 
     public Event findById(Long id) { return eventRepository.findEventById(id);}
 
     public List<Event> findAllByTitle(String title) { return eventRepository.findAllByTitle(title);}
-
-    public List<Event> findAllByState(State state){
-        return eventRepository.findAllByState(state);
-    }
 
     public boolean existsByTitle(String title){
         return eventRepository.existsByTitle(title);
@@ -46,10 +41,6 @@ public class EventService {
     public boolean existsByCategory(Category category) {return eventRepository.existsByCategory(category);}
 
     public boolean existsById(Long id){ return eventRepository.existsById(id);}
-
-    public boolean existsByState(State state){
-        return eventRepository.existsByState(state);
-    }
 
     public void save(Event event){
         eventRepository.save(event);

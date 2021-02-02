@@ -17,10 +17,8 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     List<Event> findAllByTitle(String title);
     List<Event> findEventByCategory(Category category);
     Event findEventById(Long id);
-    List<Event> findAllByState(State state);
     boolean existsByTitle(String title);
     boolean existsByCategory(Category category);
     boolean existsById(Long id);
-    boolean existsByState(State state);
     void deleteById(Long id);
 }
