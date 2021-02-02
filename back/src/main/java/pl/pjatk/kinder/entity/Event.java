@@ -85,6 +85,10 @@ public class Event {
         this.title = title;
     }
 
+    public String getCategory(){
+        return category.getTitle();
+    }
+
     public String getDescription() {
         return description;
     }

@@ -17,6 +17,7 @@ import pl.pjatk.kinder.services.PhotoService;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -123,18 +124,50 @@ public class EventController {
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/title/{title}")
-    public ResponseEntity<List<Event>> getEventsByTitle(@PathVariable String title){
+    @GetMapping("/title")
+    public ResponseEntity<List<Event>> getEventsByTitle(@RequestParam String title){
         if(eventService.existsByTitle(title))
             return new ResponseEntity(eventService.findAllByTitle(title), HttpStatus.OK);
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/category/{category}")
-    public ResponseEntity<Event> getEventsByCategory(@PathVariable String category){
-        if(eventService.existsByCategory(category))
-            return new ResponseEntity(eventService.findByCategory(category), HttpStatus.OK);
-        else return new ResponseEntity(HttpStatus.NOT_FOUND);
+    @GetMapping("/category")
+    public ResponseEntity<Event> getEventsByCategory(@RequestParam String category){
+
+        if(!categoryService.existsByTitle(category)) return new ResponseEntity(HttpStatus.NOT_FOUND);
+        else {
+
+            Category cat = categoryService.findByTitle(category);
+
+            if (eventService.existsByCategory(cat)){
+                List<Event> events = eventService.findByCategory(cat);
+
+                return new ResponseEntity(events, HttpStatus.OK);
+            }
+            else return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
+
+    @GetMapping("/my")
+    public ResponseEntity<Event> getMyEvents(){
+        User loggedUser = userRepository.findByEmail(SecurityContextHolder.getContext().
+                getAuthentication().getName()).get();
+        return new ResponseEntity(loggedUser.getCreatedEvents(), HttpStatus.OK);
+    }
+
+
+//    @GetMapping("/status")
+//    public ResponseEntity<Event> getEventsByState(@RequestParam String state){
+//
+//        State eventState = Enum.valueOf(State.class, state);
+//
+//        if(eventService.existsByState(eventState)){
+//
+//            List<Event> eventsByState = eventService.findAllByState(eventState);
+//
+//            return new ResponseEntity(eventsByState, HttpStatus.OK);
+//        }
+//        else return new ResponseEntity(HttpStatus.NOT_FOUND);
+//    }
 
 }

@@ -183,4 +183,8 @@ public class User implements UserDetails {
     public List<Event> getAttendedEvents() {
         return attendedEvent;
     }
+
+    public List<Event> getCreatedEvents() {
+        return createdEvents;
+    }
 }

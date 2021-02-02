@@ -2,7 +2,9 @@ package pl.pjatk.kinder.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pjatk.kinder.entity.Category;
 import pl.pjatk.kinder.entity.Event;
+import pl.pjatk.kinder.entity.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +28,28 @@ public class EventService {
         return events;
     }
 
-    public Event findByTitle(String title){
-        return eventRepository.findEventByTitle(title);
-    }
 
-    public Event findByCategory(String category) {return eventRepository.findEventByCategory(category);}
+    public List<Event> findByCategory(Category category) {return eventRepository.findEventByCategory(category);}
 
     public Event findById(Long id) { return eventRepository.findEventById(id);}
 
     public List<Event> findAllByTitle(String title) { return eventRepository.findAllByTitle(title);}
 
+    public List<Event> findAllByState(State state){
+        return eventRepository.findAllByState(state);
+    }
+
     public boolean existsByTitle(String title){
         return eventRepository.existsByTitle(title);
     }
 
-    public boolean existsByCategory(String category) {return eventRepository.existsByCategory(category);}
+    public boolean existsByCategory(Category category) {return eventRepository.existsByCategory(category);}
 
     public boolean existsById(Long id){ return eventRepository.existsById(id);}
+
+    public boolean existsByState(State state){
+        return eventRepository.existsByState(state);
+    }
 
     public void save(Event event){
         eventRepository.save(event);
